@@ -28,14 +28,14 @@
     <div class="bg-black text-white py-2">
         <div class="container mx-auto px-4 flex justify-between items-center text-xs">
             <div class="flex gap-4 items-center">
-                <span class="bg-red-600 px-3 py-1 rounded animate-pulse font-bold">● EN DIRECT</span>
+                {{-- <span class="bg-red-600 px-3 py-1 rounded animate-pulse font-bold">● EN DIRECT</span> --}}
                 <span>{{ now()->locale('fr')->isoFormat('dddd D MMMM YYYY • HH:mm') }}</span>
             </div>
             <div class="flex gap-4">
-                <a href="#" class="hover:text-blue-400 transition">Facebook</a>
+                {{-- <a href="#" class="hover:text-blue-400 transition">Facebook</a>
                 <a href="#" class="hover:text-blue-400 transition">Twitter</a>
-                <a href="#" class="hover:text-blue-400 transition">Instagram</a>
-                <a href="#" class="hover:text-blue-400 transition">YouTube</a>
+                <a href="#" class="hover:text-blue-400 transition">Instagram</a> --}}
+                <a href="#" class="hover:text-blue-400 transition">Social Media</a>
             </div>
         </div>
     </div>
@@ -68,10 +68,10 @@
                        class="bg-transparent border-2 border-white/30 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-white/10 transition">
                         📺 Replay
                     </a>
-                    <a href="{{ route('direct') }}"
+                    {{-- <a href="{{ route('direct') }}"
                        class="bg-red-600 border-2 border-red-600 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-red-700 transition">
                         ● Direct
-                    </a>
+                    </a> --}}
                 </div>
             </div>
         </div>
@@ -81,6 +81,10 @@
     <nav class="bg-white border-b-3 border-blue-600 shadow">
         <div class="container mx-auto px-4">
             <div class="flex overflow-x-auto">
+                    <a href="{{ route('home') }}"
+                       class="px-4 py-3 text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('home') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
+                        {{ "accueil" }}
+                    </a>
                 @foreach(\App\Models\Rubrique::active()->ordered()->get() as $rubrique)
                     <a href="{{ route('rubrique.show', $rubrique->slug) }}"
                        class="px-4 py-3 text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('rubrique.show') && request()->route('slug') === $rubrique->slug ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
@@ -95,15 +99,17 @@
     @if($breakingNews ?? false)
     <div class="bg-gray-900 text-white overflow-hidden h-11">
         <div class="flex items-center h-full">
-            <div class="bg-red-600 px-6 h-full flex items-center font-bold text-xs uppercase tracking-wider">
+            <div class="bg-red-600 px-6 h-full flex items-center font-bold text-xs uppercase tracking-wider animate-pulse">
                 FLASH INFO
             </div>
             <div class="flex items-center animate-scroll">
-                @foreach($breakingNews as $news)
-                    <span class="px-12 text-sm whitespace-nowrap">
-                        • <span class="text-blue-400">●</span> {{ $news->title }}
-                    </span>
-                @endforeach
+                <marquee direction="left">
+                    @foreach($breakingNews as $news)
+                        <span class="px-12 text-sm whitespace-nowrap">
+                            <span class="text-blue-400">●</span> {{ $news->title }}
+                        </span>
+                    @endforeach
+                </marquee>
             </div>
         </div>
     </div>

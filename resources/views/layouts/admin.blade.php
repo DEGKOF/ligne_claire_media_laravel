@@ -11,6 +11,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @stack('styles')
+    <style>
+        .cke_notification_message, .cke_notification{
+            display: none !important;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 font-sans antialiased">
 
@@ -68,11 +73,11 @@
                             <span>👥</span>
                             <span class="font-medium">Utilisateurs</span>
                         </a>
-                        <a href="#"
+                        {{-- <a href="#"
                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition">
                             <span>⚙️</span>
                             <span class="font-medium">Paramètres</span>
-                        </a>
+                        </a> --}}
                     </div>
                     @endif
                 </nav>
@@ -154,6 +159,13 @@
             alert('Sidebar mobile à implémenter');
         }
     </script>
+{{-- <div id="editor">
+    <p>This is the editor content.</p>
+</div> --}}
+<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'editor' );
+</script>
 
     @stack('scripts')
 </body>

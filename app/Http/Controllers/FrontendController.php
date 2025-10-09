@@ -58,6 +58,14 @@ class FrontendController extends Controller
             ->with(['user', 'rubrique'])
             ->firstOrFail();
 
+
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+            // 'breakingNews'
+
         // Enregistrer la vue
         PublicationView::recordView($publication, $request);
 
@@ -69,7 +77,7 @@ class FrontendController extends Controller
             ->take(4)
             ->get();
 
-        return view('frontend.publication', compact('publication', 'relatedArticles'));
+        return view('frontend.publication', compact('publication', 'relatedArticles', 'breakingNews'));
     }
 
     /**
@@ -83,13 +91,21 @@ class FrontendController extends Controller
 
         $rubrique->incrementViews();
 
+
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+            // , 'breakingNews'
+
         $publications = Publication::published()
             ->byRubrique($rubrique->id)
             ->with(['user', 'rubrique'])
             ->latest('published_at')
             ->paginate(12);
 
-        return view('frontend.rubrique', compact('rubrique', 'publications'));
+        return view('frontend.rubrique', compact('rubrique', 'publications', 'breakingNews'));
     }
 
     /**
@@ -115,7 +131,14 @@ class FrontendController extends Controller
             ->take(8)
             ->get();
 
-        return view('frontend.videos', compact('featuredVideo', 'recentVideos', 'shorts'));
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+            // , 'breakingNews'
+
+        return view('frontend.videos', compact('featuredVideo', 'recentVideos', 'shorts', 'breakingNews'));
     }
 
     /**
@@ -129,12 +152,19 @@ class FrontendController extends Controller
             return redirect()->route('home');
         }
 
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+            // , 'breakingNews'
+
         $results = Publication::published()
             ->search($query)
             ->with(['user', 'rubrique'])
             ->latest('published_at')
             ->paginate(15);
 
-        return view('frontend.search', compact('results', 'query'));
+        return view('frontend.search', compact('results', 'query', 'breakingNews'));
     }
 }

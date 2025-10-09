@@ -7,25 +7,34 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Main Content -->
         <div class="lg:col-span-2">
-            <!-- Lecteur Vidéo Direct YouTube -->
+            <!-- Lecteur Vidéo Direct -->
             <div class="bg-black rounded-lg overflow-hidden shadow-2xl mb-8 aspect-video relative">
-                <iframe
-                    id="youtube-player"
-                    class="w-full h-full"
-                    {{-- https://www.youtube.com/live/TgOshEXFrKQ?si=V2D35L5YqTaethJg --}}
-                    src="https://www.youtube.com/embed/TgOshEXFrKQ?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
-                    title="LIGNE CLAIRE MÉDIA+ - Direct"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen>
-                </iframe>
-
-                <!-- Badge DIRECT en overlay -->
-                <div class="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 shadow-lg z-10 pointer-events-none">
-                    <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                    DIRECT
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 to-blue-600/80 flex flex-col items-center justify-center">
+                    <button class="w-20 h-20 bg-white/20 border-4 border-white rounded-full flex items-center justify-center text-white text-3xl hover:bg-white/30 transition mb-4">
+                        ▶
+                    </button>
+                    <h2 class="text-white text-2xl font-bold text-center px-8 mb-4">
+                        Regardez LIGNE CLAIRE MÉDIA+ en direct
+                    </h2>
+                    <span class="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold animate-pulse">
+                        ● DIRECT
+                    </span>
                 </div>
             </div>
+
+
+            {{-- <video
+  id="my-video"
+  class="video-js vjs-default-skin"
+  controls
+  autoplay
+  width="640"
+  height="360">
+  <source src="https://example.com/live/stream.m3u8" type="application/x-mpegURL">
+</video>
+
+<script src="https://vjs.zencdn.net/8.5.0/video.min.js"></script> --}}
+
 
             <!-- Article à la Une -->
             @if($featuredArticle)
@@ -60,7 +69,7 @@
                         {{ $featuredArticle->excerpt }}
                     </p>
                     <a href="{{ route('publication.show', $featuredArticle->slug) }}"
-                       class="inline-block bg-blue-600 text-white px-8 py-2 rounded-full font-bold hover:bg-blue-700 transition">
+                       class="inline-block bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition">
                         Lire l'article complet →
                     </a>
                 </div>
@@ -246,26 +255,4 @@
         @endif
     </div>
 </section>
-
-<script>
-    // API YouTube pour contrôler le player
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    var player;
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('youtube-player', {
-            events: {
-                'onReady': onPlayerReady
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        // La vidéo démarre automatiquement en mode muet grâce aux paramètres de l'URL
-        // Pour réactiver le son, l'utilisateur peut cliquer sur l'icône de son dans le player
-    }
-</script>
 @endsection

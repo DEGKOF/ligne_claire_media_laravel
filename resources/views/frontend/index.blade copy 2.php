@@ -7,21 +7,24 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Main Content -->
         <div class="lg:col-span-2">
-            <!-- Lecteur Vidéo Direct YouTube -->
+            <!-- Lecteur Vidéo Direct -->
             <div class="bg-black rounded-lg overflow-hidden shadow-2xl mb-8 aspect-video relative">
-                <iframe
-                    id="youtube-player"
-                    class="w-full h-full"
-                    {{-- https://www.youtube.com/live/TgOshEXFrKQ?si=V2D35L5YqTaethJg --}}
-                    src="https://www.youtube.com/embed/TgOshEXFrKQ?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
-                    title="LIGNE CLAIRE MÉDIA+ - Direct"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen>
-                </iframe>
+                <video
+                    id="my-video"
+                    class="video-js vjs-default-skin w-full h-full"
+                    controls
+                    autoplay
+                    muted
+                    playsinline
+                    data-setup='{}'>
+                    <source src="https://youtu.be/4W1Kr8HlBcE?si=Q9rA0BTXfvsFC1U_" type="application/x-mpegURL">
+                    <p class="vjs-no-js">
+                        Pour lire cette vidéo, veuillez activer JavaScript et utiliser un navigateur supportant la vidéo HTML5.
+                    </p>
+                </video>
 
                 <!-- Badge DIRECT en overlay -->
-                <div class="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 shadow-lg z-10 pointer-events-none">
+                <div class="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 shadow-lg z-10">
                     <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
                     DIRECT
                 </div>
@@ -60,7 +63,7 @@
                         {{ $featuredArticle->excerpt }}
                     </p>
                     <a href="{{ route('publication.show', $featuredArticle->slug) }}"
-                       class="inline-block bg-blue-600 text-white px-8 py-2 rounded-full font-bold hover:bg-blue-700 transition">
+                       class="inline-block bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition">
                         Lire l'article complet →
                     </a>
                 </div>
@@ -246,26 +249,29 @@
         @endif
     </div>
 </section>
-
-<script>
-    // API YouTube pour contrôler le player
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    var player;
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('youtube-player', {
-            events: {
-                'onReady': onPlayerReady
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        // La vidéo démarre automatiquement en mode muet grâce aux paramètres de l'URL
-        // Pour réactiver le son, l'utilisateur peut cliquer sur l'icône de son dans le player
-    }
-</script>
 @endsection
+
+@push('styles')
+<link href="https://vjs.zencdn.net/8.5.0/video-js.css" rel="stylesheet" />
+@endpush
+
+@push('scripts')
+<script src="https://vjs.zencdn.net/8.5.0/video.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser Video.js
+        var player = videojs('my-video', {
+            liveui: true,
+            autoplay: 'muted',
+            controls: true,
+            fluid: true,
+            responsive: true
+        });
+
+        // Réactiver le son au premier clic
+        player.one('click', function() {
+            player.muted(false);
+        });
+    });
+</script>
+@endpush
