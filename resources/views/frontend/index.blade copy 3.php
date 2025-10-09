@@ -12,6 +12,7 @@
                 <iframe
                     id="youtube-player"
                     class="w-full h-full"
+                    {{-- https://www.youtube.com/live/TgOshEXFrKQ?si=V2D35L5YqTaethJg --}}
                     src="https://www.youtube.com/embed/TgOshEXFrKQ?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
                     title="LIGNE CLAIRE MÉDIA+ - Direct"
                     frameborder="0"
@@ -173,85 +174,6 @@
                 </div>
             </div>
 
-            <!-- Bloc Dons -->
-            <div class="bg-gradient-to-br from-green-600 to-green-800 text-white rounded-lg shadow-lg p-6">
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="text-2xl">💝</span>
-                    <h3 class="text-xl font-bold">Soutenez-nous</h3>
-                </div>
-                <p class="text-sm mb-4 text-green-100">
-                    Votre soutien nous aide à continuer notre mission d'information indépendante.
-                </p>
-                <form action="{{ route('donation.process') }}" method="POST" class="space-y-3">
-                    @csrf
-                    <div>
-                        <label class="text-xs text-green-100 mb-2 block">Montant du don (FCFA)</label>
-                        <input type="number"
-                               name="amount"
-                               placeholder="5000"
-                               min="500"
-                               required
-                               class="w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-300">
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button type="button"
-                                onclick="this.form.amount.value='1000'"
-                                class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
-                            1000
-                        </button>
-                        <button type="button"
-                                onclick="this.form.amount.value='5000'"
-                                class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
-                            5000
-                        </button>
-                        <button type="button"
-                                onclick="this.form.amount.value='10000'"
-                                class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
-                            10000
-                        </button>
-                    </div>
-                    <button type="submit"
-                            class="w-full bg-white text-green-600 px-4 py-3 rounded-lg font-bold hover:bg-green-50 transition shadow-lg">
-                        Faire un don 💚
-                    </button>
-                </form>
-                <p class="text-xs text-center text-green-200 mt-3">
-                    Paiement sécurisé • Reçu disponible
-                </p>
-            </div>
-
-            <!-- Bloc Publicité -->
-            <div class="bg-white rounded-lg shadow-lg p-6">
-                <div class="flex items-center justify-between mb-4 pb-4 border-b-2 border-gray-200">
-                    <h3 class="text-xl font-bold">Publicité</h3>
-                    <span class="text-xs text-gray-400 uppercase">Sponsorisé</span>
-                </div>
-
-                <!-- Zone publicitaire dynamique -->
-                <div class="bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg p-6 text-center min-h-[250px] flex flex-col items-center justify-center hover:shadow-xl transition">
-                    <div class="text-6xl mb-4">🎯</div>
-                    <h4 class="font-bold text-lg text-gray-800 mb-2">
-                        Votre publicité ici
-                    </h4>
-                    <p class="text-sm text-gray-600 mb-4">
-                        Touchez des milliers de lecteurs chaque jour
-                    </p>
-                    <a href="{{ route('advertising.contact') }}"
-                       class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:shadow-lg hover:scale-105 transition">
-                        Contactez-nous
-                    </a>
-                </div>
-
-                <!-- Ou utilisez ceci pour afficher une vraie publicité -->
-                {{-- <div class="rounded-lg overflow-hidden">
-                    <a href="{{ $ad->url ?? '#' }}" target="_blank" rel="noopener">
-                        <img src="{{ asset('storage/' . ($ad->image ?? 'ads/default.jpg')) }}"
-                             alt="{{ $ad->title ?? 'Publicité' }}"
-                             class="w-full h-auto hover:opacity-90 transition">
-                    </a>
-                </div> --}}
-            </div>
-
             <!-- Newsletter -->
             <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-lg shadow-lg p-6">
                 <h3 class="text-xl font-bold mb-3">
@@ -260,12 +182,9 @@
                 <p class="text-sm mb-4 text-blue-100">
                     Recevez l'essentiel de l'actualité directement dans votre boîte mail.
                 </p>
-                <form action="{{ route('newsletter.subscribe') }}" method="POST" class="space-y-3">
-                    @csrf
+                <form class="space-y-3">
                     <input type="email"
-                           name="email"
                            placeholder="Votre adresse email"
-                           required
                            class="w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300">
                     <button type="submit"
                             class="w-full bg-white text-blue-600 px-4 py-3 rounded-lg font-bold hover:bg-blue-50 transition">

@@ -20,6 +20,47 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Styles pour les popups flash -->
+    <style>
+        .flash-popup {
+            position: fixed;
+            z-index: 9999;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .flash-popup.hidden {
+            opacity: 0;
+            transform: translateY(100px) scale(0.8);
+            pointer-events: none;
+        }
+
+        .flash-popup.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+
     @stack('styles')
 </head>
 <body class="font-sans antialiased">
@@ -28,13 +69,9 @@
     <div class="bg-black text-white py-2">
         <div class="container mx-auto px-4 flex justify-between items-center text-xs">
             <div class="flex gap-4 items-center">
-                {{-- <span class="bg-red-600 px-3 py-1 rounded animate-pulse font-bold">● EN DIRECT</span> --}}
                 <span>{{ now()->locale('fr')->isoFormat('dddd D MMMM YYYY • HH:mm') }}</span>
             </div>
             <div class="flex gap-4">
-                {{-- <a href="#" class="hover:text-blue-400 transition">Facebook</a>
-                <a href="#" class="hover:text-blue-400 transition">Twitter</a>
-                <a href="#" class="hover:text-blue-400 transition">Instagram</a> --}}
                 <a href="#" class="hover:text-blue-400 transition">Social Media</a>
             </div>
         </div>
@@ -68,10 +105,6 @@
                        class="bg-transparent border-2 border-white/30 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-white/10 transition">
                         📺 Replay
                     </a>
-                    {{-- <a href="{{ route('direct') }}"
-                       class="bg-red-600 border-2 border-red-600 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-red-700 transition">
-                        ● Direct
-                    </a> --}}
                 </div>
             </div>
         </div>
@@ -120,6 +153,90 @@
         @yield('content')
     </main>
 
+    <!-- POPUP FLASH: DON -->
+    <div id="donation-popup" class="flash-popup hidden bottom-6 right-6 w-96 max-w-[90vw] bg-gradient-to-br from-green-600 to-green-800 text-white rounded-2xl shadow-2xl">
+        <div class="p-6">
+            <!-- Bouton de fermeture -->
+            <button onclick="closeFlashPopup('donation')" class="absolute top-3 right-3 text-white/70 hover:text-white text-2xl leading-none transition">
+                ×
+            </button>
+
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-4xl">💝</span>
+                <h3 class="text-2xl font-bold">Soutenez-nous !</h3>
+            </div>
+
+            <p class="text-sm text-green-100 mb-4">
+                Votre don nous aide à maintenir une information de qualité et indépendante.
+            </p>
+
+            <form action="{{ route('donation.process') }}" method="POST" class="space-y-3">
+                @csrf
+                <div>
+                    <input type="number"
+                           name="amount"
+                           placeholder="Montant (FCFA)"
+                           min="500"
+                           required
+                           class="w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-300">
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <button type="button"
+                            onclick="this.form.amount.value='1000'"
+                            class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
+                        1 000
+                    </button>
+                    <button type="button"
+                            onclick="this.form.amount.value='5000'"
+                            class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
+                        5 000
+                    </button>
+                    <button type="button"
+                            onclick="this.form.amount.value='10000'"
+                            class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
+                        10 000
+                    </button>
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-white text-green-600 px-4 py-3 rounded-lg font-bold hover:bg-green-50 transition shadow-lg">
+                    Faire un don maintenant 💚
+                </button>
+            </form>
+
+            <p class="text-xs text-center text-green-200 mt-3">
+                🔒 Paiement 100% sécurisé
+            </p>
+        </div>
+    </div>
+
+    <!-- POPUP FLASH: PUBLICITÉ -->
+    <div id="ad-popup" class="flash-popup hidden top-20 right-6 w-80 max-w-[90vw] bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <!-- Bouton de fermeture -->
+        <button onclick="closeFlashPopup('ad')" class="absolute top-3 right-3 z-10 bg-white/80 hover:bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center text-xl leading-none transition shadow-md">
+            ×
+        </button>
+
+        <div class="bg-gradient-to-br from-purple-100 to-pink-100 p-8 text-center">
+            <div class="text-6xl mb-4">🎯</div>
+            <h4 class="font-bold text-xl text-gray-800 mb-2">
+                Votre Pub Ici
+            </h4>
+            <p class="text-sm text-gray-600 mb-4">
+                Touchez des milliers de lecteurs chaque jour !
+            </p>
+            <a href="{{ route('advertising.contact') }}"
+               class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:shadow-lg hover:scale-105 transition">
+                En savoir plus →
+            </a>
+        </div>
+
+        <div class="bg-gray-50 px-4 py-2 text-center">
+            <span class="text-xs text-gray-400 uppercase">Espace Publicitaire</span>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12 mt-16">
         <div class="container mx-auto px-4">
@@ -166,9 +283,102 @@
     <!-- Scripts -->
     <script>
         function toggleMobileMenu() {
-            // Implémenter le menu mobile
             alert('Menu mobile à implémenter');
         }
+
+        // ==========================================
+        // SYSTÈME DE POPUPS FLASH
+        // ==========================================
+
+        const FLASH_POPUPS_CONFIG = {
+            donation: {
+                id: 'donation-popup',
+                showAfter: 5000,        // Apparaît après 5 secondes
+                reappearAfter: 300000,  // Réapparaît après 5 minutes (300000ms)
+                storageKey: 'donation_popup_closed'
+            },
+            ad: {
+                id: 'ad-popup',
+                showAfter: 10000,       // Apparaît après 10 secondes
+                reappearAfter: 600000,  // Réapparaît après 10 minutes (600000ms)
+                storageKey: 'ad_popup_closed'
+            }
+        };
+
+        // Fonction pour afficher un popup
+        function showFlashPopup(type) {
+            const config = FLASH_POPUPS_CONFIG[type];
+            if (!config) return;
+
+            const popup = document.getElementById(config.id);
+            if (!popup) return;
+
+            // Vérifier si le popup a été fermé récemment
+            const closedTime = localStorage.getItem(config.storageKey);
+            if (closedTime) {
+                const timeSinceClosed = Date.now() - parseInt(closedTime);
+                if (timeSinceClosed < config.reappearAfter) {
+                    // Pas encore temps de réafficher
+                    return;
+                }
+            }
+
+            // Afficher le popup avec animation
+            setTimeout(() => {
+                popup.classList.remove('hidden');
+                setTimeout(() => {
+                    popup.classList.add('show');
+                }, 10);
+            }, config.showAfter);
+        }
+
+        // Fonction pour fermer un popup
+        function closeFlashPopup(type) {
+            const config = FLASH_POPUPS_CONFIG[type];
+            if (!config) return;
+
+            const popup = document.getElementById(config.id);
+            if (!popup) return;
+
+            // Animation de fermeture
+            popup.classList.remove('show');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 500);
+
+            // Enregistrer l'heure de fermeture
+            localStorage.setItem(config.storageKey, Date.now().toString());
+        }
+
+        // Initialiser les popups au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Afficher le popup de don
+            showFlashPopup('donation');
+
+            // Afficher le popup de pub
+            showFlashPopup('ad');
+
+            // Vérifier périodiquement si les popups doivent réapparaître
+            setInterval(() => {
+                Object.keys(FLASH_POPUPS_CONFIG).forEach(type => {
+                    const config = FLASH_POPUPS_CONFIG[type];
+                    const popup = document.getElementById(config.id);
+
+                    // Si le popup est caché, vérifier s'il doit réapparaître
+                    if (popup && popup.classList.contains('hidden')) {
+                        const closedTime = localStorage.getItem(config.storageKey);
+                        if (closedTime) {
+                            const timeSinceClosed = Date.now() - parseInt(closedTime);
+                            if (timeSinceClosed >= config.reappearAfter) {
+                                // Réinitialiser et réafficher
+                                localStorage.removeItem(config.storageKey);
+                                showFlashPopup(type);
+                            }
+                        }
+                    }
+                });
+            }, 30000); // Vérifier toutes les 30 secondes
+        });
     </script>
 
     @stack('scripts')

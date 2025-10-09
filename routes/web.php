@@ -50,6 +50,10 @@ Route::get('/recherche', [FrontendController::class, 'search'])->name('search');
 Route::view('/direct', 'frontend.direct')->name('direct');
 Route::view('/replay', 'frontend.replay')->name('replay');
 
+Route::post('/donation', [DonationController::class, 'process'])->name('donation.process');
+Route::get('/publicite/contact', [AdvertisingController::class, 'contact'])->name('advertising.contact');
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
 /*
 |--------------------------------------------------------------------------
 | Routes Backoffice (Authentification requise)
