@@ -1,5 +1,8 @@
+{{-- ressources.views.layouts.frontend.blade.php(voici mon fichier de layout pour les visiteurs, c'est ici le model de base pour toutes les vues qui n'ont pas besoin de connexion) --}}
+
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +22,9 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <link rel="stylesheet" href="{{ asset('css/advertisements.css') }}">
+    <script src="{{ asset('js/ad-manager.js') }}"></script>
 
     <!-- Styles pour les popups flash -->
     <style>
@@ -45,6 +51,7 @@
                 transform: translateX(400px);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -52,18 +59,274 @@
         }
 
         @keyframes pulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1);
             }
+
             50% {
                 transform: scale(1.05);
             }
         }
-    </style>
 
+        #sidebar-menu {
+            z-index: 9998;
+        }
+
+        #sidebar-menu.open {
+            transform: translateX(0);
+        }
+
+        #sidebar-overlay {
+            z-index: 9997;
+        }
+
+        #sidebar-overlay.show {
+            opacity: 1;
+        }
+
+        /* Scrollbar pour le menu latéral */
+        #sidebar-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #sidebar-menu::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        #sidebar-menu::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        #sidebar-menu::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
     @stack('styles')
 </head>
+
 <body class="font-sans antialiased">
+
+    <!-- Menu Latéral (Sidebar) -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity duration-300"
+        onclick="closeSidebar()"></div>
+
+    <aside id="sidebar-menu"
+        class="fixed top-0 left-0 h-full w-72 bg-white shadow-2xl transform -translate-x-full transition-transform duration-300 overflow-y-auto">
+<!-- Sidebar -->
+<div data-ad-position="sidebar"></div>
+
+<!-- Bannière -->
+<div data-ad-position="banner_top"></div>
+
+<!-- Article -->
+<div data-ad-position="article"></div>
+
+        <div class="flex flex-col h-full">
+            <!-- Header du menu -->
+            <div class="p-4 border-b flex justify-between items-center bg-gray-50">
+                <h2 class="font-black text-xl">LIGNE CLAIRE MÉDIA+</h2>
+                <button onclick="closeSidebar()" class="text-gray-600 hover:text-gray-900 text-2xl leading-none">
+                    ×
+                </button>
+            </div>
+
+            <!-- Contenu du menu -->
+            <nav class="flex-1 p-4">
+                <!-- Bénin -->
+                <div class="mb-1">
+                    <a href="#"
+                        class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                            <circle cx="12" cy="9" r="2.5" fill="currentColor" />
+                        </svg>
+                        <span>Bénin</span>
+                    </a>
+                </div>
+                <!-- Afrique -->
+                <div class="mb-1">
+                    <a href="#"
+                        class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8 14l2-2 2 2 4-4M12 2v2m0 16v2m10-10h-2M4 12H2" />
+                        </svg>
+                        <span>Afrique</span>
+                    </a>
+                </div>
+                <!-- International -->
+                <div class="mb-1">
+                    <a href="{{ route('rubrique.show', 'international') }}"
+                        class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" />
+                        </svg>
+                        <span>International</span>
+                    </a>
+                </div>
+                <!-- Sous-région -->
+                <div class="mb-1">
+                    <a href="#"
+                        class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 6l3-2 3 2 3-2 3 2 3-2 3 2v14l-3 2-3-2-3 2-3-2-3 2-3-2V6z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10l3-2 3 2 3-2 3 2 3-2 3 2" />
+                        </svg>
+                        <span>Sous-région</span>
+                    </a>
+                </div>
+
+
+                <!-- Catégories -->
+                <div class="space-y-1">
+                    @php
+                        $menuItems = [
+                            ['icon' => 'leaf', 'label' => 'Environnement', 'slug' => 'environnement'],
+                            ['icon' => 'desktop', 'label' => 'Technologie', 'slug' => 'technologie'],
+                            ['icon' => 'film', 'label' => 'Culture', 'slug' => 'culture'],
+                            ['icon' => 'heart', 'label' => 'Santé', 'slug' => 'sante'],
+                            ['icon' => 'chart', 'label' => 'Économie', 'slug' => 'economie'],
+                            ['icon' => 'trophy', 'label' => 'Sport', 'slug' => 'sport'],
+                        ];
+                    @endphp
+
+                    @foreach ($menuItems as $item)
+                        <a href="{{ route('rubrique.show', $item['slug']) }}"
+                            class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                            @if ($item['icon'] === 'leaf')
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                </svg>
+                            @elseif($item['icon'] === 'desktop')
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            @elseif($item['icon'] === 'film')
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                                </svg>
+                            @elseif($item['icon'] === 'heart')
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            @elseif($item['icon'] === 'chart')
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                </svg>
+                            @elseif($item['icon'] === 'trophy')
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                                </svg>
+                            @endif
+                            <span class="mx-2">{{ $item['label'] }}</span>
+                        </a>
+                    @endforeach
+                </div>
+
+                <!-- Divider -->
+                <hr class="my-2 border-gray-200">
+
+                <!-- Section Contenus -->
+                <div class="space-y-1">
+                    <a href="{{ route('home') }}"
+                        class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="mx-2">Articles</span>
+                    </a>
+
+                    <a href="{{ route('replay') }}"
+                        class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span class="mx-2">Documentaires</span>
+                    </a>
+
+                    <a {{-- href="{{ route('podcasts.index') }}" --}}
+                        class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                        </svg>
+                        <span class="mx-2">Podcast</span>
+                    </a>
+
+                    <a href="#"
+                        class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                        </svg>
+                        <span class="mx-2">Jeux concours</span>
+                    </a>
+
+                    <a href="{{ route('search') }}"
+                        class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <span class="mx-2">Rechercher</span>
+                    </a>
+                </div>
+
+                <!-- Divider -->
+                <hr class="my-2 border-gray-200">
+
+                <!-- Section Autres -->
+                <div class="space-y-1">
+                    <a
+                    {{-- href="{{ route('advertising.contact') }}" --}}
+                        class="flex items-center py-2 px-3 text-gray-500 hover:text-gray-700 text-sm font-medium transition">
+                        <span>Annonceurs</span>
+                        <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+
+                    <a href="{{ route('community.index') }}"
+                        class="flex items-center py-2 px-3 text-gray-500 hover:text-gray-700 text-sm font-medium transition">
+                        <span>Nous rejoindre</span>
+                        <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Footer du menu -->
+            <div class="p-4 border-t bg-gray-50">
+                <button class="w-full text-center text-sm text-gray-600 hover:text-gray-800 font-medium py-2">
+                    Édition béninoise ▼
+                </button>
+            </div>
+        </div>
+    </aside>
 
     <!-- Top Bar -->
     <div class="bg-black text-white py-2">
@@ -83,69 +346,292 @@
             <div class="flex justify-between items-center">
                 <!-- Logo -->
                 <div class="flex items-center gap-4">
-                    <button class="lg:hidden text-white text-2xl" onclick="toggleMobileMenu()">☰</button>
+                    <button class="text-white text-2xl" onclick="toggleMobileMenu()">☰</button>
                     <a href="{{ route('home') }}" class="text-white text-2xl lg:text-4xl font-black tracking-wider">
-                        LIGNE CLAIRE MÉDIA+
+                        {{-- LIGNE CLAIRE MÉDIA+ --}}
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" width="90" height="auto">
                     </a>
                 </div>
 
                 <!-- Search Bar -->
                 <div class="hidden md:flex flex-1 max-w-md mx-8">
                     <form action="{{ route('search') }}" method="GET" class="w-full">
-                        <input type="text"
-                               name="q"
-                               placeholder="🔍 Rechercher une actualité..."
-                               class="w-full px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <input type="text" name="q" placeholder="🔍 Rechercher une actualité..."
+                            class="w-full px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
                     </form>
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex gap-2">
+                {{-- <div class="flex gap-2">
                     <a href="{{ route('replay') }}"
-                       class="bg-transparent border-2 border-white/30 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-white/10 transition">
+                        class="bg-transparent border-2 border-white/30 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-white/10 transition">
                         📺 Replay
                     </a>
+                    <a href="{{ route('direct') }}"
+                        class="bg-red-600 border-2 border-red-600 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-red-700 transition">
+                        ● Direct
+                    </a>
+                    @if (Auth::user())
+                        <a href="#">
+                            <span class="relative flex h-3 w-3">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-600 "></span>
+                            </span>
+                        </a>
+                    @endif
+
+                </div> --}}
+
+                <!-- Action Buttons -->
+                <div class="flex gap-2 items-center">
+                    <a href="{{ route('replay') }}"
+                        class="bg-transparent border-2 border-white/30 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-white/10 transition">
+                        📺 Replay
+                    </a>
+                    <a href="{{ route('direct') }}"
+                        class="bg-red-600 border-2 border-red-600 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-red-700 transition">
+                        ● Direct
+                    </a>
+
+                    @auth
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open"
+                                class="flex items-center gap-2 bg-white/10 hover:bg-white/20 border-2 border-white/30 text-white px-3 py-2 rounded-full transition">
+                                <div
+                                    class="w-7 h-7 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-xs relative">
+                                    {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
+                                    <span
+                                        class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 border-2 border-blue-900 rounded-full"></span>
+                                </div>
+                                <span class="hidden lg:inline text-sm font-semibold">{{ Auth::user()->prenom }}</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <div x-show="open" @click.away="open = false" x-transition
+                                class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50"
+                                style="display: none;">
+
+                                <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">
+                                            {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-bold text-sm truncate">{{ Auth::user()->prenom }}
+                                                {{ Auth::user()->nom }}</p>
+                                            <p class="text-xs text-blue-100 truncate">{{ Auth::user()->email }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="py-2">
+                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'editor')
+                                        <a href="{{ route('admin.dashboard') }}"
+                                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
+                                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                            </svg>
+                                            <span class="text-sm font-medium">Dashboard Admin</span>
+                                        </a>
+                                        <hr class="my-2">
+                                    @endif
+
+                                    @if (Auth::user()->role === 'contributor')
+                                        <a href="{{ route('community.index') }}"
+                                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
+                                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                            </svg>
+                                            <span class="text-sm font-medium">Mes contributions</span>
+                                        </a>
+                                        <hr class="my-2">
+                                    @endif
+
+                                    <a href="#"
+                                        class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
+                                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                        <span class="text-sm font-medium">Mon profil</span>
+                                    </a>
+                                </div>
+
+                                <div class="border-t border-gray-200 p-2">
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                            class="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                            </svg>
+                                            <span class="text-sm font-bold">Se déconnecter</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}"
+                            class="bg-white text-blue-900 px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-gray-100 transition">
+                            Se connecter
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Navigation -->
-    <nav class="bg-white border-b-3 border-blue-600 shadow">
+    <nav class="bg-white border-b-3 border-blue-600 shadow relative">
         <div class="container mx-auto px-4">
-            <div class="flex overflow-x-auto">
+            <div class="flex items-center justify-center gap-4">
+                <!-- Zone de texte à gauche -->
+                <div class="hidden lg:flex items-center py-3 pr-6 border-r border-gray-300 flex-shrink-0">
+                    <span class="text-m font-medium">
+                        <a href="{{ route('community.index') }}"
+                            class="py-3 text-sm text-blue-600 underline uppercase whitespace-nowrap hover:text-gray-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-gray-600 transition {{ request()->routeIs('shop.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-blue-800' }}">
+                            <strong>
+                                Pole Communauté
+                            </strong>
+                        </a>
+                    </span>
+                    <span class="mx-2 text-gray-400">|</span>
+                    <span class="text-m font-medium">
+                        <a href="{{ route('investigation.index') }}"
+                            class="py-3 text-sm text-blue-600 underline uppercase whitespace-nowrap hover:text-gray-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-gray-600 transition {{ request()->routeIs('shop.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-blue-800' }}">
+                            <strong>
+                                Pole Investigation
+                            </strong>
+                        </a>
+                    </span>
+                    <span class="mx-2 text-gray-400">|</span>
+                    <span class="text-m font-medium">
+                        <a href="{{ route('witness.index') }}"
+                            class="py-3 text-sm text-blue-600 underline uppercase whitespace-nowrap hover:text-gray-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-gray-600 transition {{ request()->routeIs('shop.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-blue-800' }}">
+                            <strong>
+                                Pole Temoins
+                            </strong>
+                        </a>
+                    </span>
+                </div>
+
+                <!-- Conteneur pour les rubriques et le bouton - Centré -->
+                <div class="flex items-center flex-shrink-0" id="nav-container">
+                    <!-- Lien Accueil -->
                     <a href="{{ route('home') }}"
-                       class="px-4 py-3 text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('home') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
-                        {{ "accueil" }}
+                        class="px-4 py-3 text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('home') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
+                        Accueil
                     </a>
-                @foreach(\App\Models\Rubrique::active()->ordered()->get() as $rubrique)
-                    <a href="{{ route('rubrique.show', $rubrique->slug) }}"
-                       class="px-4 py-3 text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('rubrique.show') && request()->route('slug') === $rubrique->slug ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
-                        {{ $rubrique->name }}
+
+                    <!-- Lien Acheter le journal -->
+                    <a href="{{ route('shop.index') }}"
+                        class="px-4 py-3 text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('shop.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
+                        Acheter le journal
                     </a>
-                @endforeach
+
+                    <!-- Les 5 premières rubriques -->
+                    @php
+                        $allRubriques = \App\Models\Rubrique::active()->ordered()->get();
+                        $visibleRubriques = $allRubriques->take(5);
+                        $hiddenRubriques = $allRubriques->skip(5);
+                    @endphp
+
+                    @foreach ($visibleRubriques as $rubrique)
+                        <a href="{{ route('rubrique.show', $rubrique->slug) }}"
+                            class="px-4 py-3 text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('rubrique.show') && request()->route('slug') === $rubrique->slug ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
+                            {{ $rubrique->name }}
+                        </a>
+                    @endforeach
+
+                    <!-- Bouton pour afficher le reste -->
+                    @if ($hiddenRubriques->count() > 0)
+                        <button id="toggle-rubriques-btn" onclick="toggleMegaMenu()"
+                            class="px-4 py-3 text-blue-600 hover:text-blue-800 hover:bg-gray-50 transition flex items-center justify-center font-semibold text-sm uppercase whitespace-nowrap"
+                            aria-label="Afficher toutes les rubriques">
+                            <svg id="toggle-icon"
+                                class="w-5 h-5 transition-transform duration-300 border border-blue-600"
+                                style="border-radius: 50%; padding: 2px" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    @endif
+                </div>
             </div>
         </div>
+
+        <!-- Mega Menu Dropdown - Uniquement les rubriques restantes -->
+        @if ($hiddenRubriques->count() > 0)
+            <div id="mega-menu"
+                class="hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-2xl z-50">
+                <div class="container mx-auto px-4 py-6">
+                    <div class="flex flex-col items-center">
+                        <div class="w-full max-w-6xl">
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                                @foreach ($hiddenRubriques as $rubrique)
+                                    <a href="{{ route('rubrique.show', $rubrique->slug) }}"
+                                        class="group px-4 py-3 rounded-lg hover:bg-blue-50 transition flex items-center gap-2 {{ request()->routeIs('rubrique.show') && request()->route('slug') === $rubrique->slug ? 'bg-blue-50 text-blue-600' : 'text-gray-800' }}">
+                                        <span class="text-blue-600 group-hover:scale-110 transition-transform">▸</span>
+                                        <span class="font-semibold text-sm uppercase">{{ $rubrique->name }}</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Bouton fermer -->
+                        <div class="text-center mt-6 pt-4 border-t border-gray-200 w-full">
+                            <button onclick="toggleMegaMenu()"
+                                class="text-sm text-gray-600 hover:text-blue-600 font-semibold uppercase flex items-center gap-2 mx-auto transition">
+                                <span>Fermer</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 15l7-7 7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </nav>
 
+    <!-- Overlay pour fermer le menu en cliquant à l'extérieur -->
+    <div id="mega-menu-overlay" class="hidden fixed inset-0 bg-black bg-opacity-30 z-40" onclick="toggleMegaMenu()">
+    </div>
+
     <!-- Breaking News Ticker -->
-    @if($breakingNews ?? false)
-    <div class="bg-gray-900 text-white overflow-hidden h-11">
-        <div class="flex items-center h-full">
-            <div class="bg-red-600 px-6 h-full flex items-center font-bold text-xs uppercase tracking-wider animate-pulse">
-                FLASH INFO
-            </div>
-            <div class="flex items-center animate-scroll">
-                <marquee direction="left">
-                    @foreach($breakingNews as $news)
-                        <span class="px-12 text-sm whitespace-nowrap">
-                            <span class="text-blue-400">●</span> {{ $news->title }}
-                        </span>
-                    @endforeach
-                </marquee>
+    @if ($breakingNews ?? false)
+        <div class="bg-gray-900 text-white overflow-hidden h-11">
+            <div class="flex items-center h-full">
+                <div
+                    class="bg-red-600 px-6 h-full flex items-center font-bold text-xs uppercase tracking-wider animate-pulse">
+                    FLASH INFO
+                </div>
+                <div class="flex items-center animate-scroll">
+                    <marquee direction="left">
+                        @foreach ($breakingNews as $news)
+                            <span class="px-12 text-sm whitespace-nowrap">
+                                <span class="text-blue-400">●</span> {{ $news->title }}
+                            </span>
+                        @endforeach
+                    </marquee>
+                </div>
             </div>
         </div>
-    </div>
     @endif
 
     <!-- Main Content -->
@@ -154,10 +640,12 @@
     </main>
 
     <!-- POPUP FLASH: DON -->
-    <div id="donation-popup" class="flash-popup hidden bottom-6 right-6 w-96 max-w-[90vw] bg-gradient-to-br from-green-600 to-green-800 text-white rounded-2xl shadow-2xl">
+    <div id="donation-popup"
+        class="flash-popup hidden bottom-6 right-6 w-96 max-w-[90vw] bg-gradient-to-br from-green-600 to-green-800 text-white rounded-2xl shadow-2xl">
         <div class="p-6">
             <!-- Bouton de fermeture -->
-            <button onclick="closeFlashPopup('donation')" class="absolute top-3 right-3 text-white/70 hover:text-white text-2xl leading-none transition">
+            <button onclick="closeFlashPopup('donation')"
+                class="absolute top-3 right-3 text-white/70 hover:text-white text-2xl leading-none transition">
                 ×
             </button>
 
@@ -173,34 +661,27 @@
             <form action="{{ route('donation.process') }}" method="POST" class="space-y-3">
                 @csrf
                 <div>
-                    <input type="number"
-                           name="amount"
-                           placeholder="Montant (FCFA)"
-                           min="500"
-                           required
-                           class="w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-300">
+                    <input type="number" name="amount" placeholder="Montant (FCFA)" min="500" required
+                        class="w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-300">
                 </div>
 
                 <div class="grid grid-cols-3 gap-2">
-                    <button type="button"
-                            onclick="this.form.amount.value='1000'"
-                            class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
+                    <button type="button" onclick="this.form.amount.value='1000'"
+                        class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
                         1 000
                     </button>
-                    <button type="button"
-                            onclick="this.form.amount.value='5000'"
-                            class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
+                    <button type="button" onclick="this.form.amount.value='5000'"
+                        class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
                         5 000
                     </button>
-                    <button type="button"
-                            onclick="this.form.amount.value='10000'"
-                            class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
+                    <button type="button" onclick="this.form.amount.value='10000'"
+                        class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded text-sm font-semibold transition">
                         10 000
                     </button>
                 </div>
 
                 <button type="submit"
-                        class="w-full bg-white text-green-600 px-4 py-3 rounded-lg font-bold hover:bg-green-50 transition shadow-lg">
+                    class="w-full bg-white text-green-600 px-4 py-3 rounded-lg font-bold hover:bg-green-50 transition shadow-lg">
                     Faire un don maintenant 💚
                 </button>
             </form>
@@ -212,9 +693,11 @@
     </div>
 
     <!-- POPUP FLASH: PUBLICITÉ -->
-    <div id="ad-popup" class="flash-popup hidden top-20 right-6 w-80 max-w-[90vw] bg-white rounded-2xl shadow-2xl overflow-hidden">
+    <div id="ad-popup"
+        class="flash-popup hidden top-20 right-6 w-80 max-w-[90vw] bg-white rounded-2xl shadow-2xl overflow-hidden">
         <!-- Bouton de fermeture -->
-        <button onclick="closeFlashPopup('ad')" class="absolute top-3 right-3 z-10 bg-white/80 hover:bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center text-xl leading-none transition shadow-md">
+        <button onclick="closeFlashPopup('ad')"
+            class="absolute top-3 right-3 z-10 bg-white/80 hover:bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center text-xl leading-none transition shadow-md">
             ×
         </button>
 
@@ -226,8 +709,9 @@
             <p class="text-sm text-gray-600 mb-4">
                 Touchez des milliers de lecteurs chaque jour !
             </p>
-            <a href="{{ route('advertising.contact') }}"
-               class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:shadow-lg hover:scale-105 transition">
+            <a
+            {{-- href="{{ route('advertising.contact') }}" --}}
+                class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:shadow-lg hover:scale-105 transition">
                 En savoir plus →
             </a>
         </div>
@@ -252,7 +736,8 @@
                 <div>
                     <h3 class="text-blue-500 font-bold mb-4 uppercase">Nos Services</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{{ route('direct') }}" class="hover:text-blue-400 transition">LCM+ en direct</a></li>
+                        <li><a href="{{ route('direct') }}" class="hover:text-blue-400 transition">LCM+ en direct</a>
+                        </li>
                         <li><a href="{{ route('replay') }}" class="hover:text-blue-400 transition">Replays</a></li>
                         <li><a href="#" class="hover:text-blue-400 transition">Newsletters</a></li>
                     </ul>
@@ -260,8 +745,9 @@
                 <div>
                     <h3 class="text-blue-500 font-bold mb-4 uppercase">Rubriques</h3>
                     <ul class="space-y-2 text-sm">
-                        @foreach(\App\Models\Rubrique::active()->ordered()->take(6)->get() as $rubrique)
-                            <li><a href="{{ route('rubrique.show', $rubrique->slug) }}" class="hover:text-blue-400 transition">{{ $rubrique->name }}</a></li>
+                        @foreach (\App\Models\Rubrique::active()->ordered()->take(6)->get() as $rubrique)
+                            <li><a href="{{ route('rubrique.show', $rubrique->slug) }}"
+                                    class="hover:text-blue-400 transition">{{ $rubrique->name }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -293,14 +779,14 @@
         const FLASH_POPUPS_CONFIG = {
             donation: {
                 id: 'donation-popup',
-                showAfter: 5000,        // Apparaît après 5 secondes
-                reappearAfter: 300000,  // Réapparaît après 5 minutes (300000ms)
+                showAfter: 5000, // Apparaît après 5 secondes
+                reappearAfter: 300000, // Réapparaît après 5 minutes (300000ms)
                 storageKey: 'donation_popup_closed'
             },
             ad: {
                 id: 'ad-popup',
-                showAfter: 10000,       // Apparaît après 10 secondes
-                reappearAfter: 600000,  // Réapparaît après 10 minutes (600000ms)
+                showAfter: 10000, // Apparaît après 10 secondes
+                reappearAfter: 600000, // Réapparaît après 10 minutes (600000ms)
                 storageKey: 'ad_popup_closed'
             }
         };
@@ -381,6 +867,165 @@
         });
     </script>
 
+    <script>
+        let megaMenuOpen = false;
+
+        function toggleMegaMenu() {
+            const megaMenu = document.getElementById('mega-menu');
+            const overlay = document.getElementById('mega-menu-overlay');
+            const toggleIcon = document.getElementById('toggle-icon');
+            const toggleBtn = document.getElementById('toggle-rubriques-btn');
+
+            megaMenuOpen = !megaMenuOpen;
+
+            if (megaMenuOpen) {
+                // Ouvrir le mega menu
+                megaMenu.classList.remove('hidden');
+                overlay.classList.remove('hidden');
+                toggleIcon.style.transform = 'rotate(180deg)';
+                toggleBtn.classList.add('text-blue-800', 'bg-gray-50');
+
+                // Animation d'entrée
+                setTimeout(() => {
+                    megaMenu.style.animation = 'slideDown 0.3s ease-out';
+                }, 10);
+            } else {
+                // Fermer le mega menu
+                megaMenu.style.animation = 'slideUp 0.3s ease-out';
+                toggleIcon.style.transform = 'rotate(0deg)';
+                toggleBtn.classList.remove('text-blue-800', 'bg-gray-50');
+
+                setTimeout(() => {
+                    megaMenu.classList.add('hidden');
+                    overlay.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // Fermer avec la touche Échap
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && megaMenuOpen) {
+                toggleMegaMenu();
+            }
+        });
+
+        // Animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes slideUp {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+            }
+
+            /* Mega menu responsive */
+            @media (max-width: 768px) {
+                #mega-menu .grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0.5rem;
+                }
+
+                #mega-menu a {
+                    padding: 0.75rem;
+                    font-size: 0.75rem;
+                }
+            }
+
+            @media (max-width: 640px) {
+                #mega-menu .grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Responsive pour mobile */
+            @media (max-width: 1023px) {
+                nav .container > div {
+                    justify-content: flex-start !important;
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                }
+
+                #nav-container {
+                    overflow-x: auto;
+                }
+
+                /* Barre de défilement personnalisée */
+                #nav-container::-webkit-scrollbar {
+                    height: 4px;
+                }
+
+                #nav-container::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+
+                #nav-container::-webkit-scrollbar-thumb {
+                    background-color: #2563eb;
+                    border-radius: 10px;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    @stack('scripts')
+    <script>
+        // Fonction pour ouvrir le menu latéral
+        function openSidebar() {
+            const sidebar = document.getElementById('sidebar-menu');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            sidebar.classList.add('open');
+            overlay.classList.remove('hidden');
+            overlay.classList.add('show');
+
+            // Empêcher le scroll du body
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Fonction pour fermer le menu latéral
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar-menu');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+
+            // Réactiver le scroll du body
+            document.body.style.overflow = '';
+        }
+
+        // MODIFIEZ LA FONCTION toggleMobileMenu() EXISTANTE
+        function toggleMobileMenu() {
+            openSidebar();
+        }
+
+        // Fermer avec la touche Échap
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSidebar();
+            }
+        });
+    </script>
     @stack('scripts')
 </body>
+
 </html>

@@ -4,12 +4,63 @@
 
 @section('content')
 <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-black">Toutes les publications</h1>
+    <h1 class="text-3xl font-black">
+        @if(in_array(auth()->user()->role, ['admin', 'master_admin']))
+            Toutes les publications
+        @else
+            Mes publications
+        @endif
+    </h1>
     <a href="{{ route('admin.publications.create') }}"
        class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition flex items-center gap-2">
         <span class="text-xl">+</span> Nouvelle publication
     </a>
 </div>
+
+<!-- Stats personnelles (pour les non-admins) -->
+@if(!in_array(auth()->user()->role, ['admin', 'master_admin']))
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-medium">Total publications</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ $publications->total() }}</p>
+            </div>
+            <div class="bg-blue-100 rounded-full p-3">
+                <span class="text-3xl">📰</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-medium">Vues totales</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">
+                    {{ number_format($publications->sum('views_count')) }}
+                </p>
+            </div>
+            <div class="bg-green-100 rounded-full p-3">
+                <span class="text-3xl">👁️</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-medium">Publiées</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">
+                    {{ $publications->where('status', 'published')->count() }}
+                </p>
+            </div>
+            <div class="bg-purple-100 rounded-full p-3">
+                <span class="text-3xl">✅</span>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 
 <!-- Filters -->
 <div class="bg-white rounded-lg shadow p-6 mb-6">
@@ -68,9 +119,11 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Rubrique
                 </th>
+                @if(in_array(auth()->user()->role, ['admin', 'master_admin']))
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Auteur
                 </th>
+                @endif
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Type
                 </th>
@@ -119,10 +172,12 @@
                         {{ $publication->rubrique->icon }} {{ $publication->rubrique->name }}
                     </span>
                 </td>
+                @if(in_array(auth()->user()->role, ['admin', 'master_admin']))
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="text-sm text-gray-900">{{ $publication->user->public_name }}</div>
                     <div class="text-xs text-gray-500">{{ $publication->user->nom ." ". $publication->user->prenom ?? "" }}</div>
                 </td>
+                @endif
                 <td class="px-6 py-4 whitespace-nowrap">
                     <span class="text-xs font-semibold">
                         @switch($publication->type)
@@ -172,34 +227,18 @@
                            title="Voir">
                             👁️
                         </a>
+
+                        @php
+                            $canEdit = in_array(auth()->user()->role, ['admin', 'master_admin'])
+                                       || $publication->user_id === auth()->id();
+                        @endphp
+
+                        @if($canEdit)
                         <a href="{{ route('admin.publications.edit', $publication) }}"
                            class="text-blue-600 hover:text-blue-900"
                            title="Modifier">
                             ✏️
                         </a>
-                        @if($publication->status !== 'published')
-                            <form action="{{ route('admin.publications.publish', $publication) }}"
-                                  method="POST"
-                                  class="inline">
-                                @csrf
-                                <button type="submit"
-                                        class="text-green-600 hover:text-green-900"
-                                        title="Publier">
-                                    ✓
-                                </button>
-                            </form>
-                        @else
-                            <form action="{{ route('admin.publications.unpublish', $publication) }}"
-                                  method="POST"
-                                  class="inline">
-                                @csrf
-                                <button type="submit"
-                                        class="text-orange-600 hover:text-orange-900"
-                                        title="Masquer">
-                                    👁️‍🗨️
-                                </button>
-                            </form>
-                        @endif
                         <form action="{{ route('admin.publications.destroy', $publication) }}"
                               method="POST"
                               class="inline"
@@ -212,6 +251,11 @@
                                 🗑️
                             </button>
                         </form>
+                        @else
+                        <span class="text-gray-400" title="Vous ne pouvez pas modifier cette publication">
+                            🔒
+                        </span>
+                        @endif
                     </div>
                 </td>
             </tr>

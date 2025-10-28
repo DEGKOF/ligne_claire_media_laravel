@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
@@ -17,21 +14,43 @@ return new class extends Migration
             $table->string('prenom');
             $table->string('username')->unique();
             $table->string('email')->unique();
+            $table->string('phone')->nullable();
+            $table->string('city')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('display_name')->nullable(); // Nom affiché publiquement
-            $table->enum('role', ['journaliste', 'redacteur', 'admin', 'master_admin'])->default('journaliste');
+            $table->string('display_name')->nullable();
+
+            // Champs pour les annonceurs
+            $table->string('company_name')->nullable();
+            $table->text('address')->nullable();
+            $table->string('website')->nullable();
+            $table->string('logo')->nullable();
+            $table->decimal('balance', 10, 2)->default(0);
+
+            $table->enum('role', [
+                'journaliste',
+                'redacteur',
+                'admin',
+                'master_admin',
+                'advertiser',
+                'contributor',
+                'investigator',
+                'witness'
+            ])->default('journaliste');
+
             $table->boolean('is_active')->default(true);
+
+            // Statut spécifique pour les annonceurs
+            $table->enum('advertiser_status', ['pending', 'active', 'suspended'])->nullable();
+
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-        });
 
-        // Schema::create('password_reset_tokens', function (Blueprint $table) {
-        //     $table->string('email')->primary();
-        //     $table->string('token');
-        //     $table->timestamp('created_at')->nullable();
-        // });
+            // Index pour optimiser les requêtes
+            $table->index('role');
+            $table->index(['role', 'is_active']);
+        });
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
@@ -43,13 +62,9 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');
-        // Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }
 };

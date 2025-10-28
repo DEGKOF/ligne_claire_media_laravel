@@ -1,0 +1,47 @@
+Rectifications Présentation No 2
+autre -> main pour la nouvelle rubrique
+
+like
+comment
+tous les reseaux
+
+icone des menus latéraux => done
+
+les lien de recherche rapide au dessus des videos de direct => done
+Podcast & Sondages avant le footer (en caroussel) => done (pas sondage)
+
+Bouton acheter le journal x2 fois  => done
+
+Rubrique Crypto, Emplois, Faits divers  => done
+
+5 Rubriques dans le menu central en plus des 2 premiers => done
+
+pour le journal
+
+TItre: Ligne claire News(en noir)
+La couleur rouge en bleu
+Google Ads et autres APIs de pub
+Pour les images correspondates, voir telegram: date du 09-Oct-2025
+
+
+
+-Logo du site
+-revoir les marchés(accueil)
+-revoir la liste des menus à la gauche de la liste des rubriques(Pole Communauté, Pole Investigation, Pole Temoins) => Compte utilisateur avec dashboard
+-Menu: Benin, Afrique, Internationnal, Sous region
+-Possiblité de choisir le nombre d'exemplaire à acheter
+-Responsive
+-Retirer les emojis des nouvelles pages
+-Revoir "mes envois" dans temoignages
+-Ajouter le menu dans la barre latérale: Soutenir le media / Devenir membre du media
+-Background des sections
+
+Prompt
+je dispose de ce system dans lequel je souhaite creer un sous system de pubs, où, l'utilisatuer vient soumettre sa demande et nous(backoffice) apres analyse validons ou rejetons sa demande,
+
+plus tard je me chargerai de l'affichage à l'endroit convenable des pubs accepté, 
+
+voici quelques models et migration phare de mon systeme
+
+
+

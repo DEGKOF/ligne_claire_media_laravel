@@ -17,7 +17,10 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'phone',
+        'city',
         'display_name',
+        'company_name',
         'role',
         'is_active',
     ];
@@ -33,21 +36,62 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    // Relations
+    // ==================== RELATIONS ====================
+
+    // Relations pour les profils spécifiques
+    public function contributorProfile()
+    {
+        return $this->hasOne(ContributorProfile::class);
+    }
+
+    public function investigatorProfile()
+    {
+        return $this->hasOne(InvestigatorProfile::class);
+    }
+
+    public function witnessProfile()
+    {
+        return $this->hasOne(WitnessProfile::class);
+    }
+
+    public function advertiserProfile()
+    {
+        return $this->hasOne(AdvertiserProfile::class);
+    }
+
+    // Relations pour les soumissions
+    public function communitySubmissions()
+    {
+        return $this->hasMany(CommunitySubmission::class);
+    }
+
+    public function investigationProposals()
+    {
+        return $this->hasMany(InvestigationProposal::class);
+    }
+
+    public function witnessTestimonies()
+    {
+        return $this->hasMany(WitnessTestimony::class);
+    }
+
+    public function advertisements()
+    {
+        return $this->hasMany(Advertisement::class, 'advertiser_id');
+    }
+
     public function publications()
     {
         return $this->hasMany(Publication::class);
     }
 
-    // Accesseurs
+    // ==================== ACCESSEURS ====================
+
     public function getPublicNameAttribute(): string
     {
-        // Si display_name est défini, l'utiliser
         if ($this->display_name) {
             return $this->display_name;
         }
-
-        // Sinon, utiliser nom + prenom
         return trim("{$this->prenom} {$this->nom}");
     }
 
@@ -56,7 +100,8 @@ class User extends Authenticatable
         return trim("{$this->prenom} {$this->nom}");
     }
 
-    // Vérifications de rôles
+    // ==================== VÉRIFICATIONS DE RÔLES ====================
+
     public function isMasterAdmin(): bool
     {
         return $this->role === 'master_admin';
@@ -65,6 +110,11 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return in_array($this->role, ['admin', 'master_admin']);
+    }
+
+    public function isJournalist(): bool
+    {
+        return in_array($this->role, ['journaliste', 'redacteur', 'admin', 'master_admin']);
     }
 
     public function canWriteArticles(): bool
@@ -77,7 +127,87 @@ class User extends Authenticatable
         return $this->isAdmin();
     }
 
-    // Scopes
+    // Nouveaux rôles externes
+    public function isContributor(): bool
+    {
+        return $this->role === 'contributor';
+    }
+
+    public function isInvestigator(): bool
+    {
+        return $this->role === 'investigator';
+    }
+
+    public function isWitness(): bool
+    {
+        return $this->role === 'witness';
+    }
+
+    public function isAdvertiser(): bool
+    {
+        return $this->role === 'advertiser';
+    }
+
+    public function isExternalUser(): bool
+    {
+        return in_array($this->role, ['contributor', 'investigator', 'witness', 'advertiser']);
+    }
+
+    public function isInternalUser(): bool
+    {
+        return in_array($this->role, ['journaliste', 'redacteur', 'admin', 'master_admin']);
+    }
+
+    // ==================== MÉTHODES MÉTIER ====================
+
+    /**
+     * Créer le profil approprié selon le rôle
+     */
+    public function createProfile(): void
+    {
+        switch ($this->role) {
+            case 'contributor':
+                if (!$this->contributorProfile) {
+                    $this->contributorProfile()->create([]);
+                }
+                break;
+            case 'investigator':
+                if (!$this->investigatorProfile) {
+                    $this->investigatorProfile()->create([]);
+                }
+                break;
+            case 'witness':
+                if (!$this->witnessProfile) {
+                    $this->witnessProfile()->create([]);
+                }
+                break;
+            case 'advertiser':
+                if (!$this->advertiserProfile) {
+                    $this->advertiserProfile()->create([
+                        'status' => 'pending',
+                        'balance' => 0,
+                    ]);
+                }
+                break;
+        }
+    }
+
+    /**
+     * Obtenir le profil approprié selon le rôle
+     */
+    public function getProfile()
+    {
+        return match($this->role) {
+            'contributor' => $this->contributorProfile,
+            'investigator' => $this->investigatorProfile,
+            'witness' => $this->witnessProfile,
+            'advertiser' => $this->advertiserProfile,
+            default => null,
+        };
+    }
+
+    // ==================== SCOPES ====================
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
@@ -86,5 +216,35 @@ class User extends Authenticatable
     public function scopeByRole($query, string $role)
     {
         return $query->where('role', $role);
+    }
+
+    public function scopeInternalUsers($query)
+    {
+        return $query->whereIn('role', ['journaliste', 'redacteur', 'admin', 'master_admin']);
+    }
+
+    public function scopeExternalUsers($query)
+    {
+        return $query->whereIn('role', ['contributor', 'investigator', 'witness', 'advertiser']);
+    }
+
+    public function scopeContributors($query)
+    {
+        return $query->where('role', 'contributor');
+    }
+
+    public function scopeInvestigators($query)
+    {
+        return $query->where('role', 'investigator');
+    }
+
+    public function scopeWitnesses($query)
+    {
+        return $query->where('role', 'witness');
+    }
+
+    public function scopeAdvertisers($query)
+    {
+        return $query->where('role', 'advertiser');
     }
 }

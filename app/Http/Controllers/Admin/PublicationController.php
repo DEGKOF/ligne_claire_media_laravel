@@ -17,6 +17,12 @@ class PublicationController extends Controller
     {
         $query = Publication::with(['user', 'rubrique']);
 
+        // Si l'utilisateur n'est pas admin ou master_admin,
+        // afficher seulement ses propres publications
+        if (!$this->isAdminOrMaster()) {
+            $query->where('user_id', auth()->id());
+        }
+
         // Filtres
         if ($request->filled('status')) {
             $query->where('status', $request->status);
@@ -64,7 +70,7 @@ class PublicationController extends Controller
             'video_url' => 'nullable|url',
             'external_link' => 'nullable|url',
             'video_duration' => 'nullable|integer',
-            'status' => 'required|in:draft,published,hidden',
+            'status' => 'nullable|in:draft,published,hidden',
             'is_featured' => 'boolean',
             'is_breaking' => 'boolean',
             'meta_title' => 'nullable|string|max:255',
@@ -96,8 +102,13 @@ class PublicationController extends Controller
      */
     public function edit(Publication $publication)
     {
+        // Vérifier les permissions
+        $this->authorizeEdit($publication);
+
         $rubriques = Rubrique::active()->ordered()->get();
-        return view('admin.publications.edit', compact('publication', 'rubriques'));
+        $canEdit = $this->canEditPublication($publication);
+
+        return view('admin.publications.edit', compact('publication', 'rubriques', 'canEdit'));
     }
 
     /**
@@ -105,6 +116,9 @@ class PublicationController extends Controller
      */
     public function update(Request $request, Publication $publication)
     {
+        // Vérifier les permissions
+        $this->authorizeEdit($publication);
+
         $validated = $request->validate([
             'rubrique_id' => 'required|exists:rubriques,id',
             'title' => 'required|string|max:255',
@@ -149,6 +163,9 @@ class PublicationController extends Controller
      */
     public function destroy(Publication $publication)
     {
+        // Vérifier les permissions
+        $this->authorizeEdit($publication);
+
         if ($publication->featured_image) {
             Storage::disk('public')->delete($publication->featured_image);
         }
@@ -164,13 +181,52 @@ class PublicationController extends Controller
      */
     public function quickPublish(Publication $publication)
     {
+        // Vérifier les permissions
+        $this->authorizeEdit($publication);
+
         $publication->publish();
         return back()->with('success', 'Article publié !');
     }
 
     public function quickUnpublish(Publication $publication)
     {
+        // Vérifier les permissions
+        $this->authorizeEdit($publication);
+
         $publication->unpublish();
         return back()->with('success', 'Article masqué !');
+    }
+
+    /**
+     * Vérifier si l'utilisateur est admin ou master_admin
+     */
+    private function isAdminOrMaster(): bool
+    {
+        $role = auth()->user()->role;
+        return in_array($role, ['admin', 'master_admin']);
+    }
+
+    /**
+     * Vérifier si l'utilisateur peut éditer cette publication
+     */
+    private function canEditPublication(Publication $publication): bool
+    {
+        // Admin et master_admin peuvent tout modifier
+        if ($this->isAdminOrMaster()) {
+            return true;
+        }
+
+        // Les autres ne peuvent modifier que leurs propres publications
+        return $publication->user_id === auth()->id();
+    }
+
+    /**
+     * Autoriser l'édition ou retourner une erreur 403
+     */
+    private function authorizeEdit(Publication $publication): void
+    {
+        if (!$this->canEditPublication($publication)) {
+            abort(403, 'Vous n\'êtes pas autorisé à modifier cette publication.');
+        }
     }
 }

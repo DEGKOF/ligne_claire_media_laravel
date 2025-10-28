@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\MarketDataController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+// ==========================================
+// ROUTES API POUR LES PUBLICITÉS (Frontend)
+// ==========================================
+
+
+Route::get('/market-data', [MarketDataController::class, 'index']);

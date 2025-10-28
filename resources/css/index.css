@@ -1,0 +1,107 @@
+/* Style pour la scrollbar personnalisée */
+#news-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+#news-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#news-scroll::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+#news-scroll::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Firefox */
+#news-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f1f1;
+}
+
+/* Animation smooth pour le hover */
+#news-scroll article {
+    transition: all 0.2s ease;
+}
+
+/* Responsive pour les boutons de filtres */
+@media (max-width: 640px) {
+    .filter-buttons a {
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Animation pour les mises à jour */
+.market-item {
+    transition: background-color 0.3s ease;
+}
+
+/* Animation du badge de statut */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Largeur des cartes selon l'écran */
+@media (max-width: 640px) {
+    .podcast-card {
+        width: calc(100% - 1rem);
+        min-width: calc(100% - 1rem);
+    }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+    .podcast-card {
+        width: calc(50% - 0.5rem);
+        min-width: calc(50% - 0.5rem);
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .podcast-card {
+        width: calc(33.333% - 0.75rem);
+        min-width: calc(33.333% - 0.75rem);
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .podcast-card {
+        width: calc(25% - 0.75rem);
+        min-width: calc(25% - 0.75rem);
+    }
+}
+
+@media (min-width: 1281px) {
+    .podcast-card {
+        width: calc(20% - 0.8rem);
+        min-width: calc(20% - 0.8rem);
+    }
+}
+
+#podcast-carousel {
+    scroll-behavior: smooth;
+}
+
+#podcast-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+#podcast-carousel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

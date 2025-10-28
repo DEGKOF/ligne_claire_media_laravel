@@ -1,0 +1,72 @@
+
+        .flash-popup {
+            position: fixed;
+            z-index: 9999;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .flash-popup.hidden {
+            opacity: 0;
+            transform: translateY(100px) scale(0.8);
+            pointer-events: none;
+        }
+
+        .flash-popup.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        #sidebar-menu {
+            z-index: 9998;
+        }
+
+        #sidebar-menu.open {
+            transform: translateX(0);
+        }
+
+        #sidebar-overlay {
+            z-index: 9997;
+        }
+
+        #sidebar-overlay.show {
+            opacity: 1;
+        }
+
+        /* Scrollbar pour le menu latéral */
+        #sidebar-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #sidebar-menu::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        #sidebar-menu::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        #sidebar-menu::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }

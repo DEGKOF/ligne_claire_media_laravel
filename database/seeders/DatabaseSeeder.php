@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RubriquesSeeder::class,
             DefaultUsersSeeder::class,
+            IssueSeeder::class,
         ]);
     }
 }

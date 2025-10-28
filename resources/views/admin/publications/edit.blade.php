@@ -185,7 +185,9 @@
                     </label>
                     <select name="status"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
-                            required>
+                            required
+                            {{ (Auth::user()->role === 'admin' || Auth::user()->role === 'master_admin') ? "" : "disabled" }}
+                            >
                         <option value="draft" {{ old('status', $publication->status) == 'draft' ? 'selected' : '' }}>📋 Brouillon</option>
                         <option value="published" {{ old('status', $publication->status) == 'published' ? 'selected' : '' }}>✓ Publié</option>
                         <option value="hidden" {{ old('status', $publication->status) == 'hidden' ? 'selected' : '' }}>👁️‍🗨️ Masqué</option>
@@ -202,6 +204,7 @@
                                name="is_featured"
                                value="1"
                                {{ old('is_featured', $publication->is_featured) ? 'checked' : '' }}
+                               {{ (Auth::user()->role === 'admin' || Auth::user()->role === 'master_admin') ? "" : "disabled" }}
                                class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
                         <span class="text-sm font-medium text-gray-700">⭐ Article à la une</span>
                     </label>
@@ -211,6 +214,7 @@
                                name="is_breaking"
                                value="1"
                                {{ old('is_breaking', $publication->is_breaking) ? 'checked' : '' }}
+                               {{ (Auth::user()->role === 'admin' || Auth::user()->role === 'master_admin') ? "" : "disabled" }}
                                class="w-5 h-5 text-red-600 rounded focus:ring-red-500">
                         <span class="text-sm font-medium text-gray-700">🚨 Flash info</span>
                     </label>

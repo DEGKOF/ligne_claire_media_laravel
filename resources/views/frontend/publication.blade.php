@@ -4,6 +4,9 @@
 @section('meta_description', $publication->meta_description ?? $publication->excerpt)
 
 @section('content')
+
+<meta name="publication-slug" content="{{ $publication->slug }}">
+
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
         <!-- Breadcrumb -->
@@ -194,7 +197,127 @@
                 @endforeach
             </div>
         </section>
+        <!-- Comments Section -->
+
+        <section class="mt-12 bg-white rounded-lg shadow-xl overflow-hidden">
+            <div class="px-8 py-6 border-b">
+                <h2 class="text-2xl font-bold">
+                    💬 Commentaires (<span id="comments-count">{{ $publication->comments_count }}</span>)
+                </h2>
+            </div>
+
+            <!-- Comment Form -->
+            <div class="px-8 py-6 bg-gray-50 border-b">
+                <form id="comment-form" class="space-y-4">
+                    @csrf
+
+                    <!-- Message de succès -->
+                    <div id="success-message" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                        <span class="block sm:inline">Commentaire ajouté avec succès !</span>
+                    </div>
+
+                    <!-- Message d'erreur -->
+                    <div id="error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <span class="block sm:inline" id="error-text"></span>
+                    </div>
+
+                    <!-- Champs pour invités (masqués si connecté) -->
+                    <div id="guest-fields" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="guest_name" class="block text-sm font-medium text-gray-700 mb-1">
+                                Votre nom <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text"
+                                id="guest_name"
+                                name="guest_name"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Jean Dupont">
+                            <span class="text-red-500 text-sm hidden" id="error-guest_name"></span>
+                        </div>
+                        <div>
+                            <label for="guest_email" class="block text-sm font-medium text-gray-700 mb-1">
+                                Votre email <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email"
+                                id="guest_email"
+                                name="guest_email"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="jean@example.com">
+                            <span class="text-red-500 text-sm hidden" id="error-guest_email"></span>
+                        </div>
+                    </div>
+
+                    <!-- Champ commentaire -->
+                    <div>
+                        <label for="content" class="block text-sm font-medium text-gray-700 mb-1">
+                            Votre commentaire <span class="text-red-500">*</span>
+                        </label>
+                        <textarea id="content"
+                                name="content"
+                                rows="4"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                                placeholder="Partagez votre avis..."></textarea>
+                        <div class="flex justify-between items-center mt-1">
+                            <span class="text-red-500 text-sm hidden" id="error-content"></span>
+                            <span class="text-sm text-gray-500" id="char-count">0 / 1000</span>
+                        </div>
+                    </div>
+
+                    <!-- Bouton de soumission -->
+                    {{-- <div class="flex justify-end">
+                        <button type="submit"
+                                id="submit-btn"
+                                class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+                            <span id="submit-text">Publier le commentaire</span>
+                            <span id="submit-loading" class="hidden">
+                                <svg class="inline animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Envoi en cours...
+                            </span>
+                        </button>
+                    </div> --}}
+                    <!-- Bouton de soumission -->
+                    <div class="flex justify-end">
+                        <button type="submit"
+                                id="submit-btn"
+                                class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+                            <span id="submit-text">Publier le commentaire</span>
+                            <span id="submit-loading" class="hidden">
+                                <svg class="inline animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Envoi en cours...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Comments List -->
+            <div class="px-8 py-6">
+                <div id="comments-list" class="space-y-6">
+                    <!-- Les commentaires seront chargés ici via JavaScript -->
+                    <div class="flex justify-center py-8">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div id="comments-pagination" class="mt-6 flex justify-center hidden">
+                    <!-- La pagination sera générée via JavaScript -->
+                </div>
+            </div>
+        </section>
+
         @endif
     </div>
 </div>
+
+@push('scripts')
+    <script src="{{ asset('js/comments.js') }}"></script>
+@endpush
+
 @endsection

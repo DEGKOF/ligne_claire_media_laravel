@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        // Ajoutez ce guard
+        'advertiser' => [
+            'driver' => 'session',
+            'provider' => 'advertisers',
+        ],
     ],
 
     /*
@@ -63,6 +68,12 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        // Ajoutez ce provider
+        'advertisers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Advertiser::class,
         ],
 
         // 'users' => [
@@ -93,6 +104,14 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        // Ajoutez ceci pour les annonceurs
+        'advertisers' => [
+            'provider' => 'advertisers',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
