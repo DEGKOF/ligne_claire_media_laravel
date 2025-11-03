@@ -113,17 +113,7 @@
     <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity duration-300"
         onclick="closeSidebar()"></div>
 
-    <aside id="sidebar-menu"
-        class="fixed top-0 left-0 h-full w-72 bg-white shadow-2xl transform -translate-x-full transition-transform duration-300 overflow-y-auto">
-<!-- Sidebar -->
-<div data-ad-position="sidebar"></div>
-
-<!-- Bannière -->
-<div data-ad-position="banner_top"></div>
-
-<!-- Article -->
-<div data-ad-position="article"></div>
-
+    <aside id="sidebar-menu" class="fixed top-0 left-0 h-full w-72 bg-white shadow-2xl transform -translate-x-full transition-transform duration-300 overflow-y-auto">
         <div class="flex flex-col h-full">
             <!-- Header du menu -->
             <div class="p-4 border-b flex justify-between items-center bg-gray-50">
@@ -146,6 +136,19 @@
                             <circle cx="12" cy="9" r="2.5" fill="currentColor" />
                         </svg>
                         <span>Bénin</span>
+                    </a>
+                </div>
+                <!-- Sous-région -->
+                <div class="mb-1">
+                    <a href="#"
+                        class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 6l3-2 3 2 3-2 3 2 3-2 3 2v14l-3 2-3-2-3 2-3-2-3 2-3-2V6z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10l3-2 3 2 3-2 3 2 3-2 3 2" />
+                        </svg>
+                        <span>Sous-région</span>
                     </a>
                 </div>
                 <!-- Afrique -->
@@ -175,20 +178,20 @@
                         <span>International</span>
                     </a>
                 </div>
-                <!-- Sous-région -->
-                <div class="mb-1">
+
+                <!-- Bénin -->
+                {{-- <div class="mb-1">
                     <a href="#"
                         class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 6l3-2 3 2 3-2 3 2 3-2 3 2v14l-3 2-3-2-3 2-3-2-3 2-3-2V6z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10l3-2 3 2 3-2 3 2 3-2 3 2" />
+                                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                            <circle cx="12" cy="9" r="2.5" fill="currentColor" />
                         </svg>
-                        <span>Sous-région</span>
+                        <span>Bénin</span>
                     </a>
-                </div>
-
+                </div> --}}
 
                 <!-- Catégories -->
                 <div class="space-y-1">
@@ -200,6 +203,7 @@
                             ['icon' => 'heart', 'label' => 'Santé', 'slug' => 'sante'],
                             ['icon' => 'chart', 'label' => 'Économie', 'slug' => 'economie'],
                             ['icon' => 'trophy', 'label' => 'Sport', 'slug' => 'sport'],
+                            // ['icon' => 'trophy', 'label' => 'Soutenir le Media', 'slug' => 'sport'],
                         ];
                     @endphp
 
@@ -241,6 +245,49 @@
                         </a>
                     @endforeach
                 </div>
+
+                <!-- Divider -->
+                <hr class="my-2 border-gray-200">
+
+                <div class="space-y-1">
+                    @php
+                        $menuItems = [
+                            ['icon' => 'desktop', 'label' => 'Soutenir le Media', 'slug' => 'sport'],
+                            ['icon' => 'desktop', 'label' => 'Devenir membre', 'slug' => 'sport'],
+                        ];
+                    @endphp
+
+                    @foreach ($menuItems as $item)
+                        <a href="{{ route('rubrique.show', $item['slug']) }}"
+                            class="flex items-center py-2 text-red-700 hover:text-red-400 font-semibold transition">
+                            @if ($item['icon'] === 'leaf')
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                </svg>
+                            @elseif($item['icon'] === 'desktop')
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            @endif
+                            <span class="mx-2">{{ $item['label'] }}</span>
+                        </a>
+                    @endforeach
+                </div>
+
+
+                <!-- Divider -->
+                <hr class="my-2 border-gray-200">
+
+                    <!-- Avec fallback -->
+                    <x-ad-slot position="popup">
+                        <x-slot name="fallback">
+                            <div class="text-center p-4">
+                                <p>Votre publicité ici</p>
+                            </div>
+                        </x-slot>
+                    </x-ad-slot>
 
                 <!-- Divider -->
                 <hr class="my-2 border-gray-200">
@@ -319,10 +366,19 @@
                 </div>
             </nav>
 
+            <!-- Sidebar -->
+            {{-- <x-ad-slot position="sidebar" /> --}}
+
+            <!-- Bannière top -->
+            {{-- <x-ad-slot position="banner_top" /> --}}
+
+            <!-- Dans article -->
+            {{-- <x-ad-slot position="article" :context="['rubrique_id' => $publication->rubrique_id ?? null]" /> --}}
+
             <!-- Footer du menu -->
             <div class="p-4 border-t bg-gray-50">
                 <button class="w-full text-center text-sm text-gray-600 hover:text-gray-800 font-medium py-2">
-                    Édition béninoise ▼
+                    Édition béninoise
                 </button>
             </div>
         </div>

@@ -16,7 +16,7 @@
     --comm-warn: #ff9f40;
     --comm-danger: #e05263;
     --comm-border: #e7edf5;
-    padding: 40px 0;
+    padding: 10px 0;
     background: var(--comm-bg);
 }
 
@@ -29,7 +29,7 @@
 /* Hero */
 .lcm-community-hero {
     background: linear-gradient(180deg, #fff, #f8fbff);
-    padding: 50px 20px 30px;
+    padding: 30px 20px 30px;
     border-radius: 16px;
     margin-bottom: 40px;
     border: 1px solid var(--comm-border);
@@ -41,6 +41,13 @@
     margin: 0 0 15px;
 }
 
+.lcm-community-hero h2 {
+    font-size: 24px;
+    color: var(--comm-blue);
+    margin: 20px 0 15px;
+    font-weight: 700;
+}
+
 .lcm-community-hero p {
     font-size: 18px;
     color: #425060;
@@ -49,9 +56,15 @@
 }
 
 .lcm-comm-submit-btn {
+
+
+    background: white;
+    color: var(--comm-blue);
+    border: none;
+
     display: inline-block;
-    background: var(--comm-blue);
-    color: white !important;
+    /* background: #0C2D57 !important; */
+    color: #0C2D57 !important;
     padding: 14px 24px;
     border-radius: 10px;
     font-weight: 700;
@@ -61,12 +74,49 @@
     margin-top: 20px;
     transition: all 0.2s;
     text-decoration: none;
+    /* border: 2px solid #fff; */
+}
+.lcm-comm-submit-btn2 {
+
+
+            display: inline-block;
+            background: var(--comm-blue);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(12, 45, 87, 0.2);
+            position: relative;
+            overflow: hidden;
+}
+
+.lcm-comm-submit-btn2:hover {
+            background: var(--comm-blue-light);
+            color: 2px solid var(--comm-blue);
+            border: var(--comm-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(12, 45, 87, 0.3);
 }
 
 .lcm-comm-submit-btn:hover {
     background: var(--comm-blue-2);
     transform: translateY(-2px);
-    color: white !important;
+    color: #0C2D57 !important;
+}
+
+/* Panel */
+.panel {
+    background: white;
+    border: 1px solid var(--comm-border);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 6px 22px rgba(12, 45, 87, 0.08);
 }
 
 /* Grille des soumissions */
@@ -361,9 +411,9 @@
 }
 
 .lcm-btn-primary {
-    background: var(--comm-blue) !important;
-    /* color: white; */
-    border: 1px solid var(--comm-blue) !important;
+    background: #0C2D57!important;
+    color: white;
+    border: 1px solid #0C2D57!important;
 }
 
 .lcm-btn-primary:hover {
@@ -450,6 +500,10 @@
         font-size: 28px;
     }
 
+    .lcm-community-hero h2 {
+        font-size: 20px;
+    }
+
     .lcm-community-hero p {
         font-size: 16px;
     }
@@ -479,46 +533,169 @@
         <!-- Hero -->
         <div class="lcm-community-hero">
             <center>
-                <h1>Publiez vos tribunes, enquêtes et analyses</h1>
-                <p>Journalistes, intellectuels, citoyens : proposez vos contenus à la rédaction. Chaque article est relu, vérifié et publié sous votre signature. Les meilleurs contenus peuvent être <strong>Premium</strong> (rémunérés au partage de revenus).</p>
-                <button class="lcm-comm-submit-btn" id="lcmOpenModal">+ Soumettre un article</button>
+                <h1>LCM Communauté — La voix des contributeurs</h1>
+                <h2>Renforcer un journalisme indépendant</h2>
+                <p style="max-width: 900px; margin: 0 auto 20px;"><strong>LCM Communauté</strong> est une initiative au service du journalisme libre, de l'engagement citoyen et du pluralisme médiatique.</p>
+                <p style="max-width: 900px; margin: 0 auto 25px;">À l'intersection des médias, du numérique et de la société civile, nous soutenons toutes celles et ceux qui s'engagent à produire une information rigoureuse, inclusive et indépendante.</p>
+
+                <div style="background: linear-gradient(135deg, #e8f1ff, #f0f6ff); border-left: 5px solid var(--comm-blue); border-radius: 12px; padding: 20px; margin: 25px auto; max-width: 900px; text-align: left;">
+                    <h3 style="color: var(--comm-blue); margin: 0 0 10px; font-size: 18px;">Donner la parole à ceux qui pensent, agissent et observent</h3>
+                    <p style="margin: 0; line-height: 1.7;">LCM Communauté est l'espace participatif de LCM Media, ouvert aux journalistes indépendants, auteurs, universitaires, experts et citoyens engagés désireux de partager leurs analyses, opinions et tribunes.</p>
+                    <p style="margin: 12px 0 0; line-height: 1.7;">Nous croyons qu'une information plurielle, libre et éclairée se construit ensemble, au-delà des structures éditoriales traditionnelles. Chaque voix compte, chaque regard enrichit le débat public.</p>
+                </div>
+
+                <button class="lcm-comm-submit-btn2" id="lcmOpenModal">+ Soumettre un article</button>
             </center>
         </div>
 
+        <!-- Section Notre Ambition -->
+        <div class="lcm-ambition-section" style="margin-bottom: 40px;">
+            <div class="panel">
+                <h2 style="color: var(--comm-blue); margin: 0 0 20px; font-size: 24px; font-weight: 700;">Notre ambition</h2>
+                <p style="margin-bottom: 15px; line-height: 1.7;">Nous œuvrons pour une presse véritablement <strong>indépendante et durable</strong>, en accompagnant les acteurs médiatiques sur :</p>
+                <ul style="margin: 0 0 20px 20px; padding-left: 0; line-height: 1.9;">
+                    <li style="margin-bottom: 10px;">le <strong>plan éditorial</strong>, pour garantir la qualité et la vérification des contenus ;</li>
+                    <li style="margin-bottom: 10px;">le <strong>plan économique</strong>, pour bâtir des modèles viables et transparents ;</li>
+                    <li style="margin-bottom: 10px;">le <strong>plan managérial</strong>, pour structurer les rédactions ;</li>
+                    <li style="margin-bottom: 10px;">et le <strong>plan technique</strong>, en intégrant les outils numériques et les nouvelles technologies du journalisme.</li>
+                </ul>
+                <p style="margin: 20px 0 0; line-height: 1.7; font-size: 16px;">Notre objectif : <strong>donner les moyens de durer à ceux qui informent librement.</strong></p>
+
+                <div style="background: linear-gradient(135deg, #f8fbff, #e8f1ff); border-radius: 12px; padding: 20px; margin-top: 25px; text-align: center;">
+                    <p style="margin: 0; font-style: italic; color: var(--comm-blue-2); font-size: 17px; font-weight: 600;">"Informer, c'est exercer un acte de liberté.<br>LCM Communauté existe pour la protéger."</p>
+                    <p style="margin: 8px 0 0; color: var(--comm-muted); font-size: 14px;">— LCM Média</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Ce que nous offrons -->
+        <div class="lcm-offers-section" style="margin-bottom: 40px;">
+            <div class="panel">
+                <h2 style="color: var(--comm-blue); margin: 0 0 20px; font-size: 24px; font-weight: 700;">Ce que nous offrons</h2>
+                <p style="margin-bottom: 20px; line-height: 1.7;">Un espace numérique moderne, simple et transparent où :</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 25px;">
+                    <div style="background: #f8fbff; border: 1px solid var(--comm-border); border-radius: 12px; padding: 20px;">
+                        {{-- <div style="font-size: 32px; margin-bottom: 10px;">✍️</div> --}}
+                        <h3 style="color: var(--comm-blue); margin: 0 0 10px; font-size: 16px; font-weight: 700;">Publication</h3>
+                        <p style="margin: 0; color: var(--comm-muted); line-height: 1.6;">Chaque contributeur peut <strong>publier</strong> des articles ou analyses (après validation éditoriale)</p>
+                    </div>
+                    <div style="background: #f8fbff; border: 1px solid var(--comm-border); border-radius: 12px; padding: 20px;">
+                        {{-- <div style="font-size: 32px; margin-bottom: 10px;">💰</div> --}}
+                        <h3 style="color: var(--comm-blue); margin: 0 0 10px; font-size: 16px; font-weight: 700;">Rémunération</h3>
+                        <p style="margin: 0; color: var(--comm-muted); line-height: 1.6;">Certains contenus sont <strong>gratuits</strong>, d'autres <strong>premium</strong>, rémunérant directement l'auteur</p>
+                    </div>
+                    <div style="background: #f8fbff; border: 1px solid var(--comm-border); border-radius: 12px; padding: 20px;">
+                        {{-- <div style="font-size: 32px; margin-bottom: 10px;">🤝</div> --}}
+                        <h3 style="color: var(--comm-blue); margin: 0 0 10px; font-size: 16px; font-weight: 700;">Soutien</h3>
+                        <p style="margin: 0; color: var(--comm-muted); line-height: 1.6;">Les lecteurs peuvent <strong>soutenir les journalistes indépendants</strong> via un système de dons ou d'abonnement</p>
+                    </div>
+                    <div style="background: #f8fbff; border: 1px solid var(--comm-border); border-radius: 12px; padding: 20px;">
+                        {{-- <div style="font-size: 32px; margin-bottom: 10px;">📊</div> --}}
+                        <h3 style="color: var(--comm-blue); margin: 0 0 10px; font-size: 16px; font-weight: 700;">Transparence</h3>
+                        <p style="margin: 0; color: var(--comm-muted); line-height: 1.6;">LCM Press assure la <strong>modération, la mise en forme et la visibilité</strong> sur le site et les réseaux</p>
+                    </div>
+                </div>
+
+                <div style="background: #e8f5f0; border-left: 5px solid var(--comm-ok); border-radius: 12px; padding: 20px; margin-top: 25px;">
+                    <p style="margin: 0; line-height: 1.7;">Chaque auteur dispose d'un <strong>tableau de bord</strong> pour suivre ses statistiques : lectures, soutiens, revenus, feedbacks.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Comment ça marche -->
+        <div class="lcm-howto-section" style="margin-bottom: 40px;">
+            <div class="panel">
+                <h2 style="color: var(--comm-blue); margin: 0 0 20px; font-size: 24px; font-weight: 700;">Comment ça marche ?</h2>
+                <div style="display: grid; gap: 15px;">
+                    <div style="display: flex; gap: 15px; align-items: start; padding: 15px; background: #fafcff; border-radius: 10px; border-left: 4px solid var(--comm-blue);">
+                        <div style="background: var(--comm-blue); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">1</div>
+                        <div>
+                            <h3 style="margin: 0 0 5px; color: var(--comm-blue); font-size: 16px; font-weight: 700;">Inscription & validation</h3>
+                            <p style="margin: 0; color: var(--comm-muted); line-height: 1.6;">du profil contributeur</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 15px; align-items: start; padding: 15px; background: #fafcff; border-radius: 10px; border-left: 4px solid var(--comm-blue);">
+                        <div style="background: var(--comm-blue); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">2</div>
+                        <div>
+                            <h3 style="margin: 0 0 5px; color: var(--comm-blue); font-size: 16px; font-weight: 700;">Soumission d'un article</h3>
+                            <p style="margin: 0; color: var(--comm-muted); line-height: 1.6;">(texte, images, sources, etc.)</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 15px; align-items: start; padding: 15px; background: #fafcff; border-radius: 10px; border-left: 4px solid var(--comm-blue);">
+                        <div style="background: var(--comm-blue); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">3</div>
+                        <div>
+                            <h3 style="margin: 0 0 5px; color: var(--comm-blue); font-size: 16px; font-weight: 700;">Relecture éditoriale</h3>
+                            <p style="margin: 0; color: var(--comm-muted); line-height: 1.6;">par l'équipe de LCM</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 15px; align-items: start; padding: 15px; background: #fafcff; border-radius: 10px; border-left: 4px solid var(--comm-blue);">
+                        <div style="background: var(--comm-blue); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">4</div>
+                        <div>
+                            <h3 style="margin: 0 0 5px; color: var(--comm-blue); font-size: 16px; font-weight: 700;">Publication</h3>
+                            <p style="margin: 0; color: var(--comm-muted); line-height: 1.6;">sur la plateforme</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 15px; align-items: start; padding: 15px; background: #fafcff; border-radius: 10px; border-left: 4px solid var(--comm-blue);">
+                        <div style="background: var(--comm-blue); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">5</div>
+                        <div>
+                            <h3 style="margin: 0 0 5px; color: var(--comm-blue); font-size: 16px; font-weight: 700;">Rémunération</h3>
+                            <p style="margin: 0; color: var(--comm-muted); line-height: 1.6;">selon le modèle (gratuit / premium)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section CTA final -->
+        <div style="background: linear-gradient(135deg, var(--comm-blue), var(--comm-blue-2)); border-radius: 16px; padding: 40px; text-align: center; margin-bottom: 40px; color: white;">
+            <h2 style="margin: 0 0 15px; font-size: 28px; font-weight: 700;">LCM Communauté — La voix des contributeurs</h2>
+            <p style="margin: 0 0 10px; font-size: 16px; opacity: 0.95;">Publiez vos articles, analyses et tribunes sur la première plateforme béninoise d'expression journalistique indépendante.</p>
+            <div style="margin-top: 25px;">
+                <p style="margin: 0; font-size: 15px;">✓ Participez au débat.</p>
+                <p style="margin: 5px 0 0; font-size: 15px;">✓ Faites entendre votre point de vue.</p>
+                <p style="margin: 5px 0 20px; font-size: 15px;">✓ Recevez une part des revenus de vos publications.</p>
+            </div>
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <button class="lcm-comm-submit-btn" id="lcmOpenModal2" style="background: white; color: var(--comm-blue); margin-top: 0;">Rejoindre LCM Communauté</button>
+                <a href="#published-articles" class="lcm-comm-submit-btn2" style="background: rgba(255,255,255,0.2); border: 2px solid white; margin-top: 0;">Découvrir les articles publiés</a>
+            </div>
+        </div>
+
         <!-- Grille des soumissions -->
+        <h2 id="published-articles" style="color: var(--comm-blue); margin: 0 0 25px; font-size: 28px; font-weight: 700; text-align: center;">Articles publiés par la communauté</h2>
         <div class="lcm-submissions-grid">
             @forelse($submissions as $submission)
             <article class="lcm-submission-card">
-<a href="{{ route('community.show', $submission) }}" class="lcm-submission-card" style="text-decoration: none; color: inherit; display: block;">
-                <div class="lcm-submission-thumb">
-                    @if($submission->image_path)
-                        <img src="{{ Storage::url($submission->image_path) }}" alt="{{ $submission->title }}">
-                    @else
-                        Visuel
-                    @endif
-                </div>
-                <div class="lcm-submission-body">
-                    <div class="lcm-submission-meta">
-                        <span class="lcm-submission-section">{{ $submission->section }}</span>
-                        <span class="lcm-submission-access {{ $submission->access_type }}">
-                            {{ $submission->access_type === 'premium' ? 'Premium' : 'Gratuit' }}
-                        </span>
-                    </div>
-                    <h3>{{ $submission->title }}</h3>
-                    <p class="lcm-submission-author">
-                        par <strong>{{ $submission->user->prenom }} {{ $submission->user->nom }}</strong>
-                        @if($submission->user->city)
-                            • {{ $submission->user->city }}
+                <a href="{{ route('community.show', $submission) }}" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="lcm-submission-thumb">
+                        @if($submission->image_path)
+                            <img src="{{ Storage::url($submission->image_path) }}" alt="{{ $submission->title }}">
+                        @else
+                            Visuel
                         @endif
-                    </p>
-                    <p class="lcm-submission-author my-2">
-                        <span class="lcm-submission-status {{ $submission->status }}">
-                            {{ $submission->status_label }}
-                        </span>
-                        • {{ $submission->created_at->format('d/m/Y') }}
-                    </p>
-                </div>
-</a>
+                    </div>
+                    <div class="lcm-submission-body">
+                        <div class="lcm-submission-meta">
+                            <span class="lcm-submission-section">{{ $submission->section }}</span>
+                            <span class="lcm-submission-access {{ $submission->access_type }}">
+                                {{ $submission->access_type === 'premium' ? 'Premium' : 'Gratuit' }}
+                            </span>
+                        </div>
+                        <h3>{{ $submission->title }}</h3>
+                        <p class="lcm-submission-author">
+                            par <strong>{{ $submission->user->prenom }} {{ $submission->user->nom }}</strong>
+                            @if($submission->user->city)
+                                • {{ $submission->user->city }}
+                            @endif
+                        </p>
+                        <p class="lcm-submission-author my-2">
+                            <span class="lcm-submission-status {{ $submission->status }}">
+                                {{ $submission->status_label }}
+                            </span>
+                            • {{ $submission->created_at->format('d/m/Y') }}
+                        </p>
+                    </div>
+                </a>
             </article>
             @empty
             <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
@@ -646,6 +823,7 @@
 
     const modal = document.getElementById('lcmModalOverlay');
     const openBtn = document.getElementById('lcmOpenModal');
+    const openBtn2 = document.getElementById('lcmOpenModal2');
     const closeBtn = document.getElementById('lcmCloseModal');
     const form = document.getElementById('lcmSubmitForm');
     const submitBtn = document.getElementById('lcmSubmitBtn');
@@ -656,6 +834,14 @@
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     });
+
+    // Deuxième bouton d'ouverture
+    if (openBtn2) {
+        openBtn2.addEventListener('click', () => {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
 
     const closeModal = () => {
         modal.classList.remove('active');

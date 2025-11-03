@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Middleware\CheckRole;
+use App\Http\Controllers\AdvertiserController;
+use App\Http\Controllers\AdTrackingController;
+use App\Http\Controllers\Admin\AdvertisementManagementController;
+use App\Http\Controllers\Admin\AdvertiserManagementController;
 use App\Http\Controllers\WitnessController;
 use App\Http\Controllers\InvestigationController;
 use App\Http\Controllers\CommunityController;
@@ -29,10 +33,12 @@ use App\Http\Controllers\Admin\PublicationController as AdminPublicationControll
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// Route::get('payment-success/{id}', function () {
+//     return view('welcome_success');
+// })->name('shop.payment');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -62,9 +68,6 @@ Route::get('/direct', [FrontendController::class, 'direct'])->name('direct');
 Route::get('/replay', [FrontendController::class, 'replay'])->name('replay');
 Route::get('/buy-news-paper', [FrontendController::class, 'buyNewsPaper'])->name('buy-news-paper');
 
-// Route::view('/direct', 'frontend.direct')->name('direct');
-// Route::view('/replay', 'frontend.replay')->name('replay');
-// Route::view('/buy-news-paper', 'frontend.buy-news-paper')->name('buy-news-paper');
 
 
 Route::post('/donation', [DonationController::class, 'process'])->name('donation.process');
@@ -123,63 +126,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 
-// ==========================================
-// ROUTES ANNONCEURS (ADVERTISERS)-v1
-// ==========================================
-// Route::middleware(['auth:advertiser', 'advertiser.active'])->group(function () {
-
-//     Route::prefix('advertiser')->name('advertiser.')->group(function () {
-
-//         // Routes d'authentification (accessibles sans authentification)
-//         Route::middleware('guest:advertiser')->group(function () {
-//             Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-//             Route::post('/register', [RegisterController::class, 'register']);
-
-//             Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-//             Route::post('/login', [LoginController::class, 'login']);
-//         });
-
-//         // Routes protégées (nécessitent l'authentification)
-//         Route::middleware('auth:advertiser')->group(function () {
-
-//             // Déconnexion
-//             Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-//             // Dashboard
-//             Route::get('/dashboard', [App\Http\Controllers\Advertiser\DashboardController::class, 'index'])->name('dashboard');
-
-//             // Gestion des publicités
-//             Route::resource('advertisements', AdvertisementController::class)->except(['show']);
-//             Route::get('/advertisements/{advertisement}', [AdvertisementController::class, 'show'])
-//                 ->name('advertisements.show');
-//             Route::post('/advertisements/{advertisement}/pause', [AdvertisementController::class, 'pause'])
-//                 ->name('advertisements.pause');
-//             Route::post('/advertisements/{advertisement}/resume', [AdvertisementController::class, 'resume'])
-//                 ->name('advertisements.resume');
-
-//             // Gestion du solde
-//             Route::prefix('balance')->name('balance.')->group(function () {
-//                 Route::get('/', [BalanceController::class, 'index'])->name('index');
-//                 Route::get('/recharge', [BalanceController::class, 'showRechargeForm'])->name('recharge');
-//                 Route::post('/recharge', [BalanceController::class, 'processRecharge'])->name('process-recharge');
-//                 Route::post('/payments/{payment}/confirm', [BalanceController::class, 'confirmPayment'])
-//                     ->name('confirm-payment');
-//             });
-
-//             // Statistiques
-//             Route::prefix('statistics')->name('statistics.')->group(function () {
-//                 Route::get('/', [StatisticsController::class, 'index'])->name('index');
-//                 Route::get('/export', [StatisticsController::class, 'export'])->name('export');
-//             });
-
-//             // Profil
-//             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//             Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//             Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
-//         });
-//     });
-
-// });
 
 Route::get('/test-market', function () {
     $service = new \App\Services\YahooFinanceService();
@@ -216,10 +162,6 @@ Route::prefix('boutique')->name('shop.')->group(function () {
     // Traitement de la commande
     Route::post('/commander', [ShopController::class, 'processOrder'])->name('process-order');
 
-    // Page de paiement
-    // Route::get('/paiement/{orderId}', [App\Http\Controllers\PaymentController::class, 'index'])->name('payment');
-    // Route::get('/paiement/{orderId}', [App\Http\Controllers\PaymentController::class, 'index'])->name('payment');
-
     // Confirmation de paiement
     Route::get('/confirmation/{orderId}', [ShopController::class, 'confirmation'])->name('confirmation');
 });
@@ -247,18 +189,6 @@ Route::prefix('community')->name('community.')->group(function () {
 });
 
 // ==================== PÔLE INVESTIGATION ====================
-// Route::prefix('investigation')->name('investigation.')->group(function () {
-//     // Page principale
-//     Route::get('/', [InvestigationController::class, 'index'])->name('index');
-
-//     // Soumission de proposition d'enquête (API)
-//     Route::post('/submit', [InvestigationController::class, 'submit'])->name('submit');
-
-//     // Récupérer mes propositions (API)
-//     Route::post('/my-proposals', [InvestigationController::class, 'myProposals'])->name('my-proposals');
-// });
-
-// Routes publiques pour le pôle investigation
 Route::prefix('investigation')->name('investigation.')->group(function () {
 
     // Page principale
@@ -287,7 +217,70 @@ Route::prefix('witness')->name('witness.')->group(function () {
 
 });
 
+/*
+|--------------------------------------------------------------------------
+| Routes Advertiser (Annonceurs)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified'])->prefix('advertiser')->name('advertiser.')->group(function () {
+    Route::get('/dashboard', [AdvertiserController::class, 'dashboard'])->name('dashboard');
 
+    // Profil
+    Route::get('/profile/complete', [AdvertiserController::class, 'completeProfile'])->name('profile.complete');
+    Route::post('/profile/store', [AdvertiserController::class, 'storeProfile'])->name('profile.store');
+
+    // Campagnes
+    Route::get('/campaigns', [AdvertiserController::class, 'campaigns'])->name('campaigns.index');
+    Route::get('/campaigns/create', [AdvertiserController::class, 'createCampaign'])->name('campaigns.create');
+    Route::post('/campaigns', [AdvertiserController::class, 'storeCampaign'])->name('campaigns.store');
+    Route::get('/campaigns/{campaign}', [AdvertiserController::class, 'showCampaign'])->name('campaigns.show');
+    Route::get('/campaigns/{campaign}/edit', [AdvertiserController::class, 'editCampaign'])->name('campaigns.edit');
+    Route::put('/campaigns/{campaign}', [AdvertiserController::class, 'updateCampaign'])->name('campaigns.update');
+    Route::delete('/campaigns/{campaign}', [AdvertiserController::class, 'destroyCampaign'])->name('campaigns.destroy');
+
+    // Actions campagnes
+    Route::post('/campaigns/{campaign}/submit', [AdvertiserController::class, 'submitCampaign'])->name('campaigns.submit');
+    Route::post('/campaigns/{campaign}/pause', [AdvertiserController::class, 'pauseCampaign'])->name('campaigns.pause');
+    Route::post('/campaigns/{campaign}/resume', [AdvertiserController::class, 'resumeCampaign'])->name('campaigns.resume');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Routes Admin - Gestion Publicités
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', CheckRole::class . ':admin,master_admin'])->prefix('admin')->name('admin.')->group(function () {
+
+    // Gestion annonceurs
+    Route::prefix('advertisers')->name('advertisers.')->group(function () {
+        Route::get('/', [AdvertiserManagementController::class, 'index'])->name('index');
+        Route::get('/{profile}', [AdvertiserManagementController::class, 'show'])->name('show');
+        Route::post('/{profile}/approve', [AdvertiserManagementController::class, 'approve'])->name('approve');
+        Route::post('/{profile}/reject', [AdvertiserManagementController::class, 'reject'])->name('reject');
+        Route::post('/{profile}/suspend', [AdvertiserManagementController::class, 'suspend'])->name('suspend');
+        Route::post('/{profile}/reactivate', [AdvertiserManagementController::class, 'reactivate'])->name('reactivate');
+    });
+
+    // Gestion campagnes publicitaires
+    Route::prefix('advertisements')->name('advertisements.')->group(function () {
+        Route::get('/', [AdvertisementManagementController::class, 'index'])->name('index');
+        Route::get('/{campaign}', [AdvertisementManagementController::class, 'show'])->name('show');
+        Route::post('/{campaign}/approve', [AdvertisementManagementController::class, 'approve'])->name('approve');
+        Route::post('/{campaign}/reject', [AdvertisementManagementController::class, 'reject'])->name('reject');
+        Route::post('/{campaign}/activate', [AdvertisementManagementController::class, 'activate'])->name('activate');
+        Route::post('/{campaign}/pause', [AdvertisementManagementController::class, 'pause'])->name('pause');
+
+        // Emplacements
+        Route::prefix('placements')->name('placements.')->group(function () {
+            Route::get('/', [AdvertisementManagementController::class, 'placementsIndex'])->name('index');
+            Route::get('/create', [AdvertisementManagementController::class, 'placementsCreate'])->name('create');
+            Route::post('/', [AdvertisementManagementController::class, 'placementsStore'])->name('store');
+        });
+    });
+});
+
+// Route publique pour tracker les clics
+Route::get('/ad/click/{advertisement}', [AdTrackingController::class, 'trackClick'])->name('ad.track.click');
 
 
 require __DIR__.'/auth.php';

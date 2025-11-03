@@ -28,20 +28,47 @@ Pour les images correspondates, voir telegram: date du 09-Oct-2025
 -Logo du site
 -revoir les marchés(accueil)
 -revoir la liste des menus à la gauche de la liste des rubriques(Pole Communauté, Pole Investigation, Pole Temoins) => Compte utilisateur avec dashboard
+
 -Menu: Benin, Afrique, Internationnal, Sous region
 -Possiblité de choisir le nombre d'exemplaire à acheter
+
+
 -Responsive
--Retirer les emojis des nouvelles pages
--Revoir "mes envois" dans temoignages
+-Retirer les emojis des nouvelles pages => Done
+-Revoir "mes envois" dans temoignages => Done
 -Ajouter le menu dans la barre latérale: Soutenir le media / Devenir membre du media
--Background des sections
+-Background des sections => Done
+-Revoir les fonds
+-Devenir Membre après soutenir et changer la couleur
 
-Prompt
-je dispose de ce system dans lequel je souhaite creer un sous system de pubs, où, l'utilisatuer vient soumettre sa demande et nous(backoffice) apres analyse validons ou rejetons sa demande,
+----------------------------------
+----------------------------------
+----------------------------------
 
-plus tard je me chargerai de l'affichage à l'endroit convenable des pubs accepté, 
+Validation des temoignages avant affichage frontend,
 
-voici quelques models et migration phare de mon systeme
+Partie Boutique et affichage des pubs dans d'autres sections frontend,
 
+Convertion du fichier du journal en code avec conception de son backend,
 
+Integration du moyen de paiement.
 
+#############
+PUB process
+#############
+
+1. SEEDER → Crée les EMPLACEMENTS (AdvertisementPlacement) ✅ (fait)
+   ↓
+2. UTILISATEUR → S'inscrit avec role "advertiser"
+   ↓
+3. PROFIL → Complète son profil entreprise (AdvertiserProfile)
+   ↓
+4. ADMIN → Valide le profil advertiser
+   ↓
+5. ADVERTISER → Crée une CAMPAGNE (Advertisement)
+   ↓
+6. ADMIN → Approuve la campagne
+   ↓
+7. CAMPAGNE → Passe en statut "active" (manuellement ou auto)
+   ↓
+8. AFFICHAGE → La pub apparaît sur le site ✅

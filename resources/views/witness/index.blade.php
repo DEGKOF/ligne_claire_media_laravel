@@ -4,6 +4,10 @@
 
 @section('content')
     <style>
+        ol, ul, menu {
+            all: revert;
+        }
+
         :root {
             --ink: #0e1116;
             --bg: #F6F8FC;
@@ -503,7 +507,7 @@
     <section class="hero">
         <center>
             <div class="container">
-                <h1>🎥 Devenez témoin de votre société</h1>
+                <h1>Devenez témoin de votre société</h1>
                 <p>Partagez vos <strong>vidéos</strong>, <strong>photos</strong> et <strong>témoignages</strong> sur des
                     événements d'intérêt public. Notre rédaction <strong>vérifie</strong> chaque contenu avant diffusion —
                     pour
@@ -532,59 +536,104 @@
     </div>
 
     <!-- Introduction -->
+<!-- Introduction -->
     <section id="intro" class="section active">
         <div class="container p-grid">
-            <div class="panel" style="grid-column:span 8">
-                <header>🎯 Pourquoi témoigner ?</header>
+            <div class="panel" style="grid-column:span 12;margin-bottom:20px">
+                <header>Notre mission</header>
                 <div class="body">
-                    <p>Vous êtes <strong>témoins directs</strong> d'événements d'intérêt public (corruption, injustice,
-                        infrastructure défaillante, environnement, insécurité...). Votre contenu aide à <strong>documenter
-                            les
-                            faits</strong>, à faire <strong>émerger la vérité</strong> et à <strong>nourrir le débat
-                            public</strong>.
-                    </p>
-                    <button class="btn success" id="btnIntroSubmit">Envoyer votre témoignage maintenant</button>
+                    <p style="margin-bottom:14px;line-height:1.7">Donner la parole à ceux qui vivent l'actualité au quotidien.</p>
+                    <p style="margin-bottom:14px;line-height:1.7">LCM TÉMOINS est la plateforme participative de <strong>LCM+</strong> où chaque citoyen peut partager ses vidéos, photos ou témoignages sur des faits d'intérêt public : accidents, injustices, initiatives locales, réussites communautaires, environnement ou innovation.</p>
+                    <p style="line-height:1.7">Nous croyons que le journalisme participatif est un pilier essentiel d'une société informée et responsable. Grâce à LCM Témoins, chaque citoyen devient acteur de l'information, aux côtés de notre rédaction.</p>
                 </div>
             </div>
-            <div class="panel" style="grid-column:span 4">
-                <header>📊 Impact</header>
+
+            <div class="panel" style="grid-column:span 12;margin-bottom:20px">
+                <header>Comment ça marche</header>
                 <div class="body">
-                    <div class="kpis">
-                        <div class="kpi">
-                            <div class="v">{{ $stats['total'] ?? 0 }}</div>
-                            <div class="legend">Témoignages reçus</div>
-                        </div>
-                        <div class="kpi">
-                            <div class="v">{{ $stats['validated'] ?? 0 }}</div>
-                            <div class="legend">Validés</div>
-                        </div>
-                        <div class="kpi">
-                            <div class="v">{{ $stats['cities'] ?? 0 }}</div>
-                            <div class="legend">Villes couvertes</div>
-                        </div>
+                    <ol style="margin:0;padding-left:20px;line-height:1.9">
+                        <li style="margin-bottom:12px">
+                            <strong>Vous témoignez.</strong><br>
+                            <span style="color:var(--muted);font-size:15px">Vous envoyez votre vidéo, photo ou récit directement sur la plateforme LCM Témoins.</span>
+                        </li>
+                        <li style="margin-bottom:12px">
+                            <strong>Nous vérifions.</strong><br>
+                            <span style="color:var(--muted);font-size:15px">Notre équipe journalistique analyse, authentifie et contextualise chaque témoignage.</span>
+                        </li>
+                        <li>
+                            <strong>Nous publions.</strong><br>
+                            <span style="color:var(--muted);font-size:15px">Après validation, votre contribution est diffusée sur <strong>LCM+</strong>, nos réseaux sociaux et nos émissions.</span>
+                        </li>
+                    </ol>
+                    <p style="margin-top:16px;font-style:italic;color:var(--muted);line-height:1.7">Votre regard devient une information vérifiée.</p>
+                </div>
+            </div>
+
+            <div class="panel" style="grid-column:span 12;margin-bottom:20px">
+                <header>Fonctionnalités de la plateforme</header>
+                <div class="body">
+                    <ul style="margin:0;padding-left:20px;line-height:1.9">
+                        <li><strong>Formulaire sécurisé</strong> d'envoi de témoignages (texte, photo, vidéo)</li>
+                        <li><strong>Autodiffusion</strong> et protection des données personnelles</li>
+                        <li><strong>Statut de suivi</strong> : <em>En attente, Vérifié, Publié</em></li>
+                        <li><strong>Section publique</strong> "Les témoignages du mois" avec mini-reportages citoyens</li>
+                        <li><strong>Espace contributeur</strong> : suivre ses publications, voir ses statistiques</li>
+                        <li><strong>Option WhatsApp Direct</strong> : envoi rapide pour les signalements urgents</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel" style="grid-column:span 12;margin-bottom:20px">
+                <header>Éthique et sécurité</header>
+                <div class="body">
+                    <p style="margin-bottom:14px;line-height:1.7">LCM Témoins garantit :</p>
+                    <ul style="margin:0 0 16px;padding-left:20px;line-height:1.9">
+                        <li>la <strong>confidentialité</strong> des sources et témoins,</li>
+                        <li>la <strong>vérification systématique</strong> des contenus avant toute diffusion,</li>
+                        <li>le <strong>respect de la dignité humaine</strong> et du droit à l'image,</li>
+                        <li>une <strong>modération stricte</strong> contre les fausses informations, la diffamation ou les contenus sensibles.</li>
+                    </ul>
+                    <p style="line-height:1.7">Chaque envoi passe par une <strong>double vérification humaine et numérique</strong> avant publication.</p>
+                </div>
+            </div>
+
+            <div class="panel" style="grid-column:span 12;margin-bottom:20px">
+                <header>Reconnaissance et récompenses</header>
+                <div class="body">
+                    <p style="margin-bottom:14px;line-height:1.7">Les contributeurs les plus actifs peuvent recevoir :</p>
+                    <ul style="margin:0;padding-left:20px;line-height:1.9">
+                        <li>le badge <strong>"Reporter citoyen LCM"</strong>,</li>
+                        <li>une <strong>mise en avant spéciale</strong> sur le site et les réseaux,</li>
+                        <li>une <strong>invitation aux émissions</strong> LCM Communauté,</li>
+                        <li>ou une <strong>prime symbolique</strong> selon l'impact de leur témoignage.</li>
+                    </ul>
+                    <p style="margin-top:16px;line-height:1.7">Chaque citoyen peut devenir témoin, chaque témoin peut faire bouger les lignes.</p>
+                </div>
+            </div>
+
+            <div class="panel" style="grid-column:span 12;margin-bottom:20px">
+                <header>Valeur ajoutée</header>
+                <div class="body">
+                    <ul style="margin:0;padding-left:20px;line-height:1.9">
+                        <li>Approche <strong>citoyenne et participative</strong> unique au Bénin.</li>
+                        <li>Création d'un <strong>réseau de correspondants indépendants</strong> à travers le pays.</li>
+                        <li>Source de contenus <strong>authentiques et ancrés dans la réalité du terrain</strong>.</li>
+                        <li>Contribution directe à la <strong>transparence</strong> et à la <strong>mobilisation communautaire</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel" style="grid-column:span 12">
+                <header>LCM TÉMOINS</header>
+                <div class="body">
+                    <p style="margin-bottom:12px;line-height:1.7">Vous avez filmé un événement, un incident ou une initiative d'intérêt public ?<br>
+                    Partagez votre témoignage avec notre rédaction.</p>
+                    <p style="margin-bottom:20px;line-height:1.7">Votre vidéo, votre photo ou votre histoire peuvent aider à informer, à dénoncer ou à inspirer.</p>
+
+                    <div style="text-align:center;padding:24px;background:var(--sky);border-radius:12px;border-left:5px solid var(--blue3)">
+                        <button class="btn success" style="font-size:16px;padding:14px 24px" id="btnIntroSubmit">Envoyer un témoignage maintenant</button>
+                        <button class="btn secondary" style="font-size:16px;padding:14px 24px;margin-left:10px" onclick="document.querySelector('[data-tab=temoins]').click()">Découvrir les témoignages du mois</button>
                     </div>
-                </div>
-            </div>
-            <div class="panel" style="grid-column:span 6">
-                <header>✅ Bonne pratiques</header>
-                <div class="body">
-                    <ul style="margin:0;padding-left:18px">
-                        <li>Ne vous mettez pas en danger pour filmer.</li>
-                        <li>Respectez la vie privée (anonymisation possible).</li>
-                        <li>Indiquez le lieu, la date, le contexte.</li>
-                        <li>Envoyez vos fichiers bruts si possible.</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="panel" style="grid-column:span 6">
-                <header>🛡️ Garanties</header>
-                <div class="body">
-                    <ul style="margin:0;padding-left:18px">
-                        <li><strong>Vérification</strong> systématique par notre rédaction.</li>
-                        <li><strong>Protection</strong> de votre identité si vous le souhaitez.</li>
-                        <li><strong>Géolocalisation</strong> et horodatage des contenus.</li>
-                        <li><strong>Transparence</strong> sur les sources et la méthode.</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -594,7 +643,7 @@
     <section id="temoins" class="section">
         <div class="container">
             <div class="panel">
-                <header>📰 Témoignages vérifiés et publiés</header>
+                <header>Témoignages vérifiés et publiés</header>
                 <div class="body">
                    <div class="p-grid" id="gridPublies">
                         @forelse($testimonies as $witness)
@@ -663,7 +712,7 @@
         <div class="container p-grid">
             <div style="grid-column:span 7">
                 <div class="panel">
-                    <header>✍️ Formulaire de témoignage</header>
+                    <header>Formulaire de témoignage</header>
                     <div class="body">
                         <form id="witnessForm" class="form">
                             @csrf
@@ -756,10 +805,10 @@
                                     conditions</span>
                             </div>
                             <div class="actions" style="grid-column:span 2">
-                                <button type="button" class="btn ghost" id="btnDraft">💾 Enregistrer le
-                                    brouillon</button>
+                                {{-- <button type="button" class="btn ghost" id="btnDraft">💾 Enregistrer le
+                                    brouillon</button> --}}
                                 <button type="button" class="btn ghost" id="btnReset">Réinitialiser</button>
-                                <button type="submit" class="btn success">📤 Envoyer le témoignage</button>
+                                <button type="submit" class="btn success">Envoyer le témoignage</button>
                             </div>
                         </form>
                     </div>
@@ -767,7 +816,7 @@
             </div>
             <div style="grid-column:span 5">
                 <div class="panel">
-                    <header>👁️ Aperçu en direct</header>
+                    <header>Aperçu en direct</header>
                     <div class="body">
                         <article class="card" id="previewCard" style="margin:0">
                             <div class="media">Aperçu</div>
@@ -781,7 +830,7 @@
                                 <p class="legend" style="margin-top:8px" id="charCount">0 caractères</p>
                             </div>
                         </article>
-                        <div class="actions" style="margin-top:12px;justify-content:flex-start;flex-wrap:wrap">
+                        {{-- <div class="actions" style="margin-top:12px;justify-content:flex-start;flex-wrap:wrap">
                             <button type="button" class="btn ghost" id="btnCopySummary" title="Copier le résumé">📋
                                 Copier</button>
                             <button type="button" class="btn ghost" id="btnCopyHTML" title="Copier le HTML">🔗
@@ -790,7 +839,7 @@
                                 Télécharger</button>
                             <button type="button" class="btn ghost" id="btnModalPreview" title="Voir en modal">🔍
                                 Modal</button>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -801,7 +850,7 @@
     <section id="mes-envois" class="section">
         <div class="container">
             <div class="panel">
-                <header>📋 Mes témoignages envoyés</header>
+                <header>Mes témoignages envoyés</header>
                 <div class="body">
                     <div class="p-grid" id="witnessList">
                         <p class="legend">Aucun envoi pour l'instant.</p>
@@ -884,20 +933,6 @@
             });
         }
 
-        // Guide & charte
-    //     $('#btnGuide').addEventListener('click', () => {
-    //         openModal('Guide & Charte — LCM Témoins', `
-    //   <h3>Bonnes pratiques</h3>
-    //   <ul>
-    //     <li>Ne vous mettez pas en danger pour filmer.</li>
-    //     <li>Respectez la vie privée (anonymisation possible).</li>
-    //     <li>Indiquez le lieu, la date, le contexte.</li>
-    //     <li>Envoyez vos fichiers bruts si possible.</li>
-    //   </ul>
-    //   <h3>Modération</h3>
-    //   <p>Chaque contenu est vérifié avant publication. Statuts : En attente → Validé / Rejeté.</p>
-    // `);
-    //     });
 
         // Publies (dynamique)
         function renderPublies() {
@@ -1252,7 +1287,7 @@ Description: ${pDesc?.textContent || ''}`;
         }
 
         // Published list render once
-        renderList();
+        // renderList();
     </script>
 
 @endsection

@@ -23,17 +23,28 @@
         <!-- Sidebar -->
         <aside class="w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white flex-shrink-0 hidden lg:block">
             <div class="p-6">
-                <a href="{{ route('home') }}" target="_blank" class="text-xl font-black tracking-wide block mb-8">
-                    LCM+ ADMIN
-                </a>
+                    <!-- Utilisateurs (si admin) -->
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}" target="_blank" class="text-xl font-black tracking-wide block mb-8">
+                            LCM+ ADMIN
+                        </a>
+                    @endif
+
+                    @if(auth()->user()->isAdvertiser())
+                        <a href="{{ route('advertiser.dashboard') }}" target="_blank" class="text-xl font-black tracking-wide block mb-8">
+                            LCM+ Pubs
+                        </a>
+                    @endif
 
                 <nav class="space-y-2">
-                    <!-- Dashboard -->
-                    <a href="{{ route('admin.dashboard') }}"
-                       class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.dashboard') ? 'bg-white/20' : '' }}">
-                        <span>📊</span>
-                        <span class="font-medium">Dashboard</span>
-                    </a>
+                    @if(auth()->user()->isAdmin())
+                        <!-- Dashboard -->
+                        <a href="{{ route('admin.dashboard') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.dashboard') ? 'bg-white/20' : '' }}">
+                            {{-- <span>📊</span> --}}
+                            <span class="font-medium">Dashboard</span>
+                        </a>
+                    @endif
 
                     <!-- Publications -->
                     @if(auth()->user()->canWriteArticles())
@@ -41,12 +52,12 @@
                         <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Publications</div>
                         <a href="{{ route('admin.publications.index') }}"
                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.publications.*') ? 'bg-white/20' : '' }}">
-                            <span>📝</span>
+                            {{-- <span>📝</span> --}}
                             <span class="font-medium">Tous les articles</span>
                         </a>
                         <a href="{{ route('admin.publications.create') }}"
                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition">
-                            <span>➕</span>
+                            {{-- <span>➕</span> --}}
                             <span class="font-medium">Nouveau</span>
                         </a>
                     </div>
@@ -58,7 +69,7 @@
                         <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Rubriques</div>
                         <a href="{{ route('admin.rubriques.index') }}"
                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.rubriques.*') ? 'bg-white/20' : '' }}">
-                            <span>📂</span>
+                            {{-- <span>📂</span> --}}
                             <span class="font-medium">Gérer les rubriques</span>
                         </a>
                     </div>
@@ -70,7 +81,7 @@
                         <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
                         <a href="#"
                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition">
-                            <span>👥</span>
+                            {{-- <span>👥</span> --}}
                             <span class="font-medium">Utilisateurs</span>
                         </a>
                         {{-- <a href="#"
@@ -78,7 +89,59 @@
                             <span>⚙️</span>
                             <span class="font-medium">Paramètres</span>
                         </a> --}}
+                        <!-- Publicités -->
+                        @if(auth()->user()->isAdmin())
+                        <div class="mt-6">
+                            <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Publicités</div>
+                            <a href="{{ route('admin.advertisers.index') }}"
+                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.advertisers.*') ? 'bg-white/20' : '' }}">
+                                {{-- <span>🏢</span> --}}
+                                <span class="font-medium">Annonceurs</span>
+                            </a>
+                            <a href="#{{ route('admin.advertisements.index') }}"
+                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.advertisements.*') && !request()->routeIs('admin.advertisements.placements.*') ? 'bg-white/20' : '' }}">
+                                {{-- <span>📢</span> --}}
+                                <span class="font-medium">Campagnes</span>
+                            </a>
+                            <a href="#{{ route('admin.advertisements.placements.index') }}"
+                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.advertisements.placements.*') ? 'bg-white/20' : '' }}">
+                                {{-- <span>📐</span> --}}
+                                <span class="font-medium">Emplacements</span>
+                            </a>
+                        </div>
+                        @endif
                     </div>
+                    @endif
+
+
+                    @if(auth()->user()->isAdvertiser())
+                        <!-- Dashboard -->
+                        <a href="{{ route('advertiser.dashboard') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.dashboard') ? 'bg-white/20' : '' }}">
+                            {{-- <span>📊</span> --}}
+                            <span class="font-medium">Dashboard</span>
+                        </a>
+
+                        <!-- Dashboard -->
+                        <a href="{{ route('advertiser.profile.complete') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.profile.complete') ? 'bg-white/20' : '' }}">
+                            {{-- <span>📊</span> --}}
+                            <span class="font-medium">Mon profile</span>
+                        </a>
+
+                        <!-- Dashboard -->
+                        <a href="{{ route('advertiser.campaigns.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.campaigns.index') ? 'bg-white/20' : '' }}">
+                            {{-- <span>📊</span> --}}
+                            <span class="font-medium">Mes campagnes</span>
+                        </a>
+
+                        <!-- Dashboard -->
+                        {{-- <a href="{{ route('advertiser.dashboard') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.dashboard') ? 'bg-white/20' : '' }}">
+                            <span>📊</span>
+                            <span class="font-medium">Dashboard</span>
+                        </a> --}}
                     @endif
                 </nav>
             </div>
@@ -110,10 +173,10 @@
 
                 <div class="flex items-center gap-4">
                     <!-- Notifications -->
-                    <button class="relative p-2 hover:bg-gray-100 rounded-full">
+                    {{-- <button class="relative p-2 hover:bg-gray-100 rounded-full">
                         <span class="text-xl">🔔</span>
                         <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                    </button>
+                    </button> --}}
 
                     <!-- Voir le site -->
                     <a href="{{ route('home') }}"

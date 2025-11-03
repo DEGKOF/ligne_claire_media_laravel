@@ -4,10 +4,6 @@
 
 @section('content')
     <style>
-        ol, ul, menu {
-            all: revert;
-        }
-
         :root {
             --ink: #0e1116;
             --blue: #0B2B5A;
@@ -692,130 +688,91 @@
                 <button class="tab active" data-tab="overview">Présentation</button>
                 <button class="tab" data-tab="projects">Enquêtes en cours</button>
                 <button class="tab" data-tab="submit">Proposer une enquête</button>
-                {{-- <button class="tab" data-tab="how">Fonctionnement & rémunération</button> --}}
-                {{-- <button class="tab" data-tab="impact">Impact</button> --}}
+                <button class="tab" data-tab="how">Fonctionnement & rémunération</button>
+                <button class="tab" data-tab="impact">Impact</button>
             </div>
         </center>
     </div>
 
     <!-- Présentation -->
-<invoke name="artifacts">
-<parameter name="new_str">    <!-- Présentation -->
     <section id="overview" class="section active">
-        <div class="container">
-            <div class="panel" style="margin-bottom:20px">
-                <header>Notre mission</header>
+        <div class="container grid">
+            <div class="panel" style="grid-column:span 8">
+                <header>Objectif</header>
                 <div class="body">
-                    <h3 style="margin:0 0 12px;color:var(--blue);font-size:18px;font-weight:700">Révéler ce que d'autres cachent</h3>
-                    <p style="margin-bottom:12px;line-height:1.7">Dans un monde saturé par le désastre de la propagande, les fake news, la désinformation et les scandales étouffés, la frontière entre vérité et mensonge n'a jamais été aussi fragile. Dans un pays où une grande partie des médias défend les intérêts d'une minorité, où la surenchère autoritaire du pouvoir semble ne plus avoir de limites, il devient vital de protéger la liberté d'informer et de restaurer la confiance du public dans le journalisme.</p>
-                    <p style="margin-bottom:12px;font-style:italic;line-height:1.7">Parce qu'un peuple sans presse libre, c'est un peuple sans regard sur lui-même.</p>
-                    <p style="margin-bottom:12px;line-height:1.7">C'est dans cet esprit que nous avons créé <strong>LCM Investigation</strong> — un média numérique indépendant, animé par la conviction que <strong>la vérité ne se négocie pas</strong>.</p>
-                    <p style="line-height:1.7">Portée par une <strong>équipe soudée et passionnée</strong>, complétée par des <strong>journalistes reconnus pour leur intégrité et leur courage</strong>, <strong>LCM Investigation</strong> se consacre à <strong>l'enquête d'intérêt public</strong>, à <strong>l'analyse critique</strong> et à <strong>la révélation des faits que d'autres préfèrent taire</strong>.</p>
+                    <p>Faire de LCM + un acteur majeur de l'investigation numérique en Afrique francophone, avec une
+                        cellule dédiée à la <strong>recherche de vérité</strong> et à la <strong>transparence</strong>.</p>
                 </div>
             </div>
-
-            <div class="panel" style="margin-bottom:20px">
-                <header>Notre champ d'action</header>
+            <div class="panel" style="grid-column:span 4">
+                <header>KPIs</header>
                 <div class="body">
-                    <p style="margin-bottom:12px;line-height:1.7">Nos enquêtes s'étendent sur les grands enjeux de notre temps :</p>
-                    <ul style="margin:0 0 16px;padding-left:20px;line-height:1.9">
-                        <li>la <strong>corruption</strong> et les abus de pouvoir,</li>
-                        <li>la <strong>gouvernance</strong> et la transparence publique,</li>
-                        <li>l'<strong>écologie</strong> et la crise environnementale,</li>
-                        <li>l'<strong>économie</strong> et les inégalités,</li>
-                        <li>la <strong>justice</strong>, la <strong>santé</strong>, <strong>éducation</strong>, et les <strong>luttes sociales</strong>,</li>
-                        <li>mais aussi l'<strong>égalité des chances</strong>, l'<strong>innovation</strong>, la <strong>géopolitique</strong> et la <strong>culture</strong>.</li>
-                    </ul>
-                    <p style="line-height:1.7">Nous explorons ces thématiques à travers des <strong>reportages de terrain</strong>, des <strong>chroniques</strong>, des <strong>documentaires</strong>, des <strong>lives</strong> et des <strong>entretiens exclusifs</strong> — accessibles à tous sur nos plateformes numériques.</p>
-                </div>
-            </div>
-
-            <div class="panel" style="margin-bottom:20px">
-                <header>Notre ambition</header>
-                <div class="body">
-                    <p style="margin-bottom:12px;line-height:1.7">Faire de <strong>LCM Investigation</strong> un acteur majeur du <strong>journalisme d'impact</strong> en Afrique francophone. Nos enquêtes sont conçues non seulement pour informer, mais pour <strong>réveiller les consciences</strong>, <strong>stimuler le débat public</strong> et <strong>inciter à l'action collective</strong>.</p>
-                    <p style="margin-bottom:8px;font-style:italic;line-height:1.7">Parce qu'informer, c'est d'abord comprendre.</p>
-                    <p style="line-height:1.7">Et comprendre, c'est déjà commencer à agir.</p>
-                </div>
-            </div>
-
-            <div class="panel">
-                <header>Comment nous travaillons</header>
-                <div class="body">
-                    <p style="margin-bottom:16px;line-height:1.7">LCM Investigation repose sur un modèle <strong>collaboratif et numérique</strong>, associant journalistes permanents, pigistes, collectifs indépendants et citoyens enquêteurs.</p>
-
-                    <ol style="margin:0;padding-left:20px;line-height:1.8">
-                        <li style="margin-bottom:14px">
-                            <strong>Proposition d'enquête</strong><br>
-                            <span style="color:var(--muted);font-size:15px">Journalistes internes, pigistes ou partenaires peuvent soumettre un projet d'enquête.</span>
-                        </li>
-                        <li style="margin-bottom:14px">
-                            <strong>Validation éditoriale</strong><br>
-                            <span style="color:var(--muted);font-size:15px">La direction éditoriale évalue chaque sujet selon son <strong>intérêt public</strong>, sa <strong>pertinence</strong> et sa <strong>faisabilité</strong>.</span>
-                        </li>
-                        <li style="margin-bottom:14px">
-                            <strong>Enquête de terrain et vérification</strong><br>
-                            <span style="color:var(--muted);font-size:15px">Collecte de preuves, recoupement des sources, travail de terrain et d'analyse documentaire.</span>
-                        </li>
-                        <li style="margin-bottom:14px">
-                            <strong>Production multimédia</strong><br>
-                            <span style="color:var(--muted);font-size:15px">Chaque enquête est publiée sous plusieurs formats : <strong>article long</strong>, <strong>vidéo</strong>, <strong>podcast</strong>, <strong>infographie</strong>, <strong>fil social</strong>.</span>
-                        </li>
-                        <li>
-                            <strong>Diffusion & impact</strong><br>
-                            <span style="color:var(--muted);font-size:15px">Les enquêtes validées sont diffusées sur <strong>LCM+</strong>, les <strong>réseaux sociaux</strong> et nos <strong>partenaires médias</strong>.</span>
-                        </li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="panel" style="margin-top:20px">
-                <header>Nos valeurs</header>
-                <div class="body">
-                    <ul style="margin:0 0 20px;padding-left:20px;line-height:1.8">
-                        <li style="margin-bottom:10px">
-                            <strong>Indépendance absolue</strong> : aucune influence politique, commerciale ou institutionnelle.
-                        </li>
-                        <li style="margin-bottom:10px">
-                            <strong>Rigueur et vérification</strong> : chaque information publiée est recoupée, sourcée et validée.
-                        </li>
-                        <li style="margin-bottom:10px">
-                            <strong>Protection des sources</strong> : confidentialité totale garantie par LCM+.
-                        </li>
-                        <li>
-                            <strong>Journalisme d'impact</strong> : nos enquêtes ne s'arrêtent pas à la publication — elles cherchent à changer les choses.
-                        </li>
-                    </ul>
-
-                    <div style="margin:24px 0;padding:20px;background:var(--sky);border-left:5px solid var(--blue-3);border-radius:8px">
-                        <p style="margin:0 0 6px;font-weight:700;font-size:16px;color:var(--blue)">Nous ne faisons pas du bruit.</p>
-                        <p style="margin:0;font-weight:700;font-size:16px;color:var(--blue)">Nous faisons la lumière.</p>
-                    </div>
-
-                    <div style="margin-top:30px;text-align:center">
-                        <p style="font-weight:900;font-size:20px;color:var(--blue);margin-bottom:6px">LCM Investigation</p>
-                        <p style="font-style:italic;color:var(--muted);margin-bottom:18px;font-size:15px">Enquêter, révéler, comprendre.</p>
-                        <p style="color:var(--muted);margin-bottom:6px;line-height:1.7">Notre équipe et nos partenaires indépendants travaillent chaque jour pour faire émerger la vérité.</p>
-                        <p style="color:var(--muted);margin-bottom:20px;line-height:1.8">
-                            ✓ Découvrez nos enquêtes exclusives.<br>
-                            ✓ Soutenez celles qui comptent.
-                        </p>
-                        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
-                            <button class="btn primary" onclick="document.querySelector('[data-tab=projects]').click()">Explorer les enquêtes</button>
-                            <button class="btn secondary" onclick="document.querySelector('[data-tab=submit]').click()">Proposer une enquête</button>
+                    <div class="kpis" style="grid-template-columns:1fr 1fr">
+                        <div class="kpi">
+                            <div class="v" id="kpi_projects">{{ $totalProposals }}</div>
+                            <div class="legend">Enquêtes</div>
+                        </div>
+                        <div class="kpi">
+                            <div class="v" id="kpi_supporters">{{ $totalSupporters }}</div>
+                            <div class="legend">Soutiens</div>
+                        </div>
+                        <div class="kpi">
+                            <div class="v" id="kpi_funds">{{ number_format($totalFunds, 0, ',', ' ') }} FCFA</div>
+                            <div class="legend">Fonds levés</div>
+                        </div>
+                        <div class="kpi">
+                            <div class="v" id="kpi_impact">{{ $totalImpact }}</div>
+                            <div class="legend">Impact</div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="panel" style="grid-column:span 12">
+                <header>📚 Thèmes prioritaires</header>
+                <div class="body">
+                    <div class="badges">
+                        <span class="pill">Corruption</span>
+                        <span class="pill">Environnement</span>
+                        <span class="pill">Santé publique</span>
+                        <span class="pill">Droits humains</span>
+                        <span class="pill">Économie souterraine</span>
+                        <span class="pill">Politique</span>
+                        <span class="pill">Technologie</span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel" style="grid-column:span 6">
+                <header>🔒 Principes éditoriaux</header>
+                <div class="body">
+                    <ul style="margin:0;padding-left:18px">
+                        <li>Vérification systématique des sources</li>
+                        <li>Respect du droit de réponse</li>
+                        <li>Protection des lanceurs d'alerte et témoins</li>
+                        <li>Transparence sur la méthode et les limites</li>
+                        <li>Indépendance éditoriale totale</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel" style="grid-column:span 6">
+                <header>📝 Formats disponibles</header>
+                <div class="body">
+                    <ul style="margin:0;padding-left:18px">
+                        <li><strong>Article long</strong> (3000-8000 mots)</li>
+                        <li><strong>Vidéo</strong> (reportage, interview, data viz)</li>
+                        <li><strong>Podcast</strong> (enquête audio narrative)</li>
+                        <li><strong>Infographie</strong> (data journalism)</li>
+                        <li><strong>Série multimédia</strong> (combinaison formats)</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
-</parameter>
 
     <!-- Enquêtes en cours -->
     <section id="projects" class="section">
         <div class="container">
             <div class="panel">
-                <header>Enquêtes en cours de validation ou d'investigation</header>
+                <header>🔎 Enquêtes en cours de validation ou d'investigation</header>
                 <div class="body">
                     <div class="pro grid" id="projectGrid">
                         @forelse($proposals as $proposal)
@@ -880,7 +837,7 @@
     <section id="submit" class="section">
         <div class="container">
             <div class="panel">
-                <header>Proposer une enquête</header>
+                <header>✍️ Proposer une enquête</header>
                 <div class="body">
                     <form id="proposalForm" class="form" method="POST" action="{{ route('investigation.submit') }}">
                         @csrf
@@ -980,7 +937,7 @@
                             </div>
                         </div>
                         <div class="actions" style="grid-column:span 2">
-                            <button type="button" class="btn ghost" id="btnDraft">Enregistrer le brouillon</button>
+                            <button type="button" class="btn ghost" id="btnDraft">💾 Enregistrer le brouillon</button>
                             <button type="submit" class="btn primary">Envoyer la proposition</button>
                         </div>
                     </form>
@@ -988,7 +945,7 @@
             </div>
 
             <div class="panel" style="margin-top:20px">
-                <header>Mes propositions</header>
+                <header>📋 Mes propositions</header>
                 <div class="body">
                     <div class="list" id="proposalList">
                         <p class="legend">Connectez-vous ou entrez votre email ci-dessus pour voir vos propositions.</p>
@@ -999,10 +956,10 @@
     </section>
 
     <!-- Fonctionnement -->
-    {{-- <section id="how" class="section">
+    <section id="how" class="section">
         <div class="container grid">
             <div class="panel" style="grid-column:span 6">
-                <header>Comment ça marche</header>
+                <header>⚙️ Comment ça marche</header>
                 <div class="body">
                     <ol style="margin:0;padding-left:18px">
                         <li><strong>Proposition :</strong> Remplissez le formulaire avec votre sujet</li>
@@ -1016,7 +973,7 @@
                 </div>
             </div>
             <div class="panel" style="grid-column:span 6">
-                <header>Rémunération</header>
+                <header>💰 Rémunération</header>
                 <div class="body">
                     <ul style="margin:0;padding-left:18px">
                         <li><strong>Pigistes externes :</strong> Tarif négocié selon le projet
@@ -1028,7 +985,7 @@
                 </div>
             </div>
             <div class="panel" style="grid-column:span 12">
-                <header>Protection des sources</header>
+                <header>🛡️ Protection des sources</header>
                 <div class="body">
                     <p>LCM + garantit la <strong>protection absolue</strong> des lanceurs d'alerte et des sources
                         anonymes. Canal sécurisé disponible : <strong>signal@lcmpress.africa</strong> (Signal, ProtonMail).
@@ -1036,7 +993,7 @@
                 </div>
             </div>
         </div>
-    </section> --}}
+    </section>
 
     <!-- Impact -->
     <section id="impact" class="section">
