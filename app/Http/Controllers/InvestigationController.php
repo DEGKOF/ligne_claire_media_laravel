@@ -48,7 +48,12 @@ class InvestigationController extends Controller
 
         // Récupérer toutes les propositions
         $proposals = InvestigationProposal::with('user')
-            ->whereIn('status', ['pending', 'validated', 'in_progress', 'completed'])
+            ->whereIn('status', [
+            // 'pending',
+            'validated',
+            'in_progress',
+            'completed'
+            ])
             ->latest()
             ->get();
 

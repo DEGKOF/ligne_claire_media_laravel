@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link rel="stylesheet" href="{{ asset('css/advertisements.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/advertisements.css') }}"> --}}
     <script src="{{ asset('js/ad-manager.js') }}"></script>
 
     <!-- Styles pour les popups flash -->
@@ -281,7 +281,7 @@
                 <hr class="my-2 border-gray-200">
 
                     <!-- Avec fallback -->
-                    <x-ad-slot position="popup">
+                    <x-ad-slot position="popup"  :rotation="true" :interval="15000">
                         <x-slot name="fallback">
                             <div class="text-center p-4">
                                 <p>Votre publicité ici</p>

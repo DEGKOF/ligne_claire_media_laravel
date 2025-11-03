@@ -78,7 +78,7 @@
                         @foreach($placements as $placement)
                             <option value="{{ $placement->id }}"
                                     {{ old('placement_id', $campaign->placement_id) == $placement->id ? 'selected' : '' }}>
-                                {{ $placement->name }} - {{ number_format($placement->price_per_day, 0, ',', ' ') }} FCFA/jour
+                                {{ $placement->name }} - {{ $placement->price_format }}
                             </option>
                         @endforeach
                     </select>
@@ -112,65 +112,95 @@
                                    class="mr-2">
                             <span>Vidéo</span>
                         </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="content_type" value="html"
-                                   {{ old('content_type', $campaign->content_type) === 'html' ? 'checked' : '' }}
-                                   class="mr-2">
-                            <span>HTML</span>
-                        </label>
                     </div>
                     @error('content_type')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Image actuelle -->
-                @if($campaign->image_url)
-                    <div id="current-image">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Image actuelle</label>
-                        <div class="border border-gray-200 rounded-lg overflow-hidden max-w-md">
-                            <img src="{{ $campaign->image_url }}" alt="Image actuelle" class="w-full">
+                <!-- IMAGE SECTION -->
+                <div id="content-image" style="display:none;">
+                    <!-- Image actuelle -->
+                    @if($campaign->image_url)
+                        <div id="current-image" class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Image actuelle</label>
+                            <div class="border border-gray-200 rounded-lg overflow-hidden max-w-md">
+                                <img src="{{ $campaign->image_url }}" alt="Image actuelle" class="w-full">
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Upload image -->
+                    <div>
+                        <label for="image" class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ $campaign->image_url ? 'Remplacer l\'image' : 'Image' }}
+                            @if(!$campaign->image_url) <span class="text-red-500">*</span> @endif
+                        </label>
+                        <input type="file" name="image" id="image" accept="image/jpeg,image/png,image/gif"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('image') border-red-500 @enderror">
+                        <p class="mt-1 text-xs text-gray-500">JPG, PNG ou GIF. Max 2 Mo</p>
+                        @error('image')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- VIDEO SECTION -->
+                <div id="content-video" style="display:none;">
+                    <!-- Vidéo actuelle -->
+                    @if($campaign->video_url || $campaign->video_path)
+                        <div class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <p class="text-sm font-medium text-gray-700 mb-1">Vidéo actuelle :</p>
+                            @if($campaign->video_path)
+                                <p class="text-sm text-gray-600">📁 Fichier uploadé</p>
+                            @else
+                                <p class="text-sm text-gray-600">🔗 {{ $campaign->video_url }}</p>
+                            @endif
+                        </div>
+                    @endif
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Choisir le type de vidéo</label>
+                            <div class="flex gap-4 mb-4">
+                                <label class="flex items-center">
+                                    <input type="radio" name="video_type" value="url"
+                                           {{ old('video_type', $campaign->video_path ? 'file' : 'url') === 'url' ? 'checked' : '' }}
+                                           class="mr-2">
+                                    <span class="text-sm">Lien YouTube/Vimeo</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="video_type" value="file"
+                                           {{ old('video_type', $campaign->video_path ? 'file' : 'url') === 'file' ? 'checked' : '' }}
+                                           class="mr-2">
+                                    <span class="text-sm">Fichier vidéo</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="video-url-input" style="display:none;">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">URL de la vidéo</label>
+                            <input type="url" name="video_url" value="{{ old('video_url', $campaign->video_url) }}"
+                                   placeholder="https://www.youtube.com/watch?v=..."
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <p class="text-xs text-gray-500 mt-1">YouTube, Vimeo, etc.</p>
+                            @error('video_url')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div id="video-file-input" style="display:none;">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                {{ $campaign->video_path ? 'Remplacer le fichier vidéo' : 'Fichier vidéo' }}
+                            </label>
+                            <input type="file" name="video_file" accept="video/mp4,video/webm,video/ogg"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <p class="text-xs text-gray-500 mt-1">Formats : MP4, WebM (max 50MB)</p>
+                            @error('video_file')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
-                @endif
-
-                <!-- Upload image -->
-                <div id="image-upload">
-                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ $campaign->image_url ? 'Remplacer l\'image' : 'Image' }}
-                        @if(!$campaign->image_url) <span class="text-red-500">*</span> @endif
-                    </label>
-                    <input type="file" name="image" id="image" accept="image/jpeg,image/png,image/gif"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('image') border-red-500 @enderror">
-                    <p class="mt-1 text-xs text-gray-500">JPG, PNG ou GIF. Max 2 Mo</p>
-                    @error('image')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- URL vidéo -->
-                <div id="video-upload" style="display: none;">
-                    <label for="video_url" class="block text-sm font-medium text-gray-700 mb-1">
-                        URL de la vidéo <span class="text-red-500">*</span>
-                    </label>
-                    <input type="url" name="video_url" id="video_url" value="{{ old('video_url', $campaign->video_url) }}"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('video_url') border-red-500 @enderror"
-                           placeholder="https://...">
-                    @error('video_url')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- HTML -->
-                <div id="html-upload" style="display: none;">
-                    <label for="html_content" class="block text-sm font-medium text-gray-700 mb-1">
-                        Code HTML <span class="text-red-500">*</span>
-                    </label>
-                    <textarea name="html_content" id="html_content" rows="6"
-                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm @error('html_content') border-red-500 @enderror">{{ old('html_content', $campaign->html_content) }}</textarea>
-                    @error('html_content')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
                 </div>
 
                 <!-- Titre -->
@@ -189,7 +219,7 @@
                 <!-- Légende -->
                 <div>
                     <label for="caption" class="block text-sm font-medium text-gray-700 mb-1">
-                        Légende
+                        Description courte
                     </label>
                     <textarea name="caption" id="caption" rows="2"
                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('caption') border-red-500 @enderror">{{ old('caption', $campaign->caption) }}</textarea>
@@ -299,7 +329,7 @@
 
         <!-- Ciblage -->
         <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-xl font-semibold text-gray-900 mb-4">Ciblage (optionnel)</h2>
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Ciblage <span class="text-sm font-normal text-gray-500">(optionnel)</span></h2>
 
             <div class="space-y-4">
                 <!-- Appareils -->
@@ -388,37 +418,50 @@
 
 </div>
 
+@push('scripts')
 <script>
 // Gestion du type de contenu
 document.querySelectorAll('input[name="content_type"]').forEach(radio => {
     radio.addEventListener('change', function() {
-        const imageUpload = document.getElementById('image-upload');
-        const currentImage = document.getElementById('current-image');
-        const videoUpload = document.getElementById('video-upload');
-        const htmlUpload = document.getElementById('html-upload');
+        document.getElementById('content-image').style.display = 'none';
+        document.getElementById('content-video').style.display = 'none';
 
-        imageUpload.style.display = 'none';
-        if(currentImage) currentImage.style.display = 'none';
-        videoUpload.style.display = 'none';
-        htmlUpload.style.display = 'none';
+        document.getElementById('content-' + this.value).style.display = 'block';
+    });
+});
 
-        if(this.value === 'image') {
-            imageUpload.style.display = 'block';
-            if(currentImage) currentImage.style.display = 'block';
-        } else if(this.value === 'video') {
-            videoUpload.style.display = 'block';
-        } else if(this.value === 'html') {
-            htmlUpload.style.display = 'block';
+// Gestion du type de vidéo
+document.querySelectorAll('input[name="video_type"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const urlInput = document.getElementById('video-url-input');
+        const fileInput = document.getElementById('video-file-input');
+
+        if (this.value === 'url') {
+            urlInput.style.display = 'block';
+            fileInput.style.display = 'none';
+            fileInput.querySelector('input').value = '';
+        } else {
+            urlInput.style.display = 'none';
+            fileInput.style.display = 'block';
+            urlInput.querySelector('input').value = '';
         }
     });
 });
 
 // Initialiser l'affichage au chargement
 document.addEventListener('DOMContentLoaded', function() {
-    const checkedRadio = document.querySelector('input[name="content_type"]:checked');
-    if(checkedRadio) {
-        checkedRadio.dispatchEvent(new Event('change'));
+    // Afficher la section selon le type de contenu
+    const checkedContentType = document.querySelector('input[name="content_type"]:checked');
+    if(checkedContentType) {
+        checkedContentType.dispatchEvent(new Event('change'));
+    }
+
+    // Afficher le bon input vidéo
+    const checkedVideoType = document.querySelector('input[name="video_type"]:checked');
+    if(checkedVideoType) {
+        checkedVideoType.dispatchEvent(new Event('change'));
     }
 });
 </script>
+@endpush
 @endsection

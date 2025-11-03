@@ -16,6 +16,46 @@ Rubrique Crypto, Emplois, Faits divers  => done
 
 5 Rubriques dans le menu central en plus des 2 premiers => done
 
+
+
+
+-Logo du site => Done
+-revoir les marchés(accueil) => Done
+-revoir la liste des menus à la gauche de la liste des rubriques(Pole Communauté, Pole Investigation, Pole Temoins) => Compte utilisateur avec dashboard => Done
+
+-Menu: Benin, Afrique, Internationnal, Sous region => Done
+-Possiblité de choisir le nombre d'exemplaire à acheter => Done
+
+
+-Retirer les emojis des nouvelles pages => Done
+-Revoir "mes envois" dans temoignages => Done
+-Background des sections => Done
+
+-Responsive
+-Ajouter le menu dans la barre latérale: Soutenir le media / Devenir membre du media => Done
+-Revoir les fonds(Background) => Done
+-Devenir Membre après soutenir et changer la couleur => Done
+
+
+
+
+
+----------------------------------
+----------------------------------
+----------------------------------
+
+Validation des temoignages avant affichage frontend, => In progress
+
+Correction de la page community 
+
+Partie Boutique et affichage des pubs dans d'autres sections frontend,
+
+Convertion du fichier du journal en code avec conception de son backend,
+
+Integration du moyen de paiement.
+
+
+
 pour le journal
 
 TItre: Ligne claire News(en noir)
@@ -25,33 +65,8 @@ Pour les images correspondates, voir telegram: date du 09-Oct-2025
 
 
 
--Logo du site
--revoir les marchés(accueil)
--revoir la liste des menus à la gauche de la liste des rubriques(Pole Communauté, Pole Investigation, Pole Temoins) => Compte utilisateur avec dashboard
-
--Menu: Benin, Afrique, Internationnal, Sous region
--Possiblité de choisir le nombre d'exemplaire à acheter
 
 
--Responsive
--Retirer les emojis des nouvelles pages => Done
--Revoir "mes envois" dans temoignages => Done
--Ajouter le menu dans la barre latérale: Soutenir le media / Devenir membre du media
--Background des sections => Done
--Revoir les fonds
--Devenir Membre après soutenir et changer la couleur
-
-----------------------------------
-----------------------------------
-----------------------------------
-
-Validation des temoignages avant affichage frontend,
-
-Partie Boutique et affichage des pubs dans d'autres sections frontend,
-
-Convertion du fichier du journal en code avec conception de son backend,
-
-Integration du moyen de paiement.
 
 #############
 PUB process

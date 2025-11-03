@@ -14,47 +14,55 @@ class AdDisplayService
      */
     public function getAdForPlacement(string $placementCode, array $context = []): ?Advertisement
     {
+        // Bypass cache si rotation
+        if (isset($context['no_cache']) && $context['no_cache']) {
+            return $this->fetchAd($placementCode, $context);
+        }
+
         $cacheKey = "ad_placement_{$placementCode}_" . md5(json_encode($context));
 
-        return Cache::remember($cacheKey, now()->addMinutes(5), function () use ($placementCode, $context) {
-            $placement = AdvertisementPlacement::where('code', $placementCode)
-                ->active()
-                ->first();
-
-            if (!$placement) {
-                return null;
-            }
-
-            // Enrichir le contexte
-            $context = $this->enrichContext($context, $placement);
-
-            // Récupérer les pubs éligibles
-            $query = Advertisement::active()
-                ->forPlacement($placementCode)
-                ->withinBudget();
-
-            // Appliquer les filtres de ciblage
-            if (isset($context['page'])) {
-                $query->forPage($context['page']);
-            }
-
-            if (isset($context['device'])) {
-                $query->forDevice($context['device']);
-            }
-
-            // Récupérer et filtrer par ciblage avancé
-            $ads = $query->orderByDesc('priority')
-                ->orderByDesc('budget')
-                ->get()
-                ->filter(function ($ad) use ($context) {
-                    return $ad->canDisplay() && $ad->matchesTargeting($context);
-                });
-
-            // Rotation aléatoire pondérée par priorité
-            return $this->selectAdWithRotation($ads);
+        return Cache::remember($cacheKey, now()->addMinutes(1), function () use ($placementCode, $context) {
+            return $this->fetchAd($placementCode, $context);
         });
     }
+    private function fetchAd(string $placementCode, array $context): ?Advertisement
+    {
+        $placement = AdvertisementPlacement::where('code', $placementCode)
+            ->active()
+            ->first();
 
+        if (!$placement) {
+            return null;
+        }
+
+        $context = $this->enrichContext($context, $placement);
+
+        $query = Advertisement::active()
+            ->forPlacement($placementCode)
+            ->withinBudget();
+
+        // Exclure les IDs déjà vus (pour rotation)
+        if (isset($context['exclude_ids']) && !empty($context['exclude_ids'])) {
+            $query->whereNotIn('id', $context['exclude_ids']);
+        }
+
+        if (isset($context['page'])) {
+            $query->forPage($context['page']);
+        }
+
+        if (isset($context['device'])) {
+            $query->forDevice($context['device']);
+        }
+
+        $ads = $query->orderByDesc('priority')
+            ->orderByDesc('budget')
+            ->get()
+            ->filter(function ($ad) use ($context) {
+                return $ad->canDisplay() && $ad->matchesTargeting($context);
+            });
+
+        return $this->selectAdWithRotation($ads);
+    }
     /**
      * Enrichir le contexte avec des données de la requête
      */
@@ -115,14 +123,39 @@ class AdDisplayService
     /**
      * Enregistrer une impression
      */
+    // public function recordImpression(Advertisement $ad): void
+    // {
+    //     $agent = new Agent();
+
+    //     $ad->recordImpression([
+    //         'device_type' => $agent->isMobile() ? 'mobile' : 'desktop',
+    //         'browser' => $agent->browser(),
+    //         'os' => $agent->platform(),
+    //     ]);
+    // }
+
+    // Dans AdDisplayService
     public function recordImpression(Advertisement $ad): void
     {
         $agent = new Agent();
 
+        // Clé unique par utilisateur/session + pub
+        $sessionKey = session()->getId();
+        $cacheKey = "impression_{$ad->id}_{$sessionKey}";
+
+        // Si déjà vue dans les 5 dernières minutes, ne pas compter
+        if (Cache::has($cacheKey)) {
+            return;
+        }
+
+        // Enregistrer l'impression
         $ad->recordImpression([
             'device_type' => $agent->isMobile() ? 'mobile' : 'desktop',
             'browser' => $agent->browser(),
             'os' => $agent->platform(),
         ]);
+
+        // Marquer comme vue pour 5 minutes
+        Cache::put($cacheKey, true, now()->addMinutes(1));
     }
 }

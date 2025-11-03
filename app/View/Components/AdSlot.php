@@ -9,20 +9,22 @@ class AdSlot extends Component
 {
     public $ad;
     public $position;
-    public $fallback;
+    public $rotation;
+    public $interval;
 
     public function __construct(
         string $position,
-        ?string $fallback = null,
-        array $context = []
+        array $context = [],
+        bool $rotation = false,
+        int $interval = 15000
     ) {
         $this->position = $position;
-        $this->fallback = $fallback;
+        $this->rotation = $rotation;
+        $this->interval = $interval;
 
         $service = app(AdDisplayService::class);
         $this->ad = $service->getAdForPlacement($position, $context);
 
-        // Enregistrer l'impression si pub trouvée
         if ($this->ad) {
             $service->recordImpression($this->ad);
         }

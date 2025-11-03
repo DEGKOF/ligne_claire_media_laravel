@@ -28,7 +28,7 @@ class AdvertiserController extends Controller
         }
 
         $profile = $user->advertiserProfile;
-// dd($profile);
+        // dd($profile);
         // Stats
         $stats = [
             'total_campaigns' => $user->advertisements()->count(),
@@ -189,6 +189,11 @@ class AdvertiserController extends Controller
             'target_rubriques' => 'nullable|array',
             'target_pages' => 'nullable|array',
             'target_devices' => 'nullable|array',
+            // 'video_url' => 'nullable|url',
+            // 'video_file' => 'nullable|file|mimes:mp4,webm,ogg|max:51200', // 50MB
+
+            'video_url' => 'nullable|required_without:video_file|url',
+            'video_file' => 'nullable|required_without:video_url|file|mimes:mp4,webm,ogg|max:51200',
         ]);
 
         $validated['advertiser_id'] = auth()->id();
@@ -198,6 +203,15 @@ class AdvertiserController extends Controller
         if ($request->hasFile('image')) {
             $validated['image_path'] = $request->file('image')
                 ->store('advertisements', 'public');
+        }
+
+        // Upload vidéo - LOGIQUE EXCLUSIVE
+        if ($request->hasFile('video_file')) {
+            $validated['video_path'] = $request->file('video_file')
+                ->store('advertisements/videos', 'public');
+            $validated['video_url'] = null; // Annuler l'URL si fichier fourni
+        } elseif ($request->filled('video_url')) {
+            $validated['video_path'] = null; // Pas de fichier si URL
         }
 
         $campaign = Advertisement::create($validated);
@@ -249,6 +263,8 @@ class AdvertiserController extends Controller
             'target_rubriques' => 'nullable|array',
             'target_pages' => 'nullable|array',
             'target_devices' => 'nullable|array',
+            'video_url' => 'nullable|url',
+            'video_file' => 'nullable|file|mimes:mp4,webm,ogg|max:51200',
         ]);
 
         // Upload image
@@ -258,6 +274,22 @@ class AdvertiserController extends Controller
             }
             $validated['image_path'] = $request->file('image')
                 ->store('advertisements', 'public');
+        }
+
+        // Upload vidéo
+        if ($request->hasFile('video_file')) {
+            if ($campaign->video_path) {
+                Storage::disk('public')->delete($campaign->video_path);
+            }
+            $validated['video_path'] = $request->file('video_file')
+                ->store('advertisements/videos', 'public');
+            $validated['video_url'] = null;
+        } elseif ($request->filled('video_url')) {
+            // Si URL fournie, effacer le fichier existant
+            if ($campaign->video_path) {
+                Storage::disk('public')->delete($campaign->video_path);
+            }
+            $validated['video_path'] = null;
         }
 
         $campaign->update($validated);

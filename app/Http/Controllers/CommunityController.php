@@ -20,13 +20,14 @@ class CommunityController extends Controller
         $breakingNews = Publication::published()
             ->breaking()
             ->latest('published_at')
-            ->take(5)
+            // ->take(5)
             ->get();
             // 'breakingNews',
 
         $submissions = CommunitySubmission::with('user')
             // ->published()
-            // ->latest('published_at')
+            ->where('status', 'validated')
+            ->latest('published_at')
             ->paginate(12);
 
             // dd($submissions);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Issue;
 use App\Models\Order;
+use App\Models\Publication;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
@@ -24,7 +25,15 @@ class ShopController extends Controller
             ->orderBy('published_at', 'desc')
             ->paginate(12);
 
-        return view('shop.index', compact('currentIssue', 'issues'));
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            // ->take(5)
+            ->get();
+            // 'breakingNews',
+            // use App\Models\Publication;
+
+        return view('shop.index', compact('currentIssue', 'issues','breakingNews'));
     }
 
     /**
@@ -57,7 +66,15 @@ class ShopController extends Controller
             ->latest('published_at')
             ->first();
 
-        return view('shop.index', compact('currentIssue', 'issues'));
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            // ->take(5)
+            ->get();
+            // 'breakingNews',
+            // use App\Models\Publication;
+
+        return view('shop.index', compact('currentIssue', 'issues', 'breakingNews'));
     }
 
     /**
@@ -67,7 +84,15 @@ class ShopController extends Controller
     {
         $issue = Issue::findOrFail($id);
 
-        return view('shop.show', compact('issue'));
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            // ->take(5)
+            ->get();
+            // 'breakingNews',
+            // use App\Models\Publication;
+
+        return view('shop.show', compact('issue', 'breakingNews'));
     }
 
     /**
@@ -78,7 +103,15 @@ class ShopController extends Controller
         $issue = Issue::findOrFail($id);
         $format = 'digital'; // Version numérique uniquement
 
-        return view('shop.purchase', compact('issue', 'format'));
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            // ->take(5)
+            ->get();
+            // 'breakingNews',
+            // use App\Models\Publication;
+            
+        return view('shop.purchase', compact('issue', 'format', 'breakingNews'));
     }
 
     /**

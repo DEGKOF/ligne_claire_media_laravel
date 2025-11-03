@@ -10,22 +10,57 @@
     };
 
     $isPopup = $position === 'popup';
+
+    // Gestion vidéo
+    $videoSrc = null;
+    $isLocalVideo = false;
+
+    if (isset($ad->video_path)) {
+        // Fichier local uploadé
+        $isLocalVideo = true;
+        $videoSrc = Storage::url($ad->video_path);
+    } elseif (isset($ad->video_url)) {
+        // URL externe (YouTube, Vimeo)
+        $embedUrl = $ad->video_url;
+
+        // YouTube standard
+        if (preg_match('/youtube\.com\/watch\?v=([^&]+)/', $embedUrl, $matches)) {
+            $videoSrc = "https://www.youtube.com/embed/{$matches[1]}";
+        }
+        // YouTube court
+        elseif (preg_match('/youtu\.be\/([^?]+)/', $embedUrl, $matches)) {
+            $videoSrc = "https://www.youtube.com/embed/{$matches[1]}";
+        }
+        // Vimeo
+        elseif (preg_match('/vimeo\.com\/(\d+)/', $embedUrl, $matches)) {
+            $videoSrc = "https://player.vimeo.com/video/{$matches[1]}";
+        }
+        // Si déjà au format embed
+        else {
+            $videoSrc = $embedUrl;
+        }
+    }
 @endphp
 
 @if($ad)
+    {{-- <div class="advertisement-container {{ $containerClasses }} relative group"
+         data-ad-id="{{ $ad->id }}"
+         data-position="{{ $position }}"> --}}
     <div class="advertisement-container {{ $containerClasses }} relative group"
          data-ad-id="{{ $ad->id }}"
-         data-position="{{ $position }}">
+         data-position="{{ $position }}"
+         data-rotation="{{ $rotation ?? 'false' }}"
+         data-interval="{{ $interval ?? 30000 }}">
 
         <!-- Badge "Publicité" -->
-        <div class="flex items-center justify-between mb-2">
+        {{-- <div class="flex items-center justify-between mb-2">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-gray-100 to-gray-50 border border-gray-200 rounded-full text-[10px] font-semibold text-gray-500 uppercase tracking-wider shadow-sm">
                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM9 9a1 1 0 012 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z"/>
                 </svg>
                 Sponsorisé
             </span>
-        </div>
+        </div> --}}
 
         <!-- Conteneur principal avec effet -->
         <div class="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white border border-gray-100 {{ $isPopup ? 'animate-fade-in' : '' }}">
@@ -46,7 +81,7 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                         <!-- Badge CTA flottant -->
-                        @if($ad->cta_text)
+                        {{-- @if($ad->cta_text)
                             <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                                 <span class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full text-sm font-bold text-gray-900 shadow-lg">
                                     {{ $ad->cta_text }}
@@ -55,7 +90,7 @@
                                     </svg>
                                 </span>
                             </div>
-                        @endif
+                        @endif --}}
                     </div>
 
                     <!-- Texte de la publicité -->
@@ -83,50 +118,54 @@
                     @endif
                 </a>
 
-            @elseif($ad->content_type === 'video')
-                <div class="video-ad-container">
-                    <!-- Conteneur vidéo responsive -->
-                    <div class="relative pb-[56.25%] bg-gray-900">
-                        <iframe src="{{ $ad->video_url }}"
-                                frameborder="0"
-                                allowfullscreen
-                                class="absolute inset-0 w-full h-full"></iframe>
-                    </div>
 
-                    <!-- Zone de contenu -->
-                    <div class="p-5 bg-gradient-to-b from-white to-gray-50">
-                        @if($ad->headline)
-                            <h3 class="font-bold text-lg text-gray-900 mb-2">
-                                {{ $ad->headline }}
-                            </h3>
-                        @endif
-                        @if($ad->caption)
-                            <p class="text-sm text-gray-600 mb-4">
-                                {{ $ad->caption }}
-                            </p>
-                        @endif
-
-                        <!-- Bouton CTA -->
-                        <a href="{{ route('ad.track.click', $ad->id) }}"
-                           target="{{ $ad->open_new_tab ? '_blank' : '_self' }}"
-                           class="inline-flex items-center gap-2 w-full justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
-                            <span>{{ $ad->cta_text ?? 'En savoir plus' }}</span>
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-            @elseif($ad->content_type === 'html')
-                <div class="html-ad-container p-5 bg-white">
-                    {!! $ad->html_content !!}
-                    <a href="{{ route('ad.track.click', $ad->id) }}"
-                       target="{{ $ad->open_new_tab ? '_blank' : '_self' }}"
-                       style="display: none;"
-                       aria-hidden="true">Track</a>
-                </div>
+<!-- Dans la section video -->
+@elseif($ad->content_type === 'video' && $videoSrc)
+    <div class="video-ad-container">
+        <div class="relative pb-[56.25%] bg-gray-900">
+            @if($isLocalVideo)
+                {{-- Vidéo locale avec autoplay et mute --}}
+                <video
+                    controls
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    class="absolute inset-0 w-full h-full">
+                    <source src="{{ $videoSrc }}" type="video/mp4">
+                    Votre navigateur ne supporte pas la vidéo.
+                </video>
+            @else
+                {{-- Vidéo embarquée avec autoplay et mute --}}
+                <iframe src="{{ $videoSrc }}?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        class="absolute inset-0 w-full h-full"></iframe>
             @endif
+        </div>
+
+        <!-- Zone de contenu -->
+        <div class="p-5 bg-gradient-to-b from-white to-gray-50">
+            @if($ad->headline)
+                <h3 class="font-bold text-lg text-gray-900 mb-2">{{ $ad->headline }}</h3>
+            @endif
+            @if($ad->caption)
+                <p class="text-sm text-gray-600 mb-4">{{ $ad->caption }}</p>
+            @endif
+
+            <a href="{{ route('ad.track.click', $ad->id) }}"
+               target="{{ $ad->open_new_tab ? '_blank' : '_self' }}"
+               class="inline-flex items-center gap-2 w-full justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                <span>{{ $ad->cta_text ?? 'En savoir plus' }}</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+@endif
 
             <!-- Effet de bordure animé -->
             <div class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-blue-400/50 transition-all duration-300 pointer-events-none"></div>
@@ -141,7 +180,8 @@
         </div>
     </div>
 
-@elseif($fallback)
+    {{-- @elseif($fallback) --}}
+@elseif(isset($fallback))  {{-- Vérifier si le slot existe --}}
     <!-- Version Fallback élégante -->
     <div class="advertisement-fallback {{ $containerClasses }} relative">
         <div class="rounded-2xl border-2 border-dashed border-gray-200 bg-gradient-to-br from-gray-50 to-white p-8 text-center shadow-inner">
@@ -163,6 +203,119 @@
             </p>
         </div>
     </div>
+@endif
+
+{{-- Pour l'alternnance des pubs --}}
+
+{{-- @if($rotation ?? false)
+    <script>
+    (function() {
+        const container = document.querySelector('[data-ad-id="{{ $ad->id }}"]');
+        if (!container || container.dataset.rotation !== 'true') return;
+
+        const position = container.dataset.position;
+        const interval = parseInt(container.dataset.interval) || 30000;
+        let seenAds = [{{ $ad->id }}];
+
+        function loadNextAd() {
+            fetch(`/api/ad/next/${position}?exclude=${seenAds.join(',')}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Fade out
+                container.style.transition = 'opacity 0.3s';
+                container.style.opacity = '0';
+
+                setTimeout(() => {
+                    container.outerHTML = html;
+
+                    // Récupérer le nouvel ID
+                    const newContainer = document.querySelector(`[data-position="${position}"]`);
+                    if (newContainer) {
+                        const newId = parseInt(newContainer.dataset.adId);
+                        if (newId && !seenAds.includes(newId)) {
+                            seenAds.push(newId);
+                        }
+
+                        // Fade in
+                        newContainer.style.opacity = '0';
+                        setTimeout(() => {
+                            newContainer.style.transition = 'opacity 0.3s';
+                            newContainer.style.opacity = '1';
+                        }, 50);
+                    }
+
+                    // Relancer
+                    setTimeout(loadNextAd, interval);
+                }, 300);
+            })
+            .catch(err => console.error('Erreur rotation pub:', err));
+        }
+
+        // Démarrer la rotation
+        setTimeout(loadNextAd, interval);
+    })();
+    </script>
+@endif --}}
+
+
+@if($ad && ($rotation ?? false))
+<script>
+(function() {
+    const container = document.querySelector('[data-ad-id="{{ $ad->id }}"]');
+    if (!container || container.dataset.rotation !== 'true') return;
+
+    const position = container.dataset.position;
+    const interval = parseInt(container.dataset.interval) || 30000;
+    let seenAds = [{{ $ad->id }}];
+
+    function loadNextAd() {
+        fetch(`/api/ad/next/${position}?exclude=${seenAds.join(',')}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            container.style.transition = 'opacity 0.3s';
+            container.style.opacity = '0';
+
+            setTimeout(() => {
+                const parent = container.parentElement;
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                const newContainer = temp.firstElementChild;
+
+                if (newContainer) {
+                    parent.replaceChild(newContainer, container);
+
+                    const newId = parseInt(newContainer.dataset.adId);
+                    if (newId && !seenAds.includes(newId)) {
+                        seenAds.push(newId);
+                    }
+
+                    newContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        newContainer.style.transition = 'opacity 0.3s';
+                        newContainer.style.opacity = '1';
+                    }, 50);
+                }
+
+                setTimeout(loadNextAd, interval);
+            }, 300);
+        })
+        .catch(err => {
+            console.error('Erreur rotation pub:', err);
+            setTimeout(loadNextAd, interval);
+        });
+    }
+
+    setTimeout(loadNextAd, interval);
+})();
+</script>
 @endif
 
 <style>

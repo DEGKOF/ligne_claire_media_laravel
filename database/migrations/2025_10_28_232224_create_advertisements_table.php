@@ -21,6 +21,8 @@ return new class extends Migration
             // Contenu
             $table->enum('content_type', ['image', 'video', 'html'])->default('image');
             $table->string('image_path')->nullable();
+            // Dans ta migration advertisements
+            $table->string('video_path')->nullable(); // Après video_url
             $table->string('video_url')->nullable();
             $table->text('html_content')->nullable();
             $table->string('headline')->nullable(); // Titre

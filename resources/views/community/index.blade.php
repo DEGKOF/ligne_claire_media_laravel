@@ -596,9 +596,9 @@
                     </div>
                 </div>
 
-                <div style="background: #e8f5f0; border-left: 5px solid var(--comm-ok); border-radius: 12px; padding: 20px; margin-top: 25px;">
+                {{-- <div style="background: #e8f5f0; border-left: 5px solid var(--comm-ok); border-radius: 12px; padding: 20px; margin-top: 25px;">
                     <p style="margin: 0; line-height: 1.7;">Chaque auteur dispose d'un <strong>tableau de bord</strong> pour suivre ses statistiques : lectures, soutiens, revenus, feedbacks.</p>
-                </div>
+                </div> --}}
             </div>
         </div>
 

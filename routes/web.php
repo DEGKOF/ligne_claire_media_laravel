@@ -35,9 +35,9 @@ use App\Http\Controllers\Admin\PublicationController as AdminPublicationControll
 */
 //
 
-// Route::get('payment-success/{id}', function () {
-//     return view('welcome_success');
-// })->name('shop.payment');
+Route::get('payment-success/{id}', function () {
+    return view('welcome_success');
+})->name('shop.payment');
 
 
 Route::get('/dashboard', function () {
@@ -282,5 +282,6 @@ Route::middleware(['auth', CheckRole::class . ':admin,master_admin'])->prefix('a
 // Route publique pour tracker les clics
 Route::get('/ad/click/{advertisement}', [AdTrackingController::class, 'trackClick'])->name('ad.track.click');
 
-
+// Route::get('/api/ad/next/{position}', [AdTrackingController::class, 'getNextAd'])->name('ad.next');
+Route::get('/api/ad/next/{position}', [App\Http\Controllers\AdController::class, 'getNextAd'])->name('ad.next');
 require __DIR__.'/auth.php';

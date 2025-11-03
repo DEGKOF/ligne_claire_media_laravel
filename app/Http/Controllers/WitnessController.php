@@ -25,7 +25,10 @@ class WitnessController extends Controller
 
         $testimonies = WitnessTestimony::with('user')
             // ->published()
-            ->whereIn('status', ['pending', 'validated'])
+            ->whereIn('status', [
+                // 'pending',
+                'validated'
+                ])
             ->latest('published_at')
             ->paginate(12);
 // dd($testimonies);
