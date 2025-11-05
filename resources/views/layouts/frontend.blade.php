@@ -203,7 +203,6 @@
                             ['icon' => 'heart', 'label' => 'Santé', 'slug' => 'sante'],
                             ['icon' => 'chart', 'label' => 'Économie', 'slug' => 'economie'],
                             ['icon' => 'trophy', 'label' => 'Sport', 'slug' => 'sport'],
-                            // ['icon' => 'trophy', 'label' => 'Soutenir le Media', 'slug' => 'sport'],
                         ];
                     @endphp
 
@@ -250,9 +249,18 @@
                 <hr class="my-2 border-gray-200">
 
                 <div class="space-y-1">
+                    {{-- soutient --}}
+                        <a href="{{ route('soutient') }}"
+                            class="flex items-center py-2 text-red-700 hover:text-red-400 font-semibold transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                </svg>
+                            <span class="mx-2">Soutenir le Media</span>
+                        </a>
                     @php
                         $menuItems = [
-                            ['icon' => 'desktop', 'label' => 'Soutenir le Media', 'slug' => 'sport'],
+                            // ['icon' => 'desktop', 'label' => 'Soutenir le Media', 'slug' => 'sport'],
                             ['icon' => 'desktop', 'label' => 'Devenir membre', 'slug' => 'sport'],
                         ];
                     @endphp

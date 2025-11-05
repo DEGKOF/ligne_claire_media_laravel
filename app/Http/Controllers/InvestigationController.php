@@ -14,28 +14,7 @@ class InvestigationController extends Controller
     /**
      * Afficher la page du pôle investigation
      */
-    // public function index()
-    // {
-    //     // Récupérer toutes les propositions (tous statuts) pour l'affichage dans la section "Enquêtes en cours"
-    //     $proposals = InvestigationProposal::with('user')
-    //         ->whereIn('status', ['pending', 'validated', 'in_progress', 'completed'])
-    //         ->latest()
-    //         ->get();
 
-    //     // Calculer les KPIs
-    //     $totalProposals = InvestigationProposal::count();
-    //     $totalSupporters = 0; // À implémenter selon votre logique de soutien
-    //     $totalFunds = InvestigationProposal::sum('budget_collected');
-    //     $totalImpact = InvestigationProposal::where('status', 'completed')->count(); // Nombre d'enquêtes terminées comme indicateur d'impact
-
-    //     return view('investigation.index', compact(
-    //         'proposals',
-    //         'totalProposals',
-    //         'totalSupporters',
-    //         'totalFunds',
-    //         'totalImpact'
-    //     ));
-    // }
 
     public function index()
     {
@@ -244,5 +223,25 @@ class InvestigationController extends Controller
         }
 
         return $username;
+    }
+
+    public function show(InvestigationProposal $proposal)
+    {
+        // Charger les relations nécessaires
+        $proposal->load('user', 'validator');
+
+        // Vérifier que la proposition est visible (validée, en cours ou terminée)
+        if (!in_array($proposal->status, ['validated', 'in_progress', 'completed'])) {
+            abort(404);
+        }
+
+        // Récupérer les breaking news pour la sidebar
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+
+        return view('investigation.show', compact('proposal', 'breakingNews'));
     }
 }

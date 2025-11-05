@@ -1,27 +1,31 @@
 <?php
 
+use App\Models\Publication;
 use App\Http\Middleware\CheckRole;
-use App\Http\Controllers\AdvertiserController;
-use App\Http\Controllers\AdTrackingController;
-use App\Http\Controllers\Admin\AdvertisementManagementController;
-use App\Http\Controllers\Admin\AdvertiserManagementController;
-use App\Http\Controllers\WitnessController;
-use App\Http\Controllers\InvestigationController;
-use App\Http\Controllers\CommunityController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CommentController;
-use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WitnessController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\AdTrackingController;
+
+use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\InvestigationController;
 use App\Http\Controllers\Admin\RubriqueController;
-
-
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\PublicationController as AdminPublicationController;
 
+
+use App\Http\Controllers\Admin\AdminWitnessController;
+use App\Http\Controllers\Admin\AdminCommunityController;
+
+use App\Http\Controllers\Admin\AdminInvestigationController;
+use App\Http\Controllers\Admin\AdvertiserManagementController;
+use App\Http\Controllers\Admin\AdvertisementManagementController;
+use App\Http\Controllers\Admin\PublicationController as AdminPublicationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +38,17 @@ use App\Http\Controllers\Admin\PublicationController as AdminPublicationControll
 |
 */
 //
+
+Route::get('/soutenir-le-media', function () {
+        // Récupérer les breaking news pour la sidebar
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+
+    return view('soutient', compact('breakingNews'));
+})->name('soutient');
 
 Route::get('payment-success/{id}', function () {
     return view('welcome_success');
@@ -194,6 +209,9 @@ Route::prefix('investigation')->name('investigation.')->group(function () {
     // Page principale
     Route::get('/', [InvestigationController::class, 'index'])->name('index');
 
+    // Détails d'une proposition
+    Route::get('/{proposal}', [InvestigationController::class, 'show'])->name('show');
+
     // Soumettre une proposition
     Route::post('/submit', [InvestigationController::class, 'submit'])->name('submit');
 
@@ -222,7 +240,7 @@ Route::prefix('witness')->name('witness.')->group(function () {
 | Routes Advertiser (Annonceurs)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'verified'])->prefix('advertiser')->name('advertiser.')->group(function () {
+Route::middleware(['auth', 'verified', 'advertiser'])->prefix('advertiser')->name('advertiser.')->group(function () {
     Route::get('/dashboard', [AdvertiserController::class, 'dashboard'])->name('dashboard');
 
     // Profil
@@ -284,4 +302,96 @@ Route::get('/ad/click/{advertisement}', [AdTrackingController::class, 'trackClic
 
 // Route::get('/api/ad/next/{position}', [AdTrackingController::class, 'getNextAd'])->name('ad.next');
 Route::get('/api/ad/next/{position}', [App\Http\Controllers\AdController::class, 'getNextAd'])->name('ad.next');
+
+Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
+
+    // ============================================
+    // COMMUNITY SUBMISSIONS (Soumissions Communauté)
+    // ============================================
+    Route::prefix('community')->name('admin.community.')->group(function () {
+        // Liste et détails
+        Route::get('/', [AdminCommunityController::class, 'index'])->name('index');
+        Route::get('/{submission}', [AdminCommunityController::class, 'show'])->name('show');
+
+        // Mise à jour du contenu
+        Route::put('/{submission}', [AdminCommunityController::class, 'update'])->name('update');
+
+        // Gestion des statuts
+        Route::post('/{submission}/validate', [AdminCommunityController::class, 'validateCommunity'])->name('validate');
+        Route::post('/{submission}/reject', [AdminCommunityController::class, 'rejectvalidateCommunity'])->name('reject');
+        Route::post('/{submission}/publish', [AdminCommunityController::class, 'publish'])->name('publish');
+        Route::post('/{submission}/unpublish', [AdminCommunityController::class, 'unpublish'])->name('unpublish');
+        Route::put('/{submission}/status', [AdminCommunityController::class, 'updateStatus'])->name('update-status');
+
+        // Suppression et restauration
+        Route::delete('/{submission}', [AdminCommunityController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/restore', [AdminCommunityController::class, 'restore'])->name('restore');
+
+        // Actions en masse
+        Route::post('/bulk-action', [AdminCommunityController::class, 'bulkAction'])->name('bulk-action');
+    });
+
+    // ============================================
+    // INVESTIGATION PROPOSALS (Propositions d'Investigation)
+    // ============================================
+    Route::prefix('investigations')->name('admin.investigations.')->group(function () {
+        // Liste et détails
+        Route::get('/', [AdminInvestigationController::class, 'index'])->name('index');
+        Route::get('/{proposal}', [AdminInvestigationController::class, 'investigations'])->name('show');
+
+        // Mise à jour du contenu
+        Route::put('/{proposal}', [AdminInvestigationController::class, 'update'])->name('update');
+
+        // Gestion des statuts
+        Route::post('/{proposal}/validate', [AdminInvestigationController::class, 'validateInvestigation'])->name('validate');
+        Route::post('/{proposal}/reject', [AdminInvestigationController::class, 'rejectInvestigation'])->name('reject');
+        Route::post('/{proposal}/start', [AdminInvestigationController::class, 'startInvestigation'])->name('start');
+        Route::post('/{proposal}/complete', [AdminInvestigationController::class, 'complete'])->name('complete');
+        Route::put('/{proposal}/status', [AdminInvestigationController::class, 'updateStatus'])->name('update-status');
+
+        // Gestion des fichiers
+        Route::delete('/{proposal}/files', [AdminInvestigationController::class, 'deleteFile'])->name('delete-file');
+
+        // Suppression et restauration
+        Route::delete('/{proposal}', [AdminInvestigationController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/restore', [AdminInvestigationController::class, 'restore'])->name('restore');
+
+        // Actions en masse
+        Route::post('/bulk-action', [AdminInvestigationController::class, 'bulkAction'])->name('bulk-action');
+    });
+    Route::prefix('investigations')->name('apiadmin.investigations.')->group(function () {
+        // Liste et détails
+        Route::get('/{proposal}', [AdminInvestigationController::class, 'investigations'])->name('show');
+    });
+
+    // ============================================
+    // WITNESS TESTIMONIES (Témoignages)
+    // ============================================
+    Route::prefix('testimonies')->name('admin.testimonies.')->group(function () {
+        // Liste et détails
+        Route::get('/', [AdminWitnessController::class, 'index'])->name('index');
+        Route::get('/{testimony}', [AdminWitnessController::class, 'show'])->name('show');
+
+        // Mise à jour du contenu
+        Route::put('/{testimony}', [AdminWitnessController::class, 'update'])->name('update');
+
+        // Gestion des statuts
+        Route::post('/{testimony}/validate', [AdminWitnessController::class, 'validateInvestigation'])->name('validate');
+        Route::post('/{testimony}/reject', [AdminWitnessController::class, 'rejectInvestigation'])->name('reject');
+        Route::post('/{testimony}/publish', [AdminWitnessController::class, 'publish'])->name('publish');
+        Route::post('/{testimony}/unpublish', [AdminWitnessController::class, 'unpublish'])->name('unpublish');
+        Route::put('/{testimony}/status', [AdminWitnessController::class, 'updateStatus'])->name('update-status');
+
+        // Gestion des médias
+        Route::delete('/{testimony}/media', [AdminWitnessController::class, 'deleteMedia'])->name('delete-media');
+
+        // Suppression et restauration
+        Route::delete('/{testimony}', [AdminWitnessController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/restore', [AdminWitnessController::class, 'restore'])->name('restore');
+
+        // Actions en masse
+        Route::post('/bulk-action', [AdminWitnessController::class, 'bulkAction'])->name('bulk-action');
+    });
+});
+
 require __DIR__.'/auth.php';

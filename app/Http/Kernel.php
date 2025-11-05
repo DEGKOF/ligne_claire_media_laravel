@@ -67,5 +67,8 @@ class Kernel extends HttpKernel
 
         'role' => \App\Http\Middleware\CheckRole::class,
         'advertiser.active' => \App\Http\Middleware\EnsureAdvertiserIsActive::class,
+
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'advertiser' => \App\Http\Middleware\Advertiser::class,
     ];
 }

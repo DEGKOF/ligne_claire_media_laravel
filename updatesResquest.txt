@@ -46,15 +46,25 @@ Rubrique Crypto, Emplois, Faits divers  => done
 
 Validation des temoignages avant affichage frontend, => In progress
 
-Correction de la page community 
+Correction de la page community
 
 Partie Boutique et affichage des pubs dans d'autres sections frontend,
+
 
 Convertion du fichier du journal en code avec conception de son backend,
 
 Integration du moyen de paiement.
 
+Mettre le lien des document à télécharger pour les poles cote admin
+Les temoignages sont juste pour le backoffice apres propositions, pas pour un affichage frontend
 
+Toujours mettre LCM +
+Rubrique Présidentielle 2026, juste après acheter journal
+Mettre le lien derriere le menu annonceur,
+Nous rejoindre est pour le recrutement avec soumission de CV et Lettre de motivation
+Ajouter Loterie nationnale
+Les commentaires sur les articles
+La bourse Africaine: https://www.brvm.org/ les elements de la liste  du top de la page
 
 pour le journal
 

@@ -84,11 +84,27 @@
                             {{-- <span>👥</span> --}}
                             <span class="font-medium">Utilisateurs</span>
                         </a>
-                        {{-- <a href="#"
-                           class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition">
-                            <span>⚙️</span>
-                            <span class="font-medium">Paramètres</span>
-                        </a> --}}
+
+                        <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Utilisateurs externes</div>
+                        <a href="{{ route('admin.community.index') }}"
+                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.community.*') ? 'bg-white/20' : '' }}">
+
+                                {{-- <span>👥</span> --}}
+                            <span class="font-medium">Communautés</span>
+                        </a>
+                        <a href="{{ route('admin.investigations.index') }}"
+                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.investigations.*') ? 'bg-white/20' : '' }}">
+
+                                {{-- <span>👥</span> --}}
+                            <span class="font-medium">Investigations</span>
+                        </a>
+                        <a href="{{ route('admin.testimonies.index') }}"
+                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.testimonies.*') ? 'bg-white/20' : '' }}">
+
+                                {{-- <span>👥</span> --}}
+                            <span class="font-medium">Témoignages</span>
+                        </a>
+
                         <!-- Publicités -->
                         @if(auth()->user()->isAdmin())
                         <div class="mt-6">
@@ -98,7 +114,7 @@
                                 {{-- <span>🏢</span> --}}
                                 <span class="font-medium">Annonceurs</span>
                             </a>
-                            <a href="#{{ route('admin.advertisements.index') }}"
+                            <a href="{{ route('admin.advertisements.index') }}"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.advertisements.*') && !request()->routeIs('admin.advertisements.placements.*') ? 'bg-white/20' : '' }}">
                                 {{-- <span>📢</span> --}}
                                 <span class="font-medium">Campagnes</span>
@@ -112,8 +128,6 @@
                         @endif
                     </div>
                     @endif
-
-
                     @if(auth()->user()->isAdvertiser())
                         <!-- Dashboard -->
                         <a href="{{ route('advertiser.dashboard') }}"
@@ -172,11 +186,6 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <!-- Notifications -->
-                    {{-- <button class="relative p-2 hover:bg-gray-100 rounded-full">
-                        <span class="text-xl">🔔</span>
-                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                    </button> --}}
 
                     <!-- Voir le site -->
                     <a href="{{ route('home') }}"
