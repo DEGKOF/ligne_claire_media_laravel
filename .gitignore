@@ -3,7 +3,28 @@
 /public/build
 /public/hot
 /public/storage
-/storage/*.key
+
+# Ignorer les caches et logs de Laravel, mais garder le reste de storage
+/storage/framework/cache/*
+!/storage/framework/cache/.gitkeep
+
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitkeep
+
+/storage/framework/views/*
+!/storage/framework/views/.gitkeep
+
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# Tout le reste du dossier storage sera suivi par Git
+!/storage/
+!/storage/**
+!/storage/app/**
+!/storage/framework/**
+!/storage/logs/**
+!/storage/app/public/**
+
 /vendor
 .env
 .env.backup
