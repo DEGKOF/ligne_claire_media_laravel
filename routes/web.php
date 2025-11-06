@@ -50,6 +50,9 @@ Route::get('/soutenir-le-media', function () {
     return view('soutient', compact('breakingNews'));
 })->name('soutient');
 
+Route::post('/donation/process', [DonationController::class, 'process'])->name('donation.process');
+Route::post('/subscription/process', [SubscriptionController::class, 'process'])->name('subscription.process');
+
 Route::get('payment-success/{id}', function () {
     return view('welcome_success');
 })->name('shop.payment');

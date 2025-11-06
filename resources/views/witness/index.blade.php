@@ -501,6 +501,71 @@
             color: white;
             font-size: 14px;
         }
+
+        /* ========================================
+            ANIMATIONS HOVER UNIQUEMENT
+        ======================================== */
+
+        /* Animation hover pour les panels */
+        .panel {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .panel:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 0 20px 50px rgba(10, 35, 80, .2);
+        }
+
+        /* Animation du header au survol */
+        .panel header {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover header {
+            background: linear-gradient(90deg, rgba(30, 86, 179, 0.05) 0%, rgba(30, 86, 179, 0.1) 100%);
+        }
+
+        /* Effet de brillance sur le header */
+        .panel header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .panel:hover header::before {
+            left: 100%;
+        }
+
+        /* Animation du contenu */
+        .panel .body {
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover .body {
+            transform: scale(1.01);
+        }
+
+        /* Animation pour les cards dans la section témoignages */
+        .card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            transform: scale(1.05) translateY(-8px);
+            box-shadow: 0 25px 60px rgba(10, 35, 80, .25);
+        }
+
+        .card:hover .media {
+            filter: brightness(1.1);
+        }
     </style>
 
 
@@ -530,7 +595,7 @@
                 <button class="tab active" data-tab="intro">Présentation</button>
                 <button class="tab" data-tab="temoins">Témoignages publiés</button>
                 <button class="tab" data-tab="submit">Envoyer un témoignage</button>
-                <button class="tab" data-tab="mes-envois">Mes envois</button>
+                {{-- <button class="tab" data-tab="mes-envois">Mes envois</button> --}}
             </div>
         </center>
     </div>
@@ -678,7 +743,7 @@
                                         @else
                                             {{-- Pas de média --}}
                                             <div class="no-media">
-                                                <span>📝 témoignage citoyen</span>
+                                                <span>témoignage citoyen</span>
                                             </div>
                                         @endif
                                     </div>
@@ -709,7 +774,7 @@
 
     <!-- Envoyer un témoignage -->
     <section id="submit" class="section">
-        <div class="container p-grid">
+        <div class="container col-md-7">
             <div style="grid-column:span 7">
                 <div class="panel">
                     <header>Formulaire de témoignage</header>
@@ -805,8 +870,6 @@
                                     conditions</span>
                             </div>
                             <div class="actions" style="grid-column:span 2">
-                                {{-- <button type="button" class="btn ghost" id="btnDraft">💾 Enregistrer le
-                                    brouillon</button> --}}
                                 <button type="button" class="btn ghost" id="btnReset">Réinitialiser</button>
                                 <button type="submit" class="btn success">Envoyer le témoignage</button>
                             </div>
@@ -814,51 +877,9 @@
                     </div>
                 </div>
             </div>
-            <div style="grid-column:span 5">
-                <div class="panel">
-                    <header>Aperçu en direct</header>
-                    <div class="body">
-                        <article class="card" id="previewCard" style="margin:0">
-                            <div class="media">Aperçu</div>
-                            <div class="content">
-                                <div class="meta">
-                                    <span class="pill" id="pCat">—</span>
-                                    <span class="legend" id="pMeta">—</span>
-                                </div>
-                                <h3 style="margin:0 0 6px" id="pTitle">Votre titre apparaîtra ici</h3>
-                                <p class="legend" style="margin:0" id="pDesc">Votre description apparaîtra ici…</p>
-                                <p class="legend" style="margin-top:8px" id="charCount">0 caractères</p>
-                            </div>
-                        </article>
-                        {{-- <div class="actions" style="margin-top:12px;justify-content:flex-start;flex-wrap:wrap">
-                            <button type="button" class="btn ghost" id="btnCopySummary" title="Copier le résumé">📋
-                                Copier</button>
-                            <button type="button" class="btn ghost" id="btnCopyHTML" title="Copier le HTML">🔗
-                                HTML</button>
-                            <button type="button" class="btn ghost" id="btnDownload" title="Télécharger la fiche">💾
-                                Télécharger</button>
-                            <button type="button" class="btn ghost" id="btnModalPreview" title="Voir en modal">🔍
-                                Modal</button>
-                        </div> --}}
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <!-- Mes envois -->
-    <section id="mes-envois" class="section">
-        <div class="container">
-            <div class="panel">
-                <header>Mes témoignages envoyés</header>
-                <div class="body">
-                    <div class="p-grid" id="witnessList">
-                        <p class="legend">Aucun envoi pour l'instant.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Modal -->
     <div class="modal" id="modal">
@@ -904,13 +925,6 @@
             if (targetSection) targetSection.classList.add('active');
             if (id === 'temoins') renderPublies();
         }));
-        // $('#btnEnvoyer').addEventListener('click', () => {
-        //     document.querySelector('[data-tab="submit"]').click();
-        //     document.getElementById('submit').scrollIntoView({
-        //         behavior: 'smooth'
-        //     })
-        // });
-        // $('#btnIntroSubmit').addEventListener('click', () => $('#btnEnvoyer').click());
 
         // Modal
         const modal = $('#modal'),
@@ -1288,6 +1302,61 @@ Description: ${pDesc?.textContent || ''}`;
 
         // Published list render once
         // renderList();
+
+        // ========================================
+// ANIMATIONS HOVER AMÉLIORÉES
+// ========================================
+
+// Ajouter un effet de pulsation subtil au survol des boutons CTA
+const btnIntroSubmit = $('#btnIntroSubmit');
+if (btnIntroSubmit) {
+    btnIntroSubmit.addEventListener('click', () => {
+        document.querySelector('[data-tab="submit"]')?.click();
+        // Animation de scroll fluide
+        setTimeout(() => {
+            window.scrollTo({
+                top: document.querySelector('#submit').offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }, 100);
+    });
+}
+
+// Effet sonore subtil au clic (optionnel)
+$$('.panel').forEach(panel => {
+    panel.addEventListener('mouseenter', function() {
+        this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+
+    panel.addEventListener('mouseleave', function() {
+        this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+});
+
+// Animation des cards au scroll (optionnel mais léger)
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }, index * 50); // Délai progressif
+        }
+    });
+}, observerOptions);
+
+// Appliquer l'observer aux cards
+$$('.card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'all 0.5s ease';
+    cardObserver.observe(card);
+});
     </script>
 
 @endsection

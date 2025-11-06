@@ -43,11 +43,11 @@
             @endif
             <a href="{{ route('admin.investigations.edit', $proposal) }}"
                class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
-                ✏️ Modifier
+                Modifier
             </a>
             <button onclick="deleteProposal()"
                     class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-                🗑️ Supprimer
+                Supprimer
             </button>
         </div>
     </div>
@@ -72,11 +72,11 @@
                             </span>
                         @elseif($proposal->status === 'in_progress')
                             <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">
-                                🔄 En cours
+                                En cours
                             </span>
                         @elseif($proposal->status === 'completed')
                             <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
-                                ✅ Terminé
+                                Terminé
                             </span>
                         @elseif($proposal->status === 'rejected')
                             <span class="px-3 py-1 bg-red-100 text-red-800 text-sm rounded-full">
@@ -84,7 +84,7 @@
                             </span>
                         @else
                             <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">
-                                ⏳ En attente
+                                En attente
                             </span>
                         @endif
                     </div>
@@ -93,14 +93,14 @@
                 <div class="p-6 space-y-6">
                     {{-- Angle --}}
                     <div>
-                        <h3 class="text-lg font-semibold mb-2">🎯 Angle d'investigation</h3>
+                        <h3 class="text-lg font-semibold mb-2">Angle d'investigation</h3>
                         <p class="text-gray-700 whitespace-pre-wrap">{{ $proposal->angle }}</p>
                     </div>
 
                     {{-- Sources --}}
                     @if($proposal->sources)
                     <div class="border-t pt-6">
-                        <h3 class="text-lg font-semibold mb-2">📚 Sources disponibles</h3>
+                        <h3 class="text-lg font-semibold mb-2">Sources disponibles</h3>
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <p class="text-gray-700 whitespace-pre-wrap">{{ $proposal->sources }}</p>
                         </div>
@@ -110,7 +110,7 @@
                     {{-- Needs --}}
                     @if($proposal->needs)
                     <div class="border-t pt-6">
-                        <h3 class="text-lg font-semibold mb-2">🛠️ Besoins spécifiques</h3>
+                        <h3 class="text-lg font-semibold mb-2">Besoins spécifiques</h3>
                         <p class="text-gray-700 whitespace-pre-wrap">{{ $proposal->needs }}</p>
                     </div>
                     @endif

@@ -46,7 +46,7 @@ Rubrique Crypto, Emplois, Faits divers  => done
 
 Validation des temoignages avant affichage frontend, => In progress
 
-Correction de la page community
+Correction de la page community => Done
 
 Partie Boutique et affichage des pubs dans d'autres sections frontend,
 
