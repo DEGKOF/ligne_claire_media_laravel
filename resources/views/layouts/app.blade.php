@@ -9,10 +9,15 @@
     <link rel="icon" type="image/x-icon" sizes="32x32" href="{{ asset('favicon.png') }}">
     <link rel="icon" type="image/x-icon" sizes="16x16" href="{{ asset('favicon.png') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    <style>
+        body{
+            background: #2563eb;
+        }
+    </style>
 </head>
 
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen">
             @include('layouts.navigation')
 
             <!-- Page Heading -->

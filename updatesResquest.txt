@@ -54,19 +54,16 @@ Partie Boutique et affichage des pubs dans d'autres sections frontend, => Done
 Les temoignages sont juste pour le backoffice apres propositions, pas pour un affichage frontend => Done
 Les commentaires sur les articles => Done
 Nous rejoindre est pour le recrutement avec soumission de CV et Lettre de motivation => Done
-Ajouter Loterie nationnale => Pas d'api dispo actu, ne pourra être ajouté que dans la section Pub
+Admin: Temoignages - Campagnes => Done
 
+Ajouter Loterie nationnale => Pas d'api dispo actu, ne pourra être ajouté que dans la section pub
 
-Admin: Temoignages - Campagnes
 Integration du moyen de paiement.
 
 Mettre le lien des document à télécharger pour les poles cote admin
 
 
-
 La bourse Africaine: https://www.brvm.org/ les elements de la liste  du top de la page
-
-
 
 
 Convertion du fichier du journal en code avec conception de son backend,
