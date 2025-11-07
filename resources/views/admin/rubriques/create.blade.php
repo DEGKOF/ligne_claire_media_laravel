@@ -30,7 +30,7 @@
                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
             <p class="text-sm text-gray-500 mt-2">
-                💡 Le slug sera généré automatiquement à partir du nom
+                Le slug sera généré automatiquement à partir du nom
             </p>
         </div>
 
@@ -99,7 +99,7 @@
                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
             <p class="text-sm text-gray-500 mt-2">
-                💡 Détermine l'ordre dans le menu de navigation (0 = premier)
+                Détermine l'ordre dans le menu de navigation (0 = premier)
             </p>
         </div>
 

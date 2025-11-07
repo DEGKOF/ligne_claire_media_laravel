@@ -10,19 +10,20 @@ use App\Http\Controllers\WitnessController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\CommunityController;
-use App\Http\Controllers\AdTrackingController;
 
+use App\Http\Controllers\AdTrackingController;
 use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\InvestigationController;
+
+
 use App\Http\Controllers\Admin\RubriqueController;
-
-
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\AdminWitnessController;
 
+use App\Http\Controllers\Admin\AdminWitnessController;
 use App\Http\Controllers\Admin\AdminCommunityController;
+use App\Http\Controllers\Admin\AdminCandidatureController;
 use App\Http\Controllers\Admin\AdminInvestigationController;
 use App\Http\Controllers\Admin\AdvertiserManagementController;
 use App\Http\Controllers\Admin\AdvertisementManagementController;
@@ -421,6 +422,22 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
         // Actions en masse
         Route::post('/bulk-action', [AdminWitnessController::class, 'bulkAction'])->name('bulk-action');
     });
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+
+    // Candidatures
+    Route::prefix('candidatures')->name('candidatures.')->group(function () {
+        Route::get('/', [AdminCandidatureController::class, 'index'])->name('index');
+        Route::get('/export', [AdminCandidatureController::class, 'export'])->name('export');
+        Route::get('/{candidature}', [AdminCandidatureController::class, 'show'])->name('show');
+        Route::patch('/{candidature}/status', [AdminCandidatureController::class, 'updateStatus'])->name('update-status');
+        Route::patch('/{candidature}/notes', [AdminCandidatureController::class, 'updateNotes'])->name('update-notes');
+        Route::get('/{candidature}/cv', [AdminCandidatureController::class, 'downloadCv'])->name('download-cv');
+        Route::get('/{candidature}/lettre', [AdminCandidatureController::class, 'downloadLettre'])->name('download-lettre');
+        Route::delete('/{candidature}', [AdminCandidatureController::class, 'destroy'])->name('destroy');
+    });
+
 });
 
 require __DIR__.'/auth.php';

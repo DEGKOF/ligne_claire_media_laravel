@@ -15,7 +15,7 @@
         <a href="{{ route('publication.show', $publication->slug) }}"
            target="_blank"
            class="text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-2">
-            👁️ Voir
+            Voir
         </a>
     </div>
 
@@ -188,10 +188,10 @@
                             required
                             {{ (Auth::user()->role === 'admin' || Auth::user()->role === 'master_admin') ? "" : "disabled" }}
                             >
-                        <option value="draft" {{ old('status', $publication->status) == 'draft' ? 'selected' : '' }}>📋 Brouillon</option>
-                        <option value="published" {{ old('status', $publication->status) == 'published' ? 'selected' : '' }}>✓ Publié</option>
-                        <option value="hidden" {{ old('status', $publication->status) == 'hidden' ? 'selected' : '' }}>👁️‍🗨️ Masqué</option>
-                        <option value="archived" {{ old('status', $publication->status) == 'archived' ? 'selected' : '' }}>🗃️ Archivé</option>
+                        <option value="draft" {{ old('status', $publication->status) == 'draft' ? 'selected' : '' }}>Brouillon</option>
+                        <option value="published" {{ old('status', $publication->status) == 'published' ? 'selected' : '' }}>Publié</option>
+                        <option value="hidden" {{ old('status', $publication->status) == 'hidden' ? 'selected' : '' }}>Masqué</option>
+                        <option value="archived" {{ old('status', $publication->status) == 'archived' ? 'selected' : '' }}>Archivé</option>
                     </select>
                     @error('status')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -259,7 +259,7 @@
 
         <!-- Stats -->
         <div class="bg-gray-50 rounded-lg border border-gray-200 p-6">
-            <h3 class="font-bold text-lg mb-4">📊 Statistiques</h3>
+            <h3 class="font-bold text-lg mb-4">Statistiques</h3>
             <div class="grid grid-cols-3 gap-4 text-center">
                 <div>
                     <div class="text-3xl font-bold text-gray-900">{{ number_format($publication->views_count) }}</div>
@@ -296,7 +296,7 @@
                 </a>
                 <button type="submit"
                         class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition">
-                    💾 Enregistrer
+                    Enregistrer
                 </button>
             </div>
         </div>

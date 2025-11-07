@@ -78,12 +78,12 @@
                     <!-- Utilisateurs (si admin) -->
                     @if(auth()->user()->isAdmin())
                     <div class="mt-6">
-                        <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
+                        {{-- <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
                         <a href="#"
                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition">
-                            {{-- <span>👥</span> --}}
+                            <span>👥</span>
                             <span class="font-medium">Utilisateurs</span>
-                        </a>
+                        </a> --}}
 
                         <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Utilisateurs externes</div>
                         <a href="{{ route('admin.community.index') }}"
@@ -119,11 +119,10 @@
                                 {{-- <span>📢</span> --}}
                                 <span class="font-medium">Campagnes</span>
                             </a>
-                            <a href="#{{ route('admin.advertisements.placements.index') }}"
+                            {{-- <a href="#{{ route('admin.advertisements.placements.index') }}"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.advertisements.placements.*') ? 'bg-white/20' : '' }}">
-                                {{-- <span>📐</span> --}}
                                 <span class="font-medium">Emplacements</span>
-                            </a>
+                            </a> --}}
                         </div>
                         @endif
                     </div>
@@ -156,6 +155,15 @@
                             <span>📊</span>
                             <span class="font-medium">Dashboard</span>
                         </a> --}}
+                    @endif
+
+                    @if(auth()->user()->isAdmin())
+                        <!-- Candidatures -->
+                        <a href="{{ route('admin.candidatures.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.candidatures.*') ? 'bg-white/20' : '' }}">
+                            {{-- <span>👥</span> --}}
+                            <span class="font-medium">Candidatures</span>
+                        </a>
                     @endif
                 </nav>
             </div>

@@ -181,11 +181,11 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                     <span class="text-xs font-semibold">
                         @switch($publication->type)
-                            @case('article') 📰 Article @break
-                            @case('direct') 🔴 Direct @break
-                            @case('rediffusion') 📺 Rediffusion @break
-                            @case('video_courte') 📹 Short @break
-                            @case('lien_externe') 🔗 Externe @break
+                            @case('article') Article @break
+                            @case('direct')Direct @break
+                            @case('rediffusion')Rediffusion @break
+                            @case('video_courte')Short @break
+                            @case('lien_externe')Externe @break
                         @endswitch
                     </span>
                 </td>
@@ -214,7 +214,7 @@
                     @endswitch
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    👁️ {{ number_format($publication->views_count) }}
+                    {{ number_format($publication->views_count) }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {{ $publication->published_at?->format('d/m/Y') ?? '-' }}
@@ -223,9 +223,10 @@
                     <div class="flex justify-end gap-2">
                         <a href="{{ route('publication.show', $publication->slug) }}"
                            target="_blank"
+                            style="text-decoration: underline"
                            class="text-gray-600 hover:text-gray-900"
                            title="Voir">
-                            👁️
+                            Voir
                         </a>
 
                         @php
@@ -235,9 +236,10 @@
 
                         @if($canEdit)
                         <a href="{{ route('admin.publications.edit', $publication) }}"
+                         style="text-decoration: underline"
                            class="text-blue-600 hover:text-blue-900"
                            title="Modifier">
-                            ✏️
+                            Modifier
                         </a>
                         <form action="{{ route('admin.publications.destroy', $publication) }}"
                               method="POST"
@@ -245,10 +247,10 @@
                               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit"
+                            <button type="submit" style="text-decoration: underline"
                                     class="text-red-600 hover:text-red-900"
                                     title="Supprimer">
-                                🗑️
+                                Supp
                             </button>
                         </form>
                         @else

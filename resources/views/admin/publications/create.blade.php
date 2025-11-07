@@ -160,12 +160,12 @@
                         <select name="status"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
                             required>
-                            <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>📋 Brouillon</option>
+                            <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Brouillon</option>
 
                             @if (Auth::user()->role === 'admin' || Auth::user()->role === 'master_admin')
-                                <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>✓ Publié
+                                <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>Publié
                                 </option>
-                                <option value="hidden" {{ old('status') == 'hidden' ? 'selected' : '' }}>👁️‍🗨️ Masqué
+                                <option value="hidden" {{ old('status') == 'hidden' ? 'selected' : '' }}>Masqué
                                 </option>
                             @endif
                         </select>

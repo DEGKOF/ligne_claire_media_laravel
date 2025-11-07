@@ -73,7 +73,7 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <span class="text-sm font-semibold text-gray-900">
-                        👁️ {{ number_format($rubrique->views_count) }}
+                        {{ number_format($rubrique->views_count) }}
                     </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -90,13 +90,15 @@
                         <a href="{{ route('rubrique.show', $rubrique->slug) }}"
                            target="_blank"
                            class="text-gray-600 hover:text-gray-900"
+                            style="text-decoration: underline"
                            title="Voir">
-                            👁️
+                            Voir
                         </a>
                         <a href="{{ route('admin.rubriques.edit', $rubrique) }}"
                            class="text-blue-600 hover:text-blue-900"
+                            style="text-decoration: underline"
                            title="Modifier">
-                            ✏️
+                            Modifier
                         </a>
                         @if(($rubrique->publications_count ?? 0) === 0)
                         <form action="{{ route('admin.rubriques.destroy', $rubrique) }}"
@@ -106,14 +108,15 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit"
+                             style="text-decoration: underline"
                                     class="text-red-600 hover:text-red-900"
                                     title="Supprimer">
-                                🗑️
+                                Supp
                             </button>
                         </form>
                         @else
                         <span class="text-gray-400 cursor-not-allowed" title="Impossible de supprimer : contient des publications">
-                            🗑️
+                            Supp
                         </span>
                         @endif
                     </div>
@@ -126,7 +129,7 @@
 
 <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
     <div class="flex items-start gap-3">
-        <div class="text-2xl">💡</div>
+        {{-- <div class="text-2xl">💡</div> --}}
         <div class="flex-1">
             <h3 class="font-bold text-blue-900 mb-1">Conseils</h3>
             <ul class="text-sm text-blue-800 space-y-1">

@@ -449,11 +449,11 @@
 
                 <!-- Action Buttons -->
                 <div class="flex gap-2 items-center">
-                    <a href="{{ route('replay') }}"
+                    <a href="#{{ route('replay') }}"
                         class="bg-transparent border-2 border-white/30 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-white/10 transition">
-                        📺 Replay
+                        Replay
                     </a>
-                    <a href="{{ route('direct') }}"
+                    <a href="#{{ route('direct') }}"
                         class="bg-red-600 border-2 border-red-600 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-red-700 transition">
                         ● Direct
                     </a>
