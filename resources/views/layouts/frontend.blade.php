@@ -363,7 +363,7 @@
                         </svg>
                     </a>
 
-                    <a href="{{ route('community.index') }}"
+                    <a href="{{ route('recruitment.index') }}"
                         class="flex items-center py-2 px-3 text-gray-500 hover:text-gray-700 text-sm font-medium transition">
                         <span>Nous rejoindre</span>
                         <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">

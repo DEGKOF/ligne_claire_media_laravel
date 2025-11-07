@@ -14,14 +14,15 @@ use App\Http\Controllers\AdTrackingController;
 
 use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\InvestigationController;
 use App\Http\Controllers\Admin\RubriqueController;
+
+
 use App\Http\Controllers\Admin\DashboardController;
-
-
 use App\Http\Controllers\Admin\AdminWitnessController;
-use App\Http\Controllers\Admin\AdminCommunityController;
 
+use App\Http\Controllers\Admin\AdminCommunityController;
 use App\Http\Controllers\Admin\AdminInvestigationController;
 use App\Http\Controllers\Admin\AdvertiserManagementController;
 use App\Http\Controllers\Admin\AdvertisementManagementController;
@@ -37,7 +38,10 @@ use App\Http\Controllers\Admin\PublicationController as AdminPublicationControll
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//
+
+// Routes pour le recrutement (accessibles sans authentification)
+Route::get('/nous-rejoindre', [RecruitmentController::class, 'index'])->name('recruitment.index');
+Route::post('/nous-rejoindre', [RecruitmentController::class, 'store'])->name('recruitment.store');
 
 Route::get('/soutenir-le-media', function () {
         // Récupérer les breaking news pour la sidebar
