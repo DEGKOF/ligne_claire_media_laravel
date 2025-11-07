@@ -3,10 +3,10 @@
 
     // Configuration
     const PUBLICATION_SLUG = document.querySelector('meta[name="publication-slug"]')?.content || window.location.pathname.split('/').pop();
-    let currentPage = 1;
     let isAuthenticated = false;
     let userData = {};
     let isSubmitting = false;
+    let allCommentsLoaded = false;
 
     console.log('Publication slug:', PUBLICATION_SLUG);
 
@@ -14,7 +14,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM loaded, initializing comments...');
         checkUserAuthentication();
-        loadComments(1);
+        loadComments(false); // Charger seulement 5 commentaires
         initializeCommentForm();
         initializeCharacterCounter();
     });
@@ -58,18 +58,25 @@
     }
 
     // Charger les commentaires
-    async function loadComments(page = 1) {
+    async function loadComments(loadAll = false) {
         try {
-            console.log('Loading comments for page:', page);
-            const response = await fetch(`/api/publications/${PUBLICATION_SLUG}/comments?page=${page}`);
+            console.log('Loading comments, loadAll:', loadAll);
+
+            const url = loadAll
+                ? `/api/publications/${PUBLICATION_SLUG}/comments?all=true`
+                : `/api/publications/${PUBLICATION_SLUG}/comments`;
+
+            const response = await fetch(url);
             const data = await response.json();
 
             console.log('Comments data received:', data);
 
             if (data.success) {
                 displayComments(data.comments);
-                displayPagination(data.pagination);
-                currentPage = page;
+                allCommentsLoaded = data.all_loaded || false;
+
+                // Afficher ou masquer le bouton "Voir plus"
+                updateLoadMoreButton(data);
             }
         } catch (error) {
             console.error('Erreur lors du chargement des commentaires:', error);
@@ -80,6 +87,33 @@
             `;
         }
     }
+
+    // Mettre à jour le bouton "Voir tous les commentaires"
+    function updateLoadMoreButton(data) {
+        const paginationContainer = document.getElementById('comments-pagination');
+
+        if (!paginationContainer) return;
+
+        // Si tous les commentaires sont chargés ou s'il y a 5 commentaires ou moins
+        if (data.all_loaded || data.total <= 5) {
+            paginationContainer.classList.add('hidden');
+            return;
+        }
+
+        // Afficher le bouton "Voir tous les commentaires"
+        paginationContainer.classList.remove('hidden');
+        paginationContainer.innerHTML = `
+            <button onclick="window.loadAllComments()"
+                    class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg hover:shadow-xl transform hover:scale-105">
+                📖 Voir tous les commentaires (${data.total})
+            </button>
+        `;
+    }
+
+    // Fonction globale pour charger tous les commentaires
+    window.loadAllComments = function() {
+        loadComments(true);
+    };
 
     // Échapper le HTML pour éviter les XSS
     function escapeHtml(text) {
@@ -115,7 +149,7 @@
             return `
             <div class="flex gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
                 <div class="flex-shrink-0">
-                    <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center font-bold text-lg shadow-md">
                         ${escapeHtml(comment.author_initials || 'AN')}
                     </div>
                 </div>
@@ -129,60 +163,6 @@
             </div>
         `}).join('');
     }
-
-    // Afficher la pagination
-    function displayPagination(pagination) {
-        const paginationContainer = document.getElementById('comments-pagination');
-
-        if (!pagination || pagination.last_page <= 1) {
-            paginationContainer.classList.add('hidden');
-            return;
-        }
-
-        paginationContainer.classList.remove('hidden');
-
-        let paginationHTML = '<div class="flex gap-2">';
-
-        if (pagination.current_page > 1) {
-            paginationHTML += `
-                <button onclick="window.loadCommentsPage(${pagination.current_page - 1})"
-                        class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition">
-                    ← Précédent
-                </button>
-            `;
-        }
-
-        for (let i = 1; i <= pagination.last_page; i++) {
-            if (i === pagination.current_page) {
-                paginationHTML += `
-                    <button class="px-4 py-2 bg-blue-600 text-white rounded font-bold">
-                        ${i}
-                    </button>
-                `;
-            } else {
-                paginationHTML += `
-                    <button onclick="window.loadCommentsPage(${i})"
-                            class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition">
-                        ${i}
-                    </button>
-                `;
-            }
-        }
-
-        if (pagination.current_page < pagination.last_page) {
-            paginationHTML += `
-                <button onclick="window.loadCommentsPage(${pagination.current_page + 1})"
-                        class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition">
-                    Suivant →
-                </button>
-            `;
-        }
-
-        paginationHTML += '</div>';
-        paginationContainer.innerHTML = paginationHTML;
-    }
-
-    window.loadCommentsPage = loadComments;
 
     // Initialiser le formulaire de commentaire
     function initializeCommentForm() {
@@ -251,13 +231,16 @@
                 e.target.reset();
                 updateCharCount(0);
 
-                await loadComments(1);
+                // Recharger les commentaires (garder l'état actuel: tous ou 5)
+                await loadComments(allCommentsLoaded);
 
+                // Mettre à jour le compteur
                 const countElement = document.getElementById('comments-count');
                 if (countElement) {
                     countElement.textContent = parseInt(countElement.textContent) + 1;
                 }
 
+                // Scroller vers les commentaires
                 setTimeout(() => {
                     document.getElementById('comments-list')?.scrollIntoView({
                         behavior: 'smooth',

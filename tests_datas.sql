@@ -1,6 +1,21 @@
+INSERT INTO `users` (`id`, `nom`, `prenom`, `username`, `email`, `phone`, `city`, `email_verified_at`, `password`, `display_name`, `company_name`, `address`, `website`, `logo`, `balance`, `role`, `is_active`, `advertiser_status`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Admin', 'Master', 'masteradmin', 'admin@ligneclairemedia.com', NULL, NULL, '2025-10-28 22:41:16', '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', 'Rédaction LCM+', NULL, NULL, NULL, NULL, 0.00, 'master_admin', 1, NULL, 'XZTp8UxKkOLRrJyerYmTZF0zgSANtWFvTRt65gX24CfWeqk3ZdmnKEBAIc68', '2025-10-28 22:41:16', '2025-10-28 22:41:16', NULL),
+(2, 'Administrateur', 'Principal', 'admin', 'redaction@ligneclairemedia.com', NULL, NULL, '2025-10-28 22:41:16', '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', 'Équipe LCM+', NULL, NULL, NULL, NULL, 0.00, 'admin', 1, NULL, NULL, '2025-10-28 22:41:16', '2025-10-28 22:41:16', NULL),
+(3, 'Dupont', 'Jean', 'jdupont', 'j.dupont@ligneclairemedia.com', NULL, NULL, '2025-10-28 22:41:16', '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', 'Jean Dupont', NULL, NULL, NULL, NULL, 0.00, 'redacteur', 1, NULL, NULL, '2025-10-28 22:41:16', '2025-10-28 22:41:16', NULL),
+(4, 'Martin', 'Sophie', 'smartin', 's.martin@ligneclairemedia.com', NULL, NULL, '2025-10-28 22:41:17', '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', 'Sophie Martin', NULL, NULL, NULL, NULL, 0.00, 'journaliste', 1, NULL, NULL, '2025-10-28 22:41:17', '2025-10-28 22:41:17', NULL),
+(5, 'Test', 'Advertiser', 'advertiser_test', 'advertiser@test.com', NULL, NULL, NULL, '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', NULL, 'Test Company SARL', NULL, NULL, NULL, 0.00, 'advertiser', 1, 'active', NULL, '2025-10-28 22:54:36', '2025-10-28 22:54:36', NULL),
+(6, 'Frye', 'Harding', 'varchangedegueno', 'varchangedegueno@gmail.com', '+1 (256) 436-1286', 'Veniam dolore exerc', NULL, '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', NULL, NULL, NULL, NULL, NULL, 0.00, 'advertiser', 1, 'active', NULL, '2025-10-28 23:24:13', '2025-10-28 23:24:13', NULL),
+(7, 'Mcpherson', 'April', 'vewazow', 'vewazow@mailinator.com', '+1 (741) 745-9638', 'Et veniam nostrud q', NULL, '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', NULL, NULL, NULL, NULL, NULL, 0.00, 'witness', 1, NULL, NULL, '2025-10-29 07:53:30', '2025-10-29 07:53:30', NULL),
+(8, 'Salas', 'Jael', 'leconeluro', 'leconeluro@mailinator.com', '+1 (903) 645-3188', 'Aliqua Deserunt lau', NULL, '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', NULL, NULL, NULL, NULL, NULL, 0.00, 'contributor', 1, NULL, NULL, '2025-10-29 08:08:23', '2025-10-29 08:08:23', NULL),
+(9, 'Mullen', 'Plato', 'rufiqine', 'rufiqine@mailinator.com', '+1 (682) 816-6691', 'Dolorem voluptas ex', NULL, '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', NULL, NULL, NULL, NULL, NULL, 0.00, 'witness', 1, NULL, NULL, '2025-10-29 09:54:40', '2025-10-29 09:54:40', NULL),
+(10, 'Townsend', 'Zelenia', 'qumixi', 'qumixi@mailinator.com', '+1 (881) 972-1443', 'Est ut vel doloribus', NULL, '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', NULL, NULL, NULL, NULL, NULL, 0.00, 'investigator', 1, NULL, NULL, '2025-10-29 10:50:20', '2025-10-29 10:50:20', NULL),
+(11, 'DEGUENON', 'Archange', 'degkofdegueno', 'degkofdegueno@gmail.com', '+2290152003929', 'Cotonou', NULL, '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', NULL, NULL, NULL, NULL, NULL, 0.00, 'contributor', 1, NULL, NULL, '2025-10-29 11:51:11', '2025-10-29 11:51:11', NULL),
+(12, 'Farmer', 'Leah', 'qyqucim', 'qyqucim@mailinator.com', '+1 (733) 294-4184', 'Cupiditate ut eos v', NULL, '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', NULL, NULL, NULL, NULL, NULL, 0.00, 'investigator', 1, NULL, NULL, '2025-11-03 09:12:02', '2025-11-03 09:12:02', NULL),
+(13, 'Massey', 'Jane', 'cuza', 'cuza@mailinator.com', '+1 (718) 789-2384', 'Exercitationem accus', NULL, '$2y$12$gjXgHDz8ac5APX59Fik.TuxpfVTGGLO1f89MOnNiHr1Z1fv55axWe', NULL, NULL, NULL, NULL, NULL, 0.00, 'investigator', 1, NULL, NULL, '2025-11-03 18:24:16', '2025-11-03 18:24:16', NULL);
 
 INSERT INTO `rubriques` (`id`, `name`, `slug`, `description`, `order`, `is_active`, `icon`, `color`, `views_count`, `created_at`, `updated_at`) VALUES
-(1, 'Politique', 'politique', 'Actualité politique nationale et internationale', 1, 1, '🏛️', '#1e3a8a', 102, '2025-10-09 08:05:51', '2025-10-15 22:38:10'),
+(19, 'Présidentielle 2026', 'politique_presidentielle', 'Actualité politique du Bénin', 1, 1, '🏛️', '#1e3a8a', 102, '2025-10-09 08:05:51', '2025-10-15 22:38:10'),
+(1, 'Politique', 'politique', 'Actualité politique nationale et internationale', 2, 1, '🏛️', '#1e3a8a', 102, '2025-10-09 08:05:51', '2025-10-15 22:38:10'),
 (2, 'Économie', 'economie', 'Économie, finance et entreprises', 2, 1, '💼', '#059669', 45, '2025-10-09 08:05:51', '2025-10-16 14:24:29'),
 (3, 'Santé', 'sante', 'Santé, médecine et bien-être', 3, 1, '🏥', '#dc2626', 10, '2025-10-09 08:05:51', '2025-10-09 14:05:57'),
 (4, 'Éducation', 'education', 'Éducation, formation et recherche', 4, 1, '📚', '#7c3aed', 30, '2025-10-09 08:05:51', '2025-10-09 14:28:48'),
@@ -18,6 +33,7 @@ INSERT INTO `rubriques` (`id`, `name`, `slug`, `description`, `order`, `is_activ
 (16, 'Crypto', 'crypto', 'Description', 16, 1, '💼', '#2563eb', 0, '2025-09-04 10:38:16', '2025-09-04 10:38:16'),
 (17, 'Emplois', 'emplois', NULL, 17, 1, '💼', '#2563eb', 0, '2025-09-04 10:38:16', '2025-09-17 10:38:42'),
 (18, 'Faits de Société', 'faits-de-societe', NULL, 18, 1, '🌍', '#2563eb', 2, '2025-09-04 10:38:16', '2025-10-16 20:38:36');
+
 
 
 INSERT INTO `publications` (`id`, `user_id`, `rubrique_id`, `title`, `slug`, `excerpt`, `content`, `type`, `featured_image`, `video_url`, `external_link`, `video_duration`, `status`, `is_featured`, `is_breaking`, `published_at`, `views_count`, `comments_count`, `shares_count`, `meta_title`, `meta_description`, `meta_keywords`, `created_at`, `updated_at`, `deleted_at`) VALUES

@@ -1,10 +1,10 @@
 @extends('layouts.frontend')
 
-@section('title', 'Soutenez LCM - La clarté de l\'information')
+@section('title', 'Soutenez LCM Plus- La clarté de l\'information')
 
 @section('meta_description', 'Soutenez LIGNE CLAIRE MÉDIA+ et contribuez à une presse libre et indépendante au Bénin et en Afrique.')
 
-@section('meta_keywords', 'don, abonnement, soutien, presse libre, LCM, média indépendant, Bénin')
+@section('meta_keywords', 'don, abonnement, soutien, presse libre, LCM Plus, média indépendant, Bénin')
 
 @push('styles')
 <style>
@@ -422,7 +422,7 @@
 
     <!-- Hero Section -->
     <section class="support-hero">
-        <h1>Soutenez LCM, la clarté de l'information !</h1>
+        <h1>Soutenez LCM Plus, la clarté de l'information !</h1>
         <p>Financez un média libre, indépendant et 100 % numérique, accessible à tous.</p>
     </section>
 
@@ -439,7 +439,7 @@
                 </div>
 
                 <div class="card-content">
-                    <h3>Votre don permet à LCM Press de :</h3>
+                    <h3>Votre don permet à LCM Plus de :</h3>
                     <ul>
                         <li>Financer ses enquêtes et reportages indépendants</li>
                         <li>Protéger ses journalistes et ses sources</li>
@@ -539,14 +539,14 @@
             </div>
             <div class="card-body">
                 <div class="info-box">
-                    Je garantis l'indépendance de LCM Press, la clarté de l'information.
+                    Je garantis l'indépendance de LCM Plus, la clarté de l'information.
                 </div>
 
                 <div class="card-content">
                     <h3>En tant qu'abonné, vous avez accès à :</h3>
                     <ul>
                         <li>La Newsletter quotidienne exclusive</li>
-                        <li>Le fil Telegram des Coulisses de LCM</li>
+                        <li>Le fil Telegram des Coulisses de LCM Plus</li>
                         <li>Le forum privé des abonnés</li>
                         <li>Les FAQ en direct avec l'équipe</li>
                         <li>Des masterclass mensuelles sur le journalisme</li>
@@ -630,7 +630,7 @@
     <div class="container mx-auto px-4 py-12 max-w-4xl">
         <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-2 border-blue-200">
             <h2 class="text-3xl font-black text-blue-900 mb-6 text-center">
-                Pourquoi soutenir LCM Press ?
+                Pourquoi soutenir LCM Plus ?
             </h2>
 
             <div class="grid md:grid-cols-2 gap-6 mb-6">

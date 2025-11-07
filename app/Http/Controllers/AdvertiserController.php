@@ -34,7 +34,7 @@ class AdvertiserController extends Controller
             'total_campaigns' => $user->advertisements()->count(),
             'active_campaigns' => $user->advertisements()->active()->count(),
             'pending_campaigns' => $user->advertisements()->pending()->count(),
-            'balance' => $profile->balance,
+            'balance' => $profile->balance ?? 0,
             'total_impressions' => $user->advertisements()->sum('impressions_count'),
             'total_clicks' => $user->advertisements()->sum('clicks_count'),
             'total_spent' => $user->advertisements()->sum('spent'),
@@ -56,13 +56,15 @@ class AdvertiserController extends Controller
     public function completeProfile()
     {
         $profile = auth()->user()->advertiserProfile;
-
+        $profileStatus = 'En attente';
+// dd($profile);
         if ($profile->status !== 'pending') {
-            return redirect()->route('advertiser.dashboard')
-                ->with('info', 'Votre profil a déjà été traité.');
+            // return redirect()->route('advertiser.dashboard')
+            //     ->with('info', 'Votre profil a déjà été traité.');
+            $profileStatus = 'Validé';
         }
 
-        return view('advertiser.profile.complete', compact('profile'));
+        return view('advertiser.profile.complete', compact('profile', 'profileStatus'));
     }
 
     /**

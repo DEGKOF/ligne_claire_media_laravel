@@ -5,20 +5,6 @@
 
 @section('content')
 
-<style>
-    /* Par défaut, cacher l'élément */
-    .shareOnPhone {
-    display: none;
-    }
-
-    /* L'afficher uniquement sur les petits et moyens écrans */
-    @media (max-width: 1024px) {
-    .shareOnPhone {
-        display: block;
-    }
-    }
-
-</style>
 <meta name="publication-slug" content="{{ $publication->slug }}">
 
 <div class="container mx-auto px-4 py-8">
@@ -185,7 +171,7 @@
                             Twitter
                         </a>
                         <button onclick="navigator.share({title: '{{ $publication->title }}', url: '{{ route('publication.show', $publication->slug) }}'})"
-                                class="bg-gray-700 text-white px-6 py-0 rounded-lg font-semibold hover:bg-gray-800 transition shareOnPhone">
+                                class="bg-gray-700 text-white px-6 py-0 rounded-lg font-semibold hover:bg-gray-800 transition">
                             Plus
                         </button>
                     </div>
@@ -194,23 +180,37 @@
         </article>
 
         <!-- Related Articles -->
-</article>
-
-        <!-- Related Articles -->
         @if($relatedArticles->isNotEmpty())
         <section class="mt-12">
             <h2 class="text-2xl font-bold mb-6">Articles similaires</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($relatedArticles as $related)
                 <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
-                    <!-- ... contenu de l'article similaire ... -->
+                    <a href="{{ route('publication.show', $related->slug) }}">
+                        <div class="h-40 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                            @if($related->featured_image)
+                                <img src="{{ asset('storage/' . $related->featured_image) }}"
+                                     alt="{{ $related->title }}"
+                                     class="w-full h-full object-cover">
+                            @else
+                                <span class="text-white text-4xl">📰</span>
+                            @endif
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-sm leading-tight mb-2 line-clamp-2">
+                                {{ $related->title }}
+                            </h3>
+                            <span class="text-xs text-gray-500">
+                                {{ $related->published_at->diffForHumans() }}
+                            </span>
+                        </div>
+                    </a>
                 </article>
                 @endforeach
             </div>
         </section>
-        @endif
+        <!-- Comments Section -->
 
-        <!-- Comments Section - EN DEHORS DU @ if -->
         <section class="mt-12 bg-white rounded-lg shadow-xl overflow-hidden">
             <div class="px-8 py-6 border-b">
                 <h2 class="text-2xl font-bold">
@@ -233,7 +233,7 @@
                         <span class="block sm:inline" id="error-text"></span>
                     </div>
 
-                    <!-- Champs pour invités -->
+                    <!-- Champs pour invités (masqués si connecté) -->
                     <div id="guest-fields" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="guest_name" class="block text-sm font-medium text-gray-700 mb-1">
@@ -276,6 +276,21 @@
                     </div>
 
                     <!-- Bouton de soumission -->
+                    {{-- <div class="flex justify-end">
+                        <button type="submit"
+                                id="submit-btn"
+                                class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+                            <span id="submit-text">Publier le commentaire</span>
+                            <span id="submit-loading" class="hidden">
+                                <svg class="inline animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Envoi en cours...
+                            </span>
+                        </button>
+                    </div> --}}
+                    <!-- Bouton de soumission -->
                     <div class="flex justify-end">
                         <button type="submit"
                                 id="submit-btn"
@@ -303,12 +318,13 @@
                 </div>
 
                 <!-- Pagination -->
-                <div id="comments-pagination" class="mt-6 flex justify-center">
-                    <!-- Le bouton sera généré via JavaScript -->
+                <div id="comments-pagination" class="mt-6 flex justify-center hidden">
+                    <!-- La pagination sera générée via JavaScript -->
                 </div>
             </div>
         </section>
 
+        @endif
     </div>
 </div>
 

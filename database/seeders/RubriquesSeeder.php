@@ -10,31 +10,39 @@ class RubriquesSeeder extends Seeder
     public function run(): void
     {
         $rubriques = [
+            //
+            [
+                'name' => 'Présidentielle 2026',
+                'description' => 'Actualité politique du Bénin',
+                'order' => 1,
+                'icon' => '🏛️',
+                'color' => '#1e3a8a',
+            ],
             [
                 'name' => 'Politique',
                 'description' => 'Actualité politique nationale et internationale',
-                'order' => 1,
+                'order' => 2,
                 'icon' => '🏛️',
                 'color' => '#1e3a8a',
             ],
             [
                 'name' => 'Économie',
                 'description' => 'Économie, finance et entreprises',
-                'order' => 2,
+                'order' => 3,
                 'icon' => '💼',
                 'color' => '#059669',
             ],
             [
                 'name' => 'Santé',
                 'description' => 'Santé, médecine et bien-être',
-                'order' => 3,
+                'order' => 4,
                 'icon' => '🏥',
                 'color' => '#dc2626',
             ],
             [
                 'name' => 'Éducation',
                 'description' => 'Éducation, formation et recherche',
-                'order' => 4,
+                'order' => 5,
                 'icon' => '📚',
                 'color' => '#7c3aed',
             ],

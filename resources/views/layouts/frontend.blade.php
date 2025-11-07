@@ -354,7 +354,7 @@
                 <!-- Section Autres -->
                 <div class="space-y-1">
                     <a
-                    {{-- href="{{ route('advertising.contact') }}" --}}
+                    href="{{ route('annonceurs') }}"
                         class="flex items-center py-2 px-3 text-gray-500 hover:text-gray-700 text-sm font-medium transition">
                         <span>Annonceurs</span>
                         <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">

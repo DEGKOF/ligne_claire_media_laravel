@@ -293,7 +293,7 @@
                 </div>
 
                 <div class="card-content">
-                    <h3>Votre don permet à LCM Press de :</h3>
+                    <h3>Votre don permet à LCM Plus de :</h3>
                     <ul>
                         <li>financer ses enquêtes et reportages indépendants,</li>
                         <li>protéger ses journalistes et ses sources,</li>
@@ -383,7 +383,7 @@
             </div>
             <div class="card-body">
                 <div class="info-box">
-                    Je garantis l'indépendance de LCM Press, la clarté de l'information.
+                    Je garantis l'indépendance de LCM Plus, la clarté de l'information.
                 </div>
 
                 <div class="card-content">

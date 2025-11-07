@@ -28,20 +28,84 @@ class CommentController extends Controller
     //         ]
     //     ]);
     // }
+// public function index(Publication $publication)
+// {
+//     $comments = $publication->approvedComments()
+//         ->with('user')
+//         ->paginate(10);
+
+//     // Transformer les commentaires pour le debug
+//     $commentsData = $comments->map(function($comment) {
+//         return [
+//             'id' => $comment->id,
+//             'content' => $comment->content,
+//             'user_id' => $comment->user_id,
+//             'guest_name' => $comment->guest_name,
+//             'guest_email' => $comment->guest_email,
+//             'author_name' => $comment->author_name,
+//             'author_initials' => $comment->author_initials,
+//             'time_ago' => $comment->time_ago,
+//             'created_at' => $comment->created_at->toIso8601String(),
+//         ];
+//     });
+
+//     // \Log::info('Comments loaded:', ['comments' => $commentsData->toArray()]);
+
+//     return response()->json([
+//         'success' => true,
+//         'comments' => $commentsData,
+//         'pagination' => [
+//             'current_page' => $comments->currentPage(),
+//             'last_page' => $comments->lastPage(),
+//             'total' => $comments->total(),
+//         ]
+//     ]);
+// }
+
 public function index(Publication $publication)
 {
+    // Récupérer le paramètre 'all' pour charger tous les commentaires
+    $loadAll = request()->get('all', false);
+
+    if ($loadAll) {
+        // Charger TOUS les commentaires
+        $comments = $publication->approvedComments()
+            ->with('user')
+            ->latest()
+            ->get();
+
+        $commentsData = $comments->map(function($comment) {
+            return [
+                'id' => $comment->id,
+                'content' => $comment->content,
+                'author_name' => $comment->author_name,
+                'author_initials' => $comment->author_initials,
+                'time_ago' => $comment->time_ago,
+                'created_at' => $comment->created_at->toIso8601String(),
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'comments' => $commentsData,
+            'all_loaded' => true,
+            'total' => $comments->count(),
+        ]);
+    }
+
+    // Charger seulement 5 commentaires
     $comments = $publication->approvedComments()
         ->with('user')
-        ->paginate(10);
+        ->latest()
+        ->limit(5)
+        ->get();
 
-    // Transformer les commentaires pour le debug
+    $total = $publication->approvedComments()->count();
+
     $commentsData = $comments->map(function($comment) {
         return [
             'id' => $comment->id,
             'content' => $comment->content,
-            'user_id' => $comment->user_id,
-            'guest_name' => $comment->guest_name,
-            'guest_email' => $comment->guest_email,
             'author_name' => $comment->author_name,
             'author_initials' => $comment->author_initials,
             'time_ago' => $comment->time_ago,
@@ -49,16 +113,12 @@ public function index(Publication $publication)
         ];
     });
 
-    // \Log::info('Comments loaded:', ['comments' => $commentsData->toArray()]);
-
     return response()->json([
         'success' => true,
         'comments' => $commentsData,
-        'pagination' => [
-            'current_page' => $comments->currentPage(),
-            'last_page' => $comments->lastPage(),
-            'total' => $comments->total(),
-        ]
+        'all_loaded' => false,
+        'total' => $total,
+        'showing' => $comments->count(),
     ]);
 }
     /**

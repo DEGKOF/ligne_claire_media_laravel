@@ -5,6 +5,12 @@
 @section('content')
 <div class="container mx-auto px-4 py-8 max-w-4xl">
 
+    @if (isset($profileStatus) && $profileStatus != null)
+
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+                    Statut du Profile: {{ $profileStatus }}
+                </div>
+    @endif
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900">Compléter mon profil annonceur</h1>
         <p class="text-gray-600 mt-2">Veuillez remplir toutes les informations pour validation</p>

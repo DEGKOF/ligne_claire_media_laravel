@@ -738,7 +738,7 @@
                         </div>
                         <div class="offer-card">
                             <h3>Transparence</h3>
-                            <p>LCM Press assure la <strong>modération, la mise en forme et la visibilité</strong> sur le site et les réseaux</p>
+                            <p>LCM Plus assure la <strong>modération, la mise en forme et la visibilité</strong> sur le site et les réseaux</p>
                         </div>
                     </div>
 

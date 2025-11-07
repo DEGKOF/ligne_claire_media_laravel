@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
             // Informations entreprise
-            $table->string('company_name');
+            $table->string('company_name')->nullable();
             $table->string('legal_form')->nullable(); // SARL, SA, EI, etc.
             $table->string('rccm')->nullable(); // Registre de Commerce
             $table->string('ifu')->nullable(); // Identifiant Fiscal Unique
@@ -46,7 +46,7 @@ return new class extends Migration
             $table->foreignId('validated_by')->nullable()->constrained('users');
 
             // Facturation
-            $table->decimal('balance', 10, 2)->default(0);
+            $table->decimal('balance', 10, 2)->default(0)->nullable();
             $table->decimal('credit_limit', 10, 2)->default(0);
             $table->boolean('auto_recharge')->default(false);
             $table->decimal('auto_recharge_threshold', 10, 2)->nullable();

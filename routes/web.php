@@ -50,8 +50,30 @@ Route::get('/soutenir-le-media', function () {
     return view('soutient', compact('breakingNews'));
 })->name('soutient');
 
-Route::post('/donation/process', [DonationController::class, 'process'])->name('donation.process');
-Route::post('/subscription/process', [SubscriptionController::class, 'process'])->name('subscription.process');
+
+Route::get('/annonceurs', function () {
+        // Récupérer les breaking news pour la sidebar
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+
+    return view('frontend.annonceurs', compact('breakingNews'));
+})->name('annonceurs');
+
+// Route::post('/donation/process', [DonationController::class, 'process'])->name('donation.process');
+// Route::post('/subscription/process', [SubscriptionController::class, 'process'])->name('subscription.process');
+Route::get('/subscription-process', function () {
+        // Récupérer les breaking news pour la sidebar
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+
+    return back();
+})->name('subscription.process');
 
 Route::get('payment-success/{id}', function () {
     return view('welcome_success');

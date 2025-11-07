@@ -47,25 +47,28 @@ Rubrique Crypto, Emplois, Faits divers  => done
 Validation des temoignages avant affichage frontend, => In progress
 
 Correction de la page community => Done
+Toujours mettre LCM + => Done
+Rubrique Présidentielle 2026, juste après acheter journal => Done
+Mettre le lien derriere le menu annonceur, => Done
+Partie Boutique et affichage des pubs dans d'autres sections frontend, => Done
+Les temoignages sont juste pour le backoffice apres propositions, pas pour un affichage frontend => Done
+Les commentaires sur les articles => Done
+Ajouter Loterie nationnale => Pas d'api dispo actu, ne pourra être ajouté que dans la section Pub
 
-Partie Boutique et affichage des pubs dans d'autres sections frontend,
-
-
-Convertion du fichier du journal en code avec conception de son backend,
 
 Integration du moyen de paiement.
 
 Mettre le lien des document à télécharger pour les poles cote admin
-Les temoignages sont juste pour le backoffice apres propositions, pas pour un affichage frontend
 
-Toujours mettre LCM +
-Rubrique Présidentielle 2026, juste après acheter journal
-Mettre le lien derriere le menu annonceur,
 Nous rejoindre est pour le recrutement avec soumission de CV et Lettre de motivation
-Ajouter Loterie nationnale
-Les commentaires sur les articles
+
+
 La bourse Africaine: https://www.brvm.org/ les elements de la liste  du top de la page
 
+
+
+
+Convertion du fichier du journal en code avec conception de son backend,
 pour le journal
 
 TItre: Ligne claire News(en noir)
@@ -73,7 +76,7 @@ La couleur rouge en bleu
 Google Ads et autres APIs de pub
 Pour les images correspondates, voir telegram: date du 09-Oct-2025
 
-
+----Revoir les redirections vers les dashbords correspondant aux roles: AuthenticatedSessionController.php
 
 
 

@@ -26,6 +26,7 @@
                         <a href="{{ route('advertiser.profile.complete') }}" class="font-medium underline">
                             Compléter mon profil
                         </a>
+                           et faîtes vous valider pour créer vos campagnes
                     </p>
                 </div>
             </div>
@@ -46,7 +47,13 @@
         <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
             <div class="flex">
                 <div class="ml-3">
-                    <h3 class="text-sm font-medium text-red-800">Compte suspendu</h3>
+                    <h3 class="text-sm font-medium text-red-800">
+                        Compte suspendu, prière de contacter l'administrateur du site :
+                        <a href="mailto:contact@ligneclairemediaplus.com" style="text-decoration: underline;" title="Envoyer un e-mail à l’administrateur">
+                        contact@ligneclairemediaplus.com
+                        </a>
+
+                    </h3>
                     <p class="mt-1 text-sm text-red-700">{{ $profile->rejection_reason }}</p>
                 </div>
             </div>
