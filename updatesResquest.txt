@@ -57,6 +57,7 @@ Nous rejoindre est pour le recrutement avec soumission de CV et Lettre de motiva
 Ajouter Loterie nationnale => Pas d'api dispo actu, ne pourra être ajouté que dans la section Pub
 
 
+Admin: Temoignages - Campagnes
 Integration du moyen de paiement.
 
 Mettre le lien des document à télécharger pour les poles cote admin

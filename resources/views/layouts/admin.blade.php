@@ -41,7 +41,6 @@
                         <!-- Dashboard -->
                         <a href="{{ route('admin.dashboard') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.dashboard') ? 'bg-white/20' : '' }}">
-                            {{-- <span>📊</span> --}}
                             <span class="font-medium">Dashboard</span>
                         </a>
                     @endif
@@ -52,12 +51,10 @@
                         <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Publications</div>
                         <a href="{{ route('admin.publications.index') }}"
                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.publications.*') ? 'bg-white/20' : '' }}">
-                            {{-- <span>📝</span> --}}
                             <span class="font-medium">Tous les articles</span>
                         </a>
                         <a href="{{ route('admin.publications.create') }}"
                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition">
-                            {{-- <span>➕</span> --}}
                             <span class="font-medium">Nouveau</span>
                         </a>
                     </div>
@@ -69,7 +66,6 @@
                         <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Rubriques</div>
                         <a href="{{ route('admin.rubriques.index') }}"
                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.rubriques.*') ? 'bg-white/20' : '' }}">
-                            {{-- <span>📂</span> --}}
                             <span class="font-medium">Gérer les rubriques</span>
                         </a>
                     </div>
@@ -78,30 +74,21 @@
                     <!-- Utilisateurs (si admin) -->
                     @if(auth()->user()->isAdmin())
                     <div class="mt-6">
-                        {{-- <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
-                        <a href="#"
-                           class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition">
-                            <span>👥</span>
-                            <span class="font-medium">Utilisateurs</span>
-                        </a> --}}
 
                         <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Utilisateurs externes</div>
                         <a href="{{ route('admin.community.index') }}"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.community.*') ? 'bg-white/20' : '' }}">
 
-                                {{-- <span>👥</span> --}}
                             <span class="font-medium">Communautés</span>
                         </a>
                         <a href="{{ route('admin.investigations.index') }}"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.investigations.*') ? 'bg-white/20' : '' }}">
 
-                                {{-- <span>👥</span> --}}
                             <span class="font-medium">Investigations</span>
                         </a>
-                        <a href="{{ route('admin.testimonies.index') }}"
+                        <a href="{{ route('admin.testimonies.index.page') }}"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.testimonies.*') ? 'bg-white/20' : '' }}">
 
-                                {{-- <span>👥</span> --}}
                             <span class="font-medium">Témoignages</span>
                         </a>
 
@@ -111,18 +98,12 @@
                             <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Publicités</div>
                             <a href="{{ route('admin.advertisers.index') }}"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.advertisers.*') ? 'bg-white/20' : '' }}">
-                                {{-- <span>🏢</span> --}}
                                 <span class="font-medium">Annonceurs</span>
                             </a>
                             <a href="{{ route('admin.advertisements.index') }}"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.advertisements.*') && !request()->routeIs('admin.advertisements.placements.*') ? 'bg-white/20' : '' }}">
-                                {{-- <span>📢</span> --}}
                                 <span class="font-medium">Campagnes</span>
                             </a>
-                            {{-- <a href="#{{ route('admin.advertisements.placements.index') }}"
-                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.advertisements.placements.*') ? 'bg-white/20' : '' }}">
-                                <span class="font-medium">Emplacements</span>
-                            </a> --}}
                         </div>
                         @endif
                     </div>
@@ -131,37 +112,26 @@
                         <!-- Dashboard -->
                         <a href="{{ route('advertiser.dashboard') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.dashboard') ? 'bg-white/20' : '' }}">
-                            {{-- <span>📊</span> --}}
                             <span class="font-medium">Dashboard</span>
                         </a>
 
                         <!-- Dashboard -->
                         <a href="{{ route('advertiser.profile.complete') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.profile.complete') ? 'bg-white/20' : '' }}">
-                            {{-- <span>📊</span> --}}
                             <span class="font-medium">Mon profile</span>
                         </a>
 
                         <!-- Dashboard -->
                         <a href="{{ route('advertiser.campaigns.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.campaigns.index') ? 'bg-white/20' : '' }}">
-                            {{-- <span>📊</span> --}}
                             <span class="font-medium">Mes campagnes</span>
                         </a>
-
-                        <!-- Dashboard -->
-                        {{-- <a href="{{ route('advertiser.dashboard') }}"
-                        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.dashboard') ? 'bg-white/20' : '' }}">
-                            <span>📊</span>
-                            <span class="font-medium">Dashboard</span>
-                        </a> --}}
                     @endif
 
                     @if(auth()->user()->isAdmin())
                         <!-- Candidatures -->
                         <a href="{{ route('admin.candidatures.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.candidatures.*') ? 'bg-white/20' : '' }}">
-                            {{-- <span>👥</span> --}}
                             <span class="font-medium">Candidatures</span>
                         </a>
                     @endif
@@ -239,9 +209,6 @@
             alert('Sidebar mobile à implémenter');
         }
     </script>
-{{-- <div id="editor">
-    <p>This is the editor content.</p>
-</div> --}}
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <script>
     CKEDITOR.replace( 'editor' );

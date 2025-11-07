@@ -61,7 +61,8 @@ class AdvertisementManagementController extends Controller
             ->groupBy('date')
             ->orderBy('date')
             ->get();
-
+            // dd($campaign);
+            
         return view('admin.advertisements.show', compact('campaign', 'dailyStats'));
     }
 

@@ -399,6 +399,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     // ============================================
     Route::prefix('testimonies')->name('admin.testimonies.')->group(function () {
         // Liste et détails
+        Route::get('/index-testimonies', [AdminWitnessController::class, 'indexTestimonies'])->name('index.page');
         Route::get('/', [AdminWitnessController::class, 'index'])->name('index');
         Route::get('/{testimony}', [AdminWitnessController::class, 'show'])->name('show');
 

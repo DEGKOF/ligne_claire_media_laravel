@@ -14,6 +14,10 @@ class AdminWitnessController extends Controller
     /**
      * Afficher la liste des témoignages
      */
+    public function indexTestimonies(Request $request)
+    {
+        return view('admin.testimonies.index');
+    }
     public function index(Request $request)
     {
         $query = WitnessTestimony::with(['user', 'validator']);
@@ -68,6 +72,7 @@ class AdminWitnessController extends Controller
             'testimonies' => $testimonies,
             'stats' => $stats
         ]);
+        // return view('admin.testimonies.index', compact('testimonies', 'stats'));
     }
 
     /**
