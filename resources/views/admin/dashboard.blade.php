@@ -11,7 +11,9 @@
                 <p class="text-gray-600 text-sm font-medium mb-1">Total Publications</p>
                 <p class="text-3xl font-bold text-gray-900">{{ number_format($stats['total_publications']) }}</p>
             </div>
-            <div class="text-blue-600 text-4xl">📝</div>
+            <div class="text-blue-600 text-4xl">
+                {{-- <i class="fas fa-file-alt"></i> --}}
+            </div>
         </div>
     </div>
 
@@ -22,7 +24,9 @@
                 <p class="text-gray-600 text-sm font-medium mb-1">Publiées</p>
                 <p class="text-3xl font-bold text-gray-900">{{ number_format($stats['published_publications']) }}</p>
             </div>
-            <div class="text-green-600 text-4xl">✓</div>
+            <div class="text-green-600 text-4xl">
+                {{-- <i class="fas fa-check-circle"></i> --}}
+            </div>
         </div>
     </div>
 
@@ -33,7 +37,9 @@
                 <p class="text-gray-600 text-sm font-medium mb-1">Brouillons</p>
                 <p class="text-3xl font-bold text-gray-900">{{ number_format($stats['draft_publications']) }}</p>
             </div>
-            <div class="text-yellow-600 text-4xl">📋</div>
+            <div class="text-yellow-600 text-4xl">
+                {{-- <i class="fas fa-edit"></i> --}}
+            </div>
         </div>
     </div>
 
@@ -44,7 +50,9 @@
                 <p class="text-gray-600 text-sm font-medium mb-1">Vues Totales</p>
                 <p class="text-3xl font-bold text-gray-900">{{ number_format($stats['total_views']) }}</p>
             </div>
-            <div class="text-purple-600 text-4xl">👁️</div>
+            <div class="text-purple-600 text-4xl">
+                {{-- <i class="fas fa-eye"></i> --}}
+            </div>
         </div>
     </div>
 </div>
@@ -53,7 +61,8 @@
     <!-- Publications récentes -->
     <div class="bg-white rounded-lg shadow-lg p-6">
         <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <span>📰</span> Publications récentes
+            {{-- <i class="fas fa-newspaper"></i> --}}
+            Publications récentes
         </h2>
         <div class="space-y-3">
             @foreach($recentPublications as $publication)
@@ -79,14 +88,16 @@
         </div>
         <a href="{{ route('admin.publications.index') }}"
            class="block text-center mt-4 text-blue-600 hover:text-blue-800 font-semibold text-sm">
-            Voir toutes les publications →
+            Voir toutes les publications
+            {{-- <i class="fas fa-arrow-right ml-1"></i> --}}
         </a>
     </div>
 
     <!-- Rubriques populaires -->
     <div class="bg-white rounded-lg shadow-lg p-6">
         <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <span>🔥</span> Rubriques les plus vues
+            {{-- <i class="fas fa-fire"></i> --}}
+            Rubriques les plus vues
         </h2>
         <div class="space-y-3">
             @foreach($popularRubriques as $rubrique)
@@ -119,7 +130,8 @@
     <!-- Articles les plus vus -->
     <div class="bg-white rounded-lg shadow-lg p-6">
         <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <span>📈</span> Articles les plus vus
+            {{-- <i class="fas fa-chart-line"></i> --}}
+            Articles les plus vus
         </h2>
         <div class="space-y-3">
             @foreach($popularArticles as $index => $article)
@@ -144,7 +156,8 @@
     <!-- Auteurs les plus actifs -->
     <div class="bg-white rounded-lg shadow-lg p-6">
         <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <span>✍️</span> Auteurs les plus actifs
+            {{-- <i class="fas fa-pen-fancy"></i> --}}
+            Auteurs les plus actifs
         </h2>
         <div class="space-y-3">
             @foreach($topAuthors as $author)
@@ -183,11 +196,21 @@
         <div class="text-center p-4 bg-gray-50 rounded-lg">
             <div class="text-3xl mb-2">
                 @switch($type)
-                    @case('article') 📰 @break
-                    @case('direct') 🔴 @break
-                    @case('rediffusion') 📺 @break
-                    @case('video_courte') 📹 @break
-                    @case('lien_externe') 🔗 @break
+                    @case('article')
+                        {{-- <i class="fas fa-newspaper text-blue-600"></i> --}}
+                        @break
+                    @case('direct')
+                        {{-- <i class="fas fa-circle text-red-600"></i> --}}
+                        @break
+                    @case('rediffusion')
+                        {{-- <i class="fas fa-tv text-purple-600"></i> --}}
+                        @break
+                    @case('video_courte')
+                        {{-- <i class="fas fa-video text-green-600"></i> --}}
+                        @break
+                    @case('lien_externe')
+                        {{-- <i class="fas fa-external-link-alt text-orange-600"></i> --}}
+                        @break
                 @endswitch
             </div>
             <div class="font-bold text-2xl text-gray-900">{{ $count }}</div>
