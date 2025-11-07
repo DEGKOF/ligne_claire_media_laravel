@@ -9,6 +9,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'LIGNE CLAIRE MÉDIA+ - L\'info en continu')</title>
+<link rel="icon" type="image/x-icon" sizes="32x32" href="{{ asset('favicon.png') }}">
+<link rel="icon" type="image/x-icon" sizes="16x16" href="{{ asset('favicon.png') }}">
+<link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="@yield('meta_description', 'LIGNE CLAIRE MÉDIA+ - Toute l\'actualité en temps réel')">
