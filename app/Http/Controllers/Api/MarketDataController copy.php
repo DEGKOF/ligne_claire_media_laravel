@@ -4,18 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\YahooFinanceService;
-use App\Services\BRVMService;
 use Illuminate\Http\Request;
 
 class MarketDataController extends Controller
 {
-    public function index(YahooFinanceService $yahooService, BRVMService $brvmService)
+    /**
+     * Récupère les données des marchés financiers
+     */
+    public function index(YahooFinanceService $service)
     {
         try {
-            $data = array_merge(
-                $yahooService->getMarketData(),
-                $brvmService->getMarketData()
-            );
+            $data = $service->getMarketData();
 
             return response()->json([
                 'success' => true,

@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Publication;
-use App\Services\YahooFinanceService;
 use App\Models\Rubrique;
-use App\Models\PublicationView;
+use App\Models\Publication;
 use Illuminate\Http\Request;
+use App\Services\BRVMService;
+use App\Models\PublicationView;
+use App\Services\YahooFinanceService;
 
 class FrontendController extends Controller
 {
     /**
      * Page d'accueil
      */
-    public function index(YahooFinanceService $marketService)
+    public function index(YahooFinanceService $marketService, BRVMService $brvmService )
     {
         // Récupération des données initiales
-        $marketData = $marketService->getMarketData();
+        // $marketData = $marketService->getMarketData();
+
+        // Récupération des données initiales (Yahoo + BRVM)
+        $marketData = array_merge(
+            $marketService->getMarketData(),
+            $brvmService->getMarketData()
+        );
 
         $featuredArticle = Publication::published()
             ->featured()
