@@ -876,7 +876,7 @@
         <!-- Hero -->
         <div class="lcm-community-hero">
             <center>
-                <h1>LCM Communauté — La voix des contributeurs</h1>
+                <h1><strong>LCM Communauté — La voix des contributeurs</strong></h1>
                 <h2>Renforcer un journalisme indépendant</h2>
                 <p style="max-width: 900px; margin: 0 auto 20px;"><strong>LCM Communauté</strong> est une initiative au service du journalisme libre, de l'engagement citoyen et du pluralisme médiatique.</p>
                 <p style="max-width: 900px; margin: 0 auto 25px;">À l'intersection des médias, du numérique et de la société civile, nous soutenons toutes celles et ceux qui s'engagent à produire une information rigoureuse, inclusive et indépendante.</p>
@@ -983,7 +983,7 @@
 
         <!-- Section CTA final -->
         <div class="cta-final">
-            <h2>LCM Communauté — La voix des contributeurs</h2>
+            <h2><strong>LCM Communauté — La voix des contributeurs</strong></h2>
             <p style="margin: 0 0 10px; font-size: 16px; opacity: 0.95; position: relative; z-index: 1;">Publiez vos articles, analyses et tribunes sur la première plateforme béninoise d'expression journalistique indépendante.</p>
             <div style="margin-top: 25px; position: relative; z-index: 1;">
                 <p style="margin: 0; font-size: 15px;">✓ Participez au débat.</p>

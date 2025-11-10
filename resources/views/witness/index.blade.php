@@ -572,7 +572,7 @@
     <section class="hero">
         <center>
             <div class="container">
-                <h1>Devenez témoin de votre société</h1>
+                <h1><strong>Devenez témoin de votre société</strong></h1>
                 <p>Partagez vos <strong>vidéos</strong>, <strong>photos</strong> et <strong>témoignages</strong> sur des
                     événements d'intérêt public. Notre rédaction <strong>vérifie</strong> chaque contenu avant diffusion —
                     pour
@@ -603,7 +603,7 @@
     <!-- Introduction -->
 <!-- Introduction -->
     <section id="intro" class="section active">
-        <div class="container p-grid">
+        <div class="container col-md-7 p-grid">
             <div class="panel" style="grid-column:span 12;margin-bottom:20px">
                 <header>Notre mission</header>
                 <div class="body">

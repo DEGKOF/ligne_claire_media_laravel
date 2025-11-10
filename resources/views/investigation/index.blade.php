@@ -1036,7 +1036,7 @@
     <section class="hero">
         <center>
         <div class="container">
-            <h1>Le pôle d'enquêtes d'intérêt public de LCM +</h1>
+            <h1><strong>Le pôle d'enquêtes d'intérêt public de LCM +</strong></h1>
             <p>Cellule dédiée à l'investigation numérique en Afrique francophone. Rédaction interne, pigistes et partenaires
                 (ONG, collectifs, citoyens) mènent des enquêtes validées par la direction éditoriale et diffusées en
                 <strong>article long</strong>, <strong>vidéo</strong>, <strong>podcast</strong> et
