@@ -7,6 +7,10 @@ use App\Models\Candidature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use App\Mail\CandidatureAcceptee;
+use App\Mail\CandidatureRefusee;
+use Illuminate\Support\Facades\Mail;
+
 class AdminCandidatureController extends Controller
 {
     /**
@@ -71,16 +75,51 @@ class AdminCandidatureController extends Controller
     /**
      * Mettre à jour le statut d'une candidature
      */
+    // public function updateStatus(Request $request, Candidature $candidature)
+    // {
+    //     $request->validate([
+    //         'statut' => 'required|in:en_attente,examinee,acceptee,refusee',
+    //     ]);
+
+    //     $candidature->update([
+    //         'statut' => $request->statut,
+    //         'date_examen' => now(),
+    //     ]);
+
+    //     return redirect()
+    //         ->back()
+    //         ->with('success', 'Le statut de la candidature a été mis à jour avec succès.');
+    // }
+
     public function updateStatus(Request $request, Candidature $candidature)
     {
         $request->validate([
             'statut' => 'required|in:en_attente,examinee,acceptee,refusee',
         ]);
 
+        $ancienStatut = $candidature->statut;
+
         $candidature->update([
             'statut' => $request->statut,
             'date_examen' => now(),
         ]);
+
+        // Envoyer un email si la candidature est acceptée ou refusée
+        if ($request->statut === 'acceptee' && $ancienStatut !== 'acceptee') {
+            try {
+                Mail::to($candidature->email)->send(new CandidatureAcceptee($candidature));
+            } catch (\Exception $e) {
+                \Log::error('Erreur envoi email acceptation: ' . $e->getMessage());
+            }
+        }
+
+        if ($request->statut === 'refusee' && $ancienStatut !== 'refusee') {
+            try {
+                Mail::to($candidature->email)->send(new CandidatureRefusee($candidature));
+            } catch (\Exception $e) {
+                \Log::error('Erreur envoi email refus: ' . $e->getMessage());
+            }
+        }
 
         return redirect()
             ->back()
