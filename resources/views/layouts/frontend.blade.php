@@ -49,12 +49,144 @@
             transform: translateY(0) scale(1);
         }
 
+        /* Responsive pour les popups - MOBILE */
+        @media (max-width: 640px) {
+            /* Popup DON (en bas) */
+            #donation-popup {
+                left: 50% !important;
+                right: auto !important;
+                bottom: 0.5rem !important;
+                transform: translateX(-50%);
+                width: calc(100vw - 1rem) !important;
+                max-width: 320px !important;
+            }
+
+            #donation-popup.show {
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+
+            #donation-popup.hidden {
+                transform: translateX(-50%) translateY(100px) scale(0.8);
+            }
+
+            /* Popup PUB (en haut, centré) */
+            #ad-popup {
+                left: 50% !important;
+                right: auto !important;
+                top: 5rem !important;
+                transform: translateX(-50%);
+                width: calc(100vw - 1rem) !important;
+                max-width: 300px !important;
+            }
+
+            #ad-popup.show {
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+
+            #ad-popup.hidden {
+                transform: translateX(-50%) translateY(-100px) scale(0.8);
+            }
+
+            /* Réduire le padding */
+            .flash-popup .p-6 {
+                padding: 0.875rem !important;
+            }
+
+            .flash-popup .p-8 {
+                padding: 1.25rem !important;
+            }
+
+            /* Réduire les titres */
+            .flash-popup h3.text-2xl {
+                font-size: 1.125rem !important;
+                line-height: 1.5rem !important;
+            }
+
+            .flash-popup h4.text-xl {
+                font-size: 1rem !important;
+                line-height: 1.25rem !important;
+            }
+
+            /* Réduire les emojis */
+            .flash-popup .text-4xl {
+                font-size: 1.75rem !important;
+            }
+
+            .flash-popup .text-6xl {
+                font-size: 2.5rem !important;
+            }
+
+            /* Réduire les textes */
+            .flash-popup p.text-sm {
+                font-size: 0.75rem !important;
+            }
+
+            .flash-popup p.text-xs {
+                font-size: 0.625rem !important;
+            }
+
+            /* Réduire les boutons */
+            .flash-popup button,
+            .flash-popup a.inline-block {
+                padding: 0.625rem 1rem !important;
+                font-size: 0.75rem !important;
+            }
+
+            /* Réduire les inputs */
+            .flash-popup input {
+                padding: 0.625rem 0.875rem !important;
+                font-size: 0.875rem !important;
+            }
+
+            /* Réduire la grille de montants */
+            .flash-popup .grid-cols-3 button {
+                padding: 0.5rem 0.625rem !important;
+                font-size: 0.75rem !important;
+            }
+
+            /* Réduire les gaps */
+            .flash-popup .gap-3 {
+                gap: 0.5rem !important;
+            }
+
+            .flash-popup .gap-4 {
+                gap: 0.625rem !important;
+            }
+
+            .flash-popup .mb-4 {
+                margin-bottom: 0.75rem !important;
+            }
+        }
+
+        /* Tablettes */
+        @media (min-width: 641px) and (max-width: 768px) {
+            #donation-popup {
+                width: 340px !important;
+                max-width: 90vw !important;
+            }
+
+            #ad-popup {
+                width: 320px !important;
+                max-width: 90vw !important;
+            }
+        }
+
+        /* Desktop - tailles par défaut */
+        @media (min-width: 769px) {
+            #donation-popup {
+                width: 384px; /* w-96 */
+            }
+
+            #ad-popup {
+                width: 320px; /* w-80 */
+            }
+        }
+
         @keyframes slideInRight {
             from {
                 transform: translateX(400px);
                 opacity: 0;
             }
-
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -62,12 +194,9 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
+            0%, 100% {
                 transform: scale(1);
             }
-
             50% {
                 transform: scale(1.05);
             }
@@ -106,6 +235,42 @@
         #sidebar-menu::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+
+        /* Scrollbar personnalisée pour la première ligne (pôles) */
+        nav > div > div:first-child::-webkit-scrollbar {
+            height: 3px;
+        }
+
+        nav > div > div:first-child::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        nav > div > div:first-child::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+
+        /* Scrollbar personnalisée pour la deuxième ligne (rubriques) */
+        #nav-container::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        #nav-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #nav-container::-webkit-scrollbar-thumb {
+            background-color: #2563eb;
+            border-radius: 10px;
+        }
+
+        /* Animation smooth pour le scroll horizontal */
+        nav > div > div:first-child,
+        #nav-container {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
     </style>
     @stack('styles')
 </head>
@@ -422,7 +587,7 @@
 
     <!-- Main Header -->
     <header class="bg-gradient-to-r from-blue-900 to-blue-600 shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4">
+        <div class="container mx-auto px-4 py-2">
             <div class="flex justify-between items-center">
                 <!-- Logo -->
                 <div class="flex items-center gap-4">
@@ -468,7 +633,15 @@
                     <!-- Bouton Direct -->
                     <a href="{{ route('direct') }}"
                         class="bg-red-600 border-2 border-red-600 text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-red-700 transition whitespace-nowrap flex items-center gap-1">
-                        <span class="inline-block w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                        {{-- <span class="inline-block w-2 h-2 bg-white rounded-full animate-pulse"></span> --}}
+                        {{-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 animate-pulse inline-block w-2 h-2 bg-white">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z" />
+                        </svg> --}}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+                        </svg>
+
+
                         <span class="hidden xs:inline sm:hidden">Dir</span>
                         <span class="hidden sm:inline">Direct</span>
                     </a>

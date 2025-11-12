@@ -36,7 +36,7 @@ return new class extends Migration
                 'contributor',
                 'investigator',
                 'witness'
-            ])->default('journaliste');
+            ])->default('advertiser');
 
             $table->boolean('is_active')->default(true);
 

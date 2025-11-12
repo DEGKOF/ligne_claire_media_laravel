@@ -879,18 +879,6 @@
     }
 
     // Mise à jour du widget avec les nouvelles données
-    // function updateMarketWidget(data) {
-    //     // const markets = ['cac40', 'dowjones', 'eurusd'];
-    //     const markets = ['cac40', 'dowjones', 'eurusd', 'brvm_composite', 'brvm_10'];
-
-    //     markets.forEach(market => {
-    //         if (data[market]) {
-    //             animateUpdate(market, data[market]);
-    //         }
-    //     });
-    // }
-
-    // Mise à jour du widget avec les nouvelles données
     function updateMarketWidget(data) {
         const markets = ['cac40', 'dowjones', 'eurusd', 'brvm_composite', 'brvm_30', 'brvm_prestige'];
 
