@@ -177,7 +177,7 @@
                         <span>📅 {{ $featuredArticle->formatted_published_date }}</span>
                         <span>👁️ {{ number_format($featuredArticle->views_count) }} vues</span>
                     </div>
-                    <p class="text-sm sm:text-base text-gray-700 leading-relaxed mb-4 sm:mb-6 line-clamp-3 sm:line-clamp-none">
+                    <p class="text-sm sm:text-base text-gray-700 leading-relaxed mb-4 sm:mb-6 line-clamp-3 sm:line-clamp-none text-justify">
                         {{ $featuredArticle->excerpt }}
                     </p>
                     <a href="{{ route('publication.show', $featuredArticle->slug) }}"
@@ -215,7 +215,7 @@
                                 <div class="text-blue-600 text-xs font-bold uppercase mb-2">
                                     {{ $article->rubrique->name }}
                                 </div>
-                                <h3 class="text-base sm:text-lg font-bold mb-2 sm:mb-3 leading-tight line-clamp-2">
+                                <h3 class="text-base sm:text-lg font-bold mb-2 sm:mb-3 leading-tight line-clamp-1 h-30">
                                     {{ $article->title }}
                                 </h3>
                                 <p class="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
@@ -423,7 +423,14 @@
                         </div>
                     </div>
 
-                    {{-- <!-- BRVM Composite -->
+                    <!-- Avant le bloc BRVM Composite -->
+                    <div class="bg-gradient-to-r from-green-600 to-yellow-500 text-white px-3 py-2 rounded-lg mb-3">
+                        <p class="text-xs font-bold uppercase text-center">
+                            🌍 Bourses Régionales d'Afrique
+                        </p>
+                    </div>
+
+                    <!-- BRVM Composite -->
                     <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition market-item">
                         <div>
                             <div class="font-semibold text-sm">BRVM Composite</div>
@@ -443,73 +450,51 @@
                                 {{ ($marketData['brvm_composite']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_composite']['change'] ?? '0.00' }}
                             </span>
                         </div>
-                    </div> --}}
+                    </div>
 
-<!-- BRVM Composite -->
-<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition market-item">
-    <div>
-        <div class="font-semibold text-sm">BRVM Composite</div>
-        <div class="font-bold text-lg" data-market="brvm_composite-price">
-            {{ $marketData['brvm_composite']['price'] ?? 'Chargement...' }}
-        </div>
-    </div>
-    <div class="text-right">
-        <span class="block px-3 py-1 rounded text-sm font-bold"
-            data-market="brvm_composite-badge"
-            data-positive="{{ ($marketData['brvm_composite']['is_positive'] ?? true) ? 'true' : 'false' }}">
-            <span data-market="brvm_composite-change">
-                {{ ($marketData['brvm_composite']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_composite']['change_percent'] ?? '0.00' }}%
-            </span>
-        </span>
-        <span class="text-xs text-gray-500 mt-1 block" data-market="brvm_composite-change-value">
-            {{ ($marketData['brvm_composite']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_composite']['change'] ?? '0.00' }}
-        </span>
-    </div>
-</div>
+                    <!-- BRVM 30 -->
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition market-item">
+                        <div>
+                            <div class="font-semibold text-sm">BRVM 30</div>
+                            <div class="font-bold text-lg" data-market="brvm_30-price">
+                                {{ $marketData['brvm_30']['price'] ?? 'Chargement...' }}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="block px-3 py-1 rounded text-sm font-bold"
+                                data-market="brvm_30-badge"
+                                data-positive="{{ ($marketData['brvm_30']['is_positive'] ?? true) ? 'true' : 'false' }}">
+                                <span data-market="brvm_30-change">
+                                    {{ ($marketData['brvm_30']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_30']['change_percent'] ?? '0.00' }}%
+                                </span>
+                            </span>
+                            <span class="text-xs text-gray-500 mt-1 block" data-market="brvm_30-change-value">
+                                {{ ($marketData['brvm_30']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_30']['change'] ?? '0.00' }}
+                            </span>
+                        </div>
+                    </div>
 
-<!-- BRVM 30 -->
-<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition market-item">
-    <div>
-        <div class="font-semibold text-sm">BRVM 30</div>
-        <div class="font-bold text-lg" data-market="brvm_30-price">
-            {{ $marketData['brvm_30']['price'] ?? 'Chargement...' }}
-        </div>
-    </div>
-    <div class="text-right">
-        <span class="block px-3 py-1 rounded text-sm font-bold"
-            data-market="brvm_30-badge"
-            data-positive="{{ ($marketData['brvm_30']['is_positive'] ?? true) ? 'true' : 'false' }}">
-            <span data-market="brvm_30-change">
-                {{ ($marketData['brvm_30']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_30']['change_percent'] ?? '0.00' }}%
-            </span>
-        </span>
-        <span class="text-xs text-gray-500 mt-1 block" data-market="brvm_30-change-value">
-            {{ ($marketData['brvm_30']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_30']['change'] ?? '0.00' }}
-        </span>
-    </div>
-</div>
-
-<!-- BRVM Prestige -->
-<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition market-item">
-    <div>
-        <div class="font-semibold text-sm">BRVM Prestige</div>
-        <div class="font-bold text-lg" data-market="brvm_prestige-price">
-            {{ $marketData['brvm_prestige']['price'] ?? 'Chargement...' }}
-        </div>
-    </div>
-    <div class="text-right">
-        <span class="block px-3 py-1 rounded text-sm font-bold"
-            data-market="brvm_prestige-badge"
-            data-positive="{{ ($marketData['brvm_prestige']['is_positive'] ?? true) ? 'true' : 'false' }}">
-            <span data-market="brvm_prestige-change">
-                {{ ($marketData['brvm_prestige']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_prestige']['change_percent'] ?? '0.00' }}%
-            </span>
-        </span>
-        <span class="text-xs text-gray-500 mt-1 block" data-market="brvm_prestige-change-value">
-            {{ ($marketData['brvm_prestige']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_prestige']['change'] ?? '0.00' }}
-        </span>
-    </div>
-</div>
+                    <!-- BRVM Prestige -->
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition market-item">
+                        <div>
+                            <div class="font-semibold text-sm">BRVM Prestige</div>
+                            <div class="font-bold text-lg" data-market="brvm_prestige-price">
+                                {{ $marketData['brvm_prestige']['price'] ?? 'Chargement...' }}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="block px-3 py-1 rounded text-sm font-bold"
+                                data-market="brvm_prestige-badge"
+                                data-positive="{{ ($marketData['brvm_prestige']['is_positive'] ?? true) ? 'true' : 'false' }}">
+                                <span data-market="brvm_prestige-change">
+                                    {{ ($marketData['brvm_prestige']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_prestige']['change_percent'] ?? '0.00' }}%
+                                </span>
+                            </span>
+                            <span class="text-xs text-gray-500 mt-1 block" data-market="brvm_prestige-change-value">
+                                {{ ($marketData['brvm_prestige']['is_positive'] ?? true) ? '+' : '-' }}{{ $marketData['brvm_prestige']['change'] ?? '0.00' }}
+                            </span>
+                        </div>
+                    </div>
 
 
                 </div>

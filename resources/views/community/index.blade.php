@@ -4,6 +4,12 @@
 
 @section('content')
 <style>
+
+        .container {
+            max-width: 1220px;
+            margin: 0 auto;
+            /* padding: 0 22px */
+        }
 /* Styles isolés pour la communauté */
 .lcm-community-wrapper {
     --comm-blue: #0C2D57;

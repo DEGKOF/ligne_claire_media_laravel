@@ -56,20 +56,19 @@ Les commentaires sur les articles => Done
 Nous rejoindre est pour le recrutement avec soumission de CV et Lettre de motivation => Done
 Admin: Temoignages - Campagnes => Done
 La bourse Africaine: https://www.brvm.org/ les elements de la liste  du top de la page => Done
+Ajouter Loterie nationnale => Pas d'api dispo actu, mettre le lien vers leur site => Done
+-Séparer les marché des bourses => Done
+-La largeur des container sur les poles comme sur les pages des view articles => Done
+-Redirection du popup : Votre Pub Ici dur annonceurs => Done
+-Oncglet "LCM Pub" dans la barre latérale juste apres sport, avec divider => Done
 
 
-Ajouter Loterie nationnale => Pas d'api dispo actu, mettre le lien vers leur site
 
 Integration du moyen de paiement.
 
 Mettre le lien des document à télécharger pour les poles cote admin
 
-
--Séparer les marché des bourses
--La largeur des container sur les poles comme sur les pages des view articles
 -Faire le calcul des montants des dons en fonctions des cycles choisis
--Redirection du popup : Votre Pub Ici dur annonceurs
--Oncglet "LCM Pub" dans la barre latérale juste apres sport, avec divider
 -Email de rejt ou d'acceptation des offres
 -Responsive des interfaces
 -Responsive des backoffices

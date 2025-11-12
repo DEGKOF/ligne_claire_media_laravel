@@ -33,7 +33,7 @@
         }
 
         .container {
-            /* max-width: 1220px; */
+            max-width: 1220px;
             margin: 0 auto;
             /* padding: 0 22px */
         }

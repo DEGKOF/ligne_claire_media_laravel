@@ -93,7 +93,7 @@
             <!-- Excerpt -->
             @if($publication->excerpt)
             <div class="px-8 mb-6">
-                <p class="text-xl text-gray-700 leading-relaxed font-medium border-l-4 border-blue-600 pl-6 py-4 bg-blue-50 rounded">
+                <p class="text-xl text-gray-700 leading-relaxed font-medium border-l-4 border-blue-600 pl-6 pr-4 py-4 bg-blue-50 rounded text-justify">
                     {{ $publication->excerpt }}
                 </p>
             </div>
@@ -110,7 +110,7 @@
 </center>
             <!-- Content -->
             <div class="px-8 pb-8">
-                <div class="prose prose-lg max-w-none">
+                <div class="prose prose-lg max-w-none  text-justify">
                     {{-- {!! nl2br(e($publication->content)) !!} --}}
                     {!! $publication->content !!}
                 </div>

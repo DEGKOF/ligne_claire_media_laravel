@@ -172,7 +172,8 @@ class FrontendController extends Controller
         $query = $request->input('q');
 
         if (empty($query)) {
-            return redirect()->route('home');
+            // return redirect()->route('home');
+        $query = "Votre recherche";
         }
 
         $breakingNews = Publication::published()
