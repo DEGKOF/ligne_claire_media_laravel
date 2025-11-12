@@ -57,7 +57,7 @@ class AdvertiserController extends Controller
     {
         $profile = auth()->user()->advertiserProfile;
         $profileStatus = 'En attente';
-dd($profile);
+// dd($profile);
         if ($profile->status !== 'pending') {
             // return redirect()->route('advertiser.dashboard')
             //     ->with('info', 'Votre profil a déjà été traité.');

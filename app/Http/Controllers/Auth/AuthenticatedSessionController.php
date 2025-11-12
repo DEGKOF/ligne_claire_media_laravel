@@ -46,6 +46,12 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         if ($user->role === 'advertiser') {
+            // $user = auth()->user();
+
+            // Créer le profil si inexistant
+            // if (!$user->advertiserProfile) {
+            //     $user->createProfile();
+            // }
             return redirect()->intended('/advertiser/dashboard');
         } elseif ($user->role === 'admin') {
             return redirect()->intended('/admin');

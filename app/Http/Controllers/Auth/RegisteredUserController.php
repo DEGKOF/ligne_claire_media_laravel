@@ -43,14 +43,21 @@ class RegisteredUserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            // 'role' => 'journaliste', // Rôle par défaut
+            'role' => 'advertiser', // Rôle par défaut
             'is_active' => true,
         ]);
+        
+        // $user = auth()->user();
+
+        // Créer le profil si inexistant
+        if (!$user->advertiserProfile) {
+            $user->createProfile();
+        }
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('admin.dashboard', absolute: false));
+        return redirect(route('advertiser.dashboard', absolute: false));
     }
 }
