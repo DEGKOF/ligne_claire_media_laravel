@@ -17,7 +17,7 @@
 
     .underline-input:focus {
         outline: none;
-        border-bottom-color: #10b981;
+        border-bottom-color: #3b82f6;
         background: transparent;
     }
 
@@ -41,13 +41,13 @@
     }
 
     .btn-register {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
         transition: all 0.3s ease;
     }
 
     .btn-register:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
     }
 
     .auth-link {
@@ -84,27 +84,26 @@
 
 @section('content')
 @php
-
-        $breakingNews = App\Models\Publication::published()
-            ->breaking()
-            ->latest('published_at')
-            ->take(5)
-            ->get();
+    $breakingNews = App\Models\Publication::published()
+        ->breaking()
+        ->latest('published_at')
+        ->take(5)
+        ->get();
 @endphp
-<div class="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md mx-auto">
 
-        <div class="text-center mb-8">
+        <div class="text-center mb-4">
             <h2 class="text-3xl font-extrabold text-gray-900 mb-2">
                 Créer un compte
             </h2>
-            <p class="text-gray-600">
+            {{-- <p class="text-gray-600">
                 Rejoignez la communauté LIGNE CLAIRE MÉDIA+
-            </p>
+            </p> --}}
         </div>
 
-        <div class="register-container bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div class="px-8 py-10">
+        <div class="register-container bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="px-8 py-7">
 
                 <form method="POST" action="{{ route('register') }}" class="space-y-6">
                     @csrf
