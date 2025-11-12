@@ -522,7 +522,7 @@
                         <li>Statistiques de performance</li>
                         <li>Support technique inclus</li>
                     </ul>
-                    <a href="{{ route('login') }}" class="btn btn-secondary">Commencer</a>
+                    <a href="{{ route('register') }}" class="btn btn-secondary">Commencer</a>
                 </div>
 
                 <!-- Offre 2: Pack Premium (Featured) -->
@@ -545,7 +545,7 @@
                         <li>Tableau de bord analytics</li>
                         <li>Support prioritaire 24/7</li>
                     </ul>
-                    <a href="{{ route('login') }}" class="btn btn-primary">Choisir Premium</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary">Choisir Premium</a>
                 </div>
 
                 <!-- Offre 3: Contenu Sponsorisé -->
@@ -567,7 +567,7 @@
                         <li>SEO optimisé</li>
                         <li>3 révisions incluses</li>
                     </ul>
-                    <a href="{{ route('login') }}" class="btn btn-secondary">En savoir plus</a>
+                    <a href="{{ route('register') }}" class="btn btn-secondary">En savoir plus</a>
                 </div>
 
                 {{-- <!-- Offre 4: Vidéo Publicitaire -->
@@ -588,7 +588,7 @@
                         <li>Ciblage par rubrique</li>
                         <li>Rapport détaillé de vues</li>
                     </ul>
-                    <a href="{{ route('login') }}" class="btn btn-secondary">Réserver</a>
+                    <a href="{{ route('register') }}" class="btn btn-secondary">Réserver</a>
                 </div>
 
                 <!-- Offre 5: Newsletter Sponsorisée -->
@@ -609,7 +609,7 @@
                         <li>Statistiques d'ouverture/clics</li>
                         <li>Segmentation par intérêts</li>
                     </ul>
-                    <a href="{{ route('login') }}" class="btn btn-secondary">Commander</a>
+                    <a href="{{ route('register') }}" class="btn btn-secondary">Commander</a>
                 </div>
 
                 <!-- Offre 6: Pack Entreprise -->
@@ -629,7 +629,7 @@
                         <li>Reporting mensuel</li>
                         <li>Account Manager dédié</li>
                     </ul>
-                    <a href="{{ route('login') }}" class="btn btn-accent">Nous contacter</a>
+                    <a href="{{ route('register') }}" class="btn btn-accent">Nous contacter</a>
                 </div> --}}
             </div>
         </div>
@@ -709,7 +709,7 @@
                             🚀 Accéder à mon espace
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-accent">
+                        <a href="{{ route('register') }}" class="btn btn-accent">
                             🚀 Accéder à mon espace
                         </a>
                     @endauth

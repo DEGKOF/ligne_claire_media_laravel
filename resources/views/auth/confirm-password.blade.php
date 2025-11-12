@@ -83,6 +83,14 @@
 @endpush
 
 @section('content')
+@php
+
+        $breakingNews = App\Models\Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+@endphp
 <div class="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md mx-auto">
 
