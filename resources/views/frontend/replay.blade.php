@@ -4,142 +4,75 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <!-- Page Header -->
-    <div class="text-center mb-12">
-        <h1 class="text-5xl font-black mb-4">📺 Replays</h1>
-        <p class="text-xl text-gray-600">Retrouvez toutes nos émissions en replay</p>
-    </div>
 
-    @php
-        $replays = \App\Models\Publication::published()
-            ->byType('rediffusion')
-            ->with(['user', 'rubrique'])
-            ->latest('published_at')
-            ->take(12)
-            ->get();
-    @endphp
-
-    @if($replays->isEmpty())
-        <div class="text-center py-16">
-            <p class="text-2xl text-gray-600">Aucun replay disponible pour le moment.</p>
-        </div>
-    @else
-        <!-- Featured Replay -->
-        @php $featured = $replays->first(); @endphp
-        <div class="bg-white rounded-xl shadow-2xl overflow-hidden mb-12">
-            <div class="aspect-video bg-gradient-to-br from-blue-900 to-blue-600 relative flex items-center justify-center cursor-pointer group">
-                @if($featured->featured_image)
-                    <img src="{{ asset('storage/' . $featured->featured_image) }}"
-                         alt="{{ $featured->title }}"
-                         class="w-full h-full object-cover">
-                @endif
-                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <div class="w-24 h-24 bg-white/95 rounded-full flex items-center justify-center text-blue-600 text-4xl group-hover:scale-110 transition shadow-2xl">
-                        ▶
-                    </div>
-                </div>
-                <span class="absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold uppercase">
-                    Nouveau
-                </span>
-                @if($featured->video_duration)
-                <span class="absolute bottom-4 right-4 bg-black/80 text-white px-3 py-2 rounded font-bold">
-                    {{ gmdate('H:i:s', $featured->video_duration) }}
-                </span>
-                @endif
+    <!-- Coming Soon Section -->
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl shadow-xl p-12 text-center">
+            <!-- Icon -->
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-blue-600 rounded-full mb-6">
+                <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
             </div>
-            <div class="p-8">
-                <h2 class="text-3xl font-bold mb-4">
-                    <a href="{{ route('publication.show', $featured->slug) }}" class="hover:text-blue-600 transition">
-                        {{ $featured->title }}
-                    </a>
-                </h2>
-                <div class="flex flex-wrap gap-6 text-sm text-gray-600 mb-4">
-                    <span>📅 {{ $featured->formatted_published_date }}</span>
-                    <span>👁️ {{ number_format($featured->views_count) }} vues</span>
-                    <span>💬 {{ $featured->comments_count }} commentaires</span>
+
+            <!-- Title -->
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">Bientôt disponible</h2>
+
+            <!-- Description -->
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                Notre plateforme de replay est en cours de préparation. Vous pourrez bientôt retrouver toutes vos émissions favorites à la demande.
+            </p>
+
+            <!-- Features -->
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <div class="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Accès 24/7</h3>
+                    <p class="text-gray-600 text-sm">Regardez vos émissions quand vous voulez</p>
                 </div>
-                @if($featured->excerpt)
-                <p class="text-gray-700 leading-relaxed mb-6">
-                    {{ $featured->excerpt }}
-                </p>
-                @endif
-                <a href="{{ route('publication.show', $featured->slug) }}"
-                   class="inline-block bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition">
-                    Regarder →
+
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <div class="inline-flex items-center justify-center w-12 h-12 bg-purple-100 rounded-full mb-4">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Toutes les émissions</h3>
+                    <p class="text-gray-600 text-sm">Une bibliothèque complète et organisée</p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <div class="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-4">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Qualité HD</h3>
+                    <p class="text-gray-600 text-sm">Profitez d'une excellente qualité d'image</p>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="{{ route('home') }}" class="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition shadow-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    Retour à l'accueil
+                </a>
+
+                <a href="{{ route('direct') }}" class="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-gray-50 transition shadow-lg border-2 border-blue-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    Regarder le direct
                 </a>
             </div>
-        </div>
-
-        <!-- Replays Grid -->
-        <h2 class="text-3xl font-bold mb-6 pl-6 border-l-4 border-blue-600">Tous les replays</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            @foreach($replays->skip(1) as $replay)
-            <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition cursor-pointer">
-                <a href="{{ route('publication.show', $replay->slug) }}">
-                    <div class="aspect-video bg-gradient-to-br from-blue-500 to-purple-500 relative flex items-center justify-center group">
-                        @if($replay->featured_image)
-                            <img src="{{ asset('storage/' . $replay->featured_image) }}"
-                                 alt="{{ $replay->title }}"
-                                 class="w-full h-full object-cover">
-                        @endif
-                        <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                            <div class="w-16 h-16 bg-white/95 rounded-full flex items-center justify-center text-blue-600 text-2xl">
-                                ▶
-                            </div>
-                        </div>
-                        @if($replay->video_duration)
-                        <span class="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-xs font-bold">
-                            {{ gmdate('i:s', $replay->video_duration) }}
-                        </span>
-                        @endif
-                    </div>
-                    <div class="p-4">
-                        <span class="text-xs text-blue-600 font-bold uppercase">
-                            {{ $replay->rubrique->name }}
-                        </span>
-                        <h3 class="font-bold text-base mt-2 mb-2 leading-tight line-clamp-2">
-                            {{ $replay->title }}
-                        </h3>
-                        <div class="flex justify-between text-xs text-gray-500">
-                            <span>{{ $replay->published_at->format('d/m/Y') }}</span>
-                            <span>{{ number_format($replay->views_count) }} vues</span>
-                        </div>
-                    </div>
-                </a>
-            </article>
-            @endforeach
-        </div>
-
-        <!-- Load More Button -->
-        @if($replays->count() >= 12)
-        <div class="text-center mt-12">
-            <button class="bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-700 transition shadow-lg">
-                Charger plus de vidéos
-            </button>
-        </div>
-        @endif
-    @endif
-
-    <!-- Émissions populaires -->
-    <div class="mt-16">
-        <h2 class="text-3xl font-bold mb-6 pl-6 border-l-4 border-blue-600">Émissions populaires</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            @php
-                $emissions = [
-                    ['name' => 'Le Journal', 'icon' => '📰'],
-                    ['name' => 'Face à l\'Info', 'icon' => '🎙️'],
-                    ['name' => 'Le Grand Matin', 'icon' => '☕'],
-                    ['name' => 'L\'Heure des Pros', 'icon' => '💼'],
-                    ['name' => 'Les Grandes Gueules', 'icon' => '🗣️'],
-                    ['name' => 'Le Débat', 'icon' => '⚖️'],
-                ];
-            @endphp
-            @foreach($emissions as $emission)
-            <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl hover:-translate-y-1 transition cursor-pointer">
-                <div class="text-4xl mb-3">{{ $emission['icon'] }}</div>
-                <h3 class="font-bold text-sm">{{ $emission['name'] }}</h3>
-            </div>
-            @endforeach
         </div>
     </div>
 </div>

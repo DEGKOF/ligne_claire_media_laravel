@@ -435,141 +435,148 @@
 
                 <!-- Search Bar -->
                 <div class="hidden md:flex flex-1 max-w-md mx-8">
-                    <form action="{{ route('search') }}" method="GET" class="w-full">
-                        <input type="text" name="q" placeholder="🔍 Rechercher une actualité..."
-                            class="w-full px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    <form action="{{ route('search') }}" method="GET" class="w-full relative" id="searchForm">
+                        <input type="text"
+                            name="q"
+                            placeholder="Rechercher une actualité..."
+                            class="w-full pl-4 pr-12 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 border border-gray-200">
+
+                        <!-- Search Icon Button -->
+                        <button type="submit"
+                                class="absolute right-1 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 transition-colors duration-200 flex items-center justify-center">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </button>
                     </form>
                 </div>
 
-                <!-- Action Buttons -->
-                {{-- <div class="flex gap-2">
-                    <a href="{{ route('replay') }}"
-                        class="bg-transparent border-2 border-white/30 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-white/10 transition">
-                        📺 Replay
-                    </a>
-                    <a href="{{ route('direct') }}"
-                        class="bg-red-600 border-2 border-red-600 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-red-700 transition">
-                        ● Direct
-                    </a>
-                    @if (Auth::user())
-                        <a href="#">
-                            <span class="relative flex h-3 w-3">
-                                <span
-                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-600 "></span>
-                            </span>
+
+<!-- Action Buttons -->
+<div class="flex gap-1 sm:gap-2 items-center">
+    <!-- Bouton Replay -->
+    <a href="{{ route('replay') }}"
+        class="bg-transparent border-2 border-white/30 text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-white/10 transition flex items-center justify-center">
+        <span class="hidden sm:inline">Replay</span>
+        <svg class="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+    </a>
+
+    <!-- Bouton Direct -->
+    <a href="{{ route('direct') }}"
+        class="bg-red-600 border-2 border-red-600 text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-red-700 transition whitespace-nowrap flex items-center gap-1">
+        <span class="inline-block w-2 h-2 bg-white rounded-full animate-pulse"></span>
+        <span class="hidden xs:inline sm:hidden">Dir</span>
+        <span class="hidden sm:inline">Direct</span>
+    </a>
+
+    @auth
+        <!-- Menu utilisateur connecté -->
+        <div class="relative" x-data="{ open: false }">
+            <button @click="open = !open"
+                class="flex items-center gap-1 sm:gap-2 bg-white/10 hover:bg-white/20 border-2 border-white/30 text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition">
+                <!-- Avatar -->
+                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-[10px] sm:text-xs relative flex-shrink-0">
+                    {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
+                    <span class="absolute -bottom-0.5 -right-0.5 w-2 h-2 sm:w-3 sm:h-3 bg-green-500 border-2 border-blue-900 rounded-full"></span>
+                </div>
+
+                <!-- Prénom (caché sur mobile) -->
+                <span class="hidden lg:inline text-sm font-semibold">{{ Auth::user()->prenom }}</span>
+
+                <!-- Icône dropdown -->
+                <svg class="w-3 h-3 sm:w-4 sm:h-4 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div x-show="open"
+                 @click.away="open = false"
+                 x-transition
+                 class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50"
+                 style="display: none;">
+
+                <!-- En-tête du menu -->
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                            {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-bold text-sm truncate">{{ Auth::user()->prenom }} {{ Auth::user()->nom }}</p>
+                            <p class="text-xs text-blue-100 truncate">{{ Auth::user()->email }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Options du menu -->
+                <div class="py-2">
+                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'editor')
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
+                            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span class="text-sm font-medium">Dashboard Admin</span>
                         </a>
+                        <hr class="my-2">
                     @endif
 
-                </div> --}}
-
-                <!-- Action Buttons -->
-                <div class="flex gap-2 items-center">
-                    <a href="#{{ route('replay') }}"
-                        class="bg-transparent border-2 border-white/30 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-white/10 transition">
-                        Replay
-                    </a>
-                    <a href="#{{ route('direct') }}"
-                        class="bg-red-600 border-2 border-red-600 text-white px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-red-700 transition">
-                        ● Direct
-                    </a>
-
-                    @auth
-                        <div class="relative" x-data="{ open: false }">
-                            <button @click="open = !open"
-                                class="flex items-center gap-2 bg-white/10 hover:bg-white/20 border-2 border-white/30 text-white px-3 py-2 rounded-full transition">
-                                <div
-                                    class="w-7 h-7 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-xs relative">
-                                    {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
-                                    <span
-                                        class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 border-2 border-blue-900 rounded-full"></span>
-                                </div>
-                                <span class="hidden lg:inline text-sm font-semibold">{{ Auth::user()->prenom }}</span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-
-                            <div x-show="open" @click.away="open = false" x-transition
-                                class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50"
-                                style="display: none;">
-
-                                <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">
-                                            {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="font-bold text-sm truncate">{{ Auth::user()->prenom }}
-                                                {{ Auth::user()->nom }}</p>
-                                            <p class="text-xs text-blue-100 truncate">{{ Auth::user()->email }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="py-2">
-                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'editor')
-                                        <a href="{{ route('admin.dashboard') }}"
-                                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
-                                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                            </svg>
-                                            <span class="text-sm font-medium">Dashboard Admin</span>
-                                        </a>
-                                        <hr class="my-2">
-                                    @endif
-
-                                    @if (Auth::user()->role === 'contributor')
-                                        <a href="{{ route('community.index') }}"
-                                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
-                                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                            </svg>
-                                            <span class="text-sm font-medium">Mes contributions</span>
-                                        </a>
-                                        <hr class="my-2">
-                                    @endif
-
-                                    <a href="#"
-                                        class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
-                                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
-                                        <span class="text-sm font-medium">Mon profil</span>
-                                    </a>
-                                </div>
-
-                                <div class="border-t border-gray-200 p-2">
-                                    <form action="{{ route('logout') }}" method="POST">
-                                        @csrf
-                                        <button type="submit"
-                                            class="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                            </svg>
-                                            <span class="text-sm font-bold">Se déconnecter</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="bg-white text-blue-900 px-4 py-2 rounded-full text-xs uppercase font-bold hover:bg-gray-100 transition">
-                            Se connecter
+                    @if (Auth::user()->role === 'contributor')
+                        <a href="{{ route('community.index') }}"
+                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
+                            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                            <span class="text-sm font-medium">Mes contributions</span>
                         </a>
-                    @endauth
+                        <hr class="my-2">
+                    @endif
+
+                    <a href="#"
+                        class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
+                        <svg class="w-5 h-5 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span class="text-sm font-medium">Mon profil</span>
+                    </a>
                 </div>
+
+                <!-- Déconnexion -->
+                <div class="border-t border-gray-200 p-2">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span class="text-sm font-bold">Se déconnecter</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @else
+        <!-- Bouton Connexion -->
+        <a href="{{ route('login') }}"
+            class="bg-white text-blue-900 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-gray-100 transition whitespace-nowrap">
+            <span class="hidden sm:inline">Se connecter</span>
+            <span class="sm:hidden">Login</span>
+        </a>
+    @endauth
+</div>
+
+
             </div>
         </div>
     </header>

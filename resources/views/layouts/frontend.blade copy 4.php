@@ -24,89 +24,11 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{-- <link rel="stylesheet" href="{{ asset('css/advertisements.css') }}"> --}}
     <script src="{{ asset('js/ad-manager.js') }}"></script>
-
-    <!-- Styles pour les popups flash -->
-    <style>
-        .flash-popup {
-            position: fixed;
-            z-index: 9999;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .flash-popup.hidden {
-            opacity: 0;
-            transform: translateY(100px) scale(0.8);
-            pointer-events: none;
-        }
-
-        .flash-popup.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        #sidebar-menu {
-            z-index: 9998;
-        }
-
-        #sidebar-menu.open {
-            transform: translateX(0);
-        }
-
-        #sidebar-overlay {
-            z-index: 9997;
-        }
-
-        #sidebar-overlay.show {
-            opacity: 1;
-        }
-
-        /* Scrollbar pour le menu latéral */
-        #sidebar-menu::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        #sidebar-menu::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        #sidebar-menu::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-
-        #sidebar-menu::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-    </style>
     @stack('styles')
 </head>
 
@@ -436,273 +358,258 @@
                 <!-- Search Bar -->
                 <div class="hidden md:flex flex-1 max-w-md mx-8">
                     <form action="{{ route('search') }}" method="GET" class="w-full relative" id="searchForm">
-                        <input type="text" name="q" placeholder="Rechercher une actualité..."
+                        <input type="text"
+                            name="q"
+                            placeholder="Rechercher une actualité..."
                             class="w-full pl-4 pr-12 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 border border-gray-200">
 
                         <!-- Search Icon Button -->
                         <button type="submit"
-                            class="absolute right-1 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 transition-colors duration-200 flex items-center justify-center">
+                                class="absolute right-1 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 transition-colors duration-200 flex items-center justify-center">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                             </svg>
                         </button>
                     </form>
                 </div>
 
 
-                <!-- Action Buttons -->
-                <div class="flex gap-1 sm:gap-2 items-center">
-                    <!-- Bouton Replay -->
-                    <a href="{{ route('replay') }}"
-                        class="bg-transparent border-2 border-white/30 text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-white/10 transition flex items-center justify-center">
-                        <span class="hidden sm:inline">Replay</span>
-                        <svg class="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </a>
+<!-- Action Buttons -->
+<div class="flex gap-1 sm:gap-2 items-center">
+    <!-- Bouton Replay -->
+    <a href="{{ route('replay') }}"
+        class="bg-transparent border-2 border-white/30 text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-white/10 transition flex items-center justify-center">
+        <span class="hidden sm:inline">Replay</span>
+        <svg class="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+    </a>
 
-                    <!-- Bouton Direct -->
-                    <a href="{{ route('direct') }}"
-                        class="bg-red-600 border-2 border-red-600 text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-red-700 transition whitespace-nowrap flex items-center gap-1">
-                        <span class="inline-block w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                        <span class="hidden xs:inline sm:hidden">Dir</span>
-                        <span class="hidden sm:inline">Direct</span>
-                    </a>
+    <!-- Bouton Direct -->
+    <a href="{{ route('direct') }}"
+        class="bg-red-600 border-2 border-red-600 text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-red-700 transition whitespace-nowrap flex items-center gap-1">
+        <span class="inline-block w-2 h-2 bg-white rounded-full animate-pulse"></span>
+        <span class="hidden xs:inline sm:hidden">Dir</span>
+        <span class="hidden sm:inline">Direct</span>
+    </a>
 
-                    @auth
-                        <!-- Menu utilisateur connecté -->
-                        <div class="relative" x-data="{ open: false }">
-                            <button @click="open = !open"
-                                class="flex items-center gap-1 sm:gap-2 bg-white/10 hover:bg-white/20 border-2 border-white/30 text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition">
-                                <!-- Avatar -->
-                                <div
-                                    class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-[10px] sm:text-xs relative flex-shrink-0">
-                                    {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
-                                    <span
-                                        class="absolute -bottom-0.5 -right-0.5 w-2 h-2 sm:w-3 sm:h-3 bg-green-500 border-2 border-blue-900 rounded-full"></span>
-                                </div>
-
-                                <!-- Prénom (caché sur mobile) -->
-                                <span class="hidden lg:inline text-sm font-semibold">{{ Auth::user()->prenom }}</span>
-
-                                <!-- Icône dropdown -->
-                                <svg class="w-3 h-3 sm:w-4 sm:h-4 hidden sm:block" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-
-                            <!-- Dropdown Menu -->
-                            <div x-show="open" @click.away="open = false" x-transition
-                                class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50"
-                                style="display: none;">
-
-                                <!-- En-tête du menu -->
-                                <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                                            {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="font-bold text-sm truncate">{{ Auth::user()->prenom }}
-                                                {{ Auth::user()->nom }}</p>
-                                            <p class="text-xs text-blue-100 truncate">{{ Auth::user()->email }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Options du menu -->
-                                <div class="py-2">
-                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'editor')
-                                        <a href="{{ route('admin.dashboard') }}"
-                                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
-                                            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                            </svg>
-                                            <span class="text-sm font-medium">Dashboard Admin</span>
-                                        </a>
-                                        <hr class="my-2">
-                                    @endif
-
-                                    @if (Auth::user()->role === 'contributor')
-                                        <a href="{{ route('community.index') }}"
-                                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
-                                            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                            </svg>
-                                            <span class="text-sm font-medium">Mes contributions</span>
-                                        </a>
-                                        <hr class="my-2">
-                                    @endif
-
-                                    <a href="#"
-                                        class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
-                                        <svg class="w-5 h-5 text-gray-600 flex-shrink-0" fill="none"
-                                            stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
-                                        <span class="text-sm font-medium">Mon profil</span>
-                                    </a>
-                                </div>
-
-                                <!-- Déconnexion -->
-                                <div class="border-t border-gray-200 p-2">
-                                    <form action="{{ route('logout') }}" method="POST">
-                                        @csrf
-                                        <button type="submit"
-                                            class="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition">
-                                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                            </svg>
-                                            <span class="text-sm font-bold">Se déconnecter</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <!-- Bouton Connexion -->
-                        <a href="{{ route('login') }}"
-                            class="bg-white text-blue-900 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-gray-100 transition whitespace-nowrap">
-                            <span class="hidden sm:inline">Se connecter</span>
-                            <span class="sm:hidden">Login</span>
-                        </a>
-                    @endauth
+    @auth
+        <!-- Menu utilisateur connecté -->
+        <div class="relative" x-data="{ open: false }">
+            <button @click="open = !open"
+                class="flex items-center gap-1 sm:gap-2 bg-white/10 hover:bg-white/20 border-2 border-white/30 text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition">
+                <!-- Avatar -->
+                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-[10px] sm:text-xs relative flex-shrink-0">
+                    {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
+                    <span class="absolute -bottom-0.5 -right-0.5 w-2 h-2 sm:w-3 sm:h-3 bg-green-500 border-2 border-blue-900 rounded-full"></span>
                 </div>
+
+                <!-- Prénom (caché sur mobile) -->
+                <span class="hidden lg:inline text-sm font-semibold">{{ Auth::user()->prenom }}</span>
+
+                <!-- Icône dropdown -->
+                <svg class="w-3 h-3 sm:w-4 sm:h-4 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div x-show="open"
+                 @click.away="open = false"
+                 x-transition
+                 class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50"
+                 style="display: none;">
+
+                <!-- En-tête du menu -->
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                            {{ strtoupper(substr(Auth::user()->prenom, 0, 1)) }}{{ strtoupper(substr(Auth::user()->nom, 0, 1)) }}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-bold text-sm truncate">{{ Auth::user()->prenom }} {{ Auth::user()->nom }}</p>
+                            <p class="text-xs text-blue-100 truncate">{{ Auth::user()->email }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Options du menu -->
+                <div class="py-2">
+                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'editor')
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
+                            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span class="text-sm font-medium">Dashboard Admin</span>
+                        </a>
+                        <hr class="my-2">
+                    @endif
+
+                    @if (Auth::user()->role === 'contributor')
+                        <a href="{{ route('community.index') }}"
+                            class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
+                            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                            <span class="text-sm font-medium">Mes contributions</span>
+                        </a>
+                        <hr class="my-2">
+                    @endif
+
+                    <a href="#"
+                        class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition">
+                        <svg class="w-5 h-5 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span class="text-sm font-medium">Mon profil</span>
+                    </a>
+                </div>
+
+                <!-- Déconnexion -->
+                <div class="border-t border-gray-200 p-2">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span class="text-sm font-bold">Se déconnecter</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @else
+        <!-- Bouton Connexion -->
+        <a href="{{ route('login') }}"
+            class="bg-white text-blue-900 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-gray-100 transition whitespace-nowrap">
+            <span class="hidden sm:inline">Se connecter</span>
+            <span class="sm:hidden">Login</span>
+        </a>
+    @endauth
+</div>
 
 
             </div>
         </div>
     </header>
-
-    <!-- Navigation -->
-    <nav class="bg-white border-b-3 border-blue-600 shadow relative">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-center gap-4">
-                <!-- Zone de texte à gauche -->
-                <div class="flex items-center py-3 pr-3 border-r border-gray-300 flex-shrink-0 overflow-x-auto">
-                    <!-- Titre "PÔLES" fixe -->
-                    <span class="text-sm font-bold text-gray-700 uppercase mr-3 whitespace-nowrap">
-                        Pôles :
-                    </span>
-
-                    <!-- Liste des pôles sans répéter "Pôle" -->
-                    <span class="text-m font-medium">
-                        <a href="{{ route('community.index') }}"
-                            class="py-3 text-sm text-blue-600 underline uppercase whitespace-nowrap hover:text-gray-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-gray-600 transition {{ request()->routeIs('community.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-blue-800' }}">
-                            <strong>Communauté</strong>
-                        </a>
-                    </span>
-                    <span class="mx-2 text-gray-400">|</span>
-                    <span class="text-m font-medium">
-                        <a href="{{ route('investigation.index') }}"
-                            class="py-3 text-sm text-blue-600 underline uppercase whitespace-nowrap hover:text-gray-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-gray-600 transition {{ request()->routeIs('investigation.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-blue-800' }}">
-                            <strong>Investigation</strong>
-                        </a>
-                    </span>
-                    <span class="mx-2 text-gray-400">|</span>
-                    <span class="text-m font-medium">
-                        <a href="{{ route('witness.index') }}"
-                            class="py-3 text-sm text-blue-600 underline uppercase whitespace-nowrap hover:text-gray-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-gray-600 transition {{ request()->routeIs('witness.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-blue-800' }}">
-                            <strong>Témoins</strong>
-                        </a>
-                    </span>
-                </div>
-
-
-                <!-- Conteneur pour les rubriques et le bouton - Centré -->
-                <div class="flex items-center flex-shrink-0" id="nav-container">
-                    <!-- Lien Accueil -->
-                    <a href="{{ route('home') }}"
-                        class="px-4 py-3 text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('home') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
-                        Accueil
-                    </a>
-
-                    <!-- Lien Acheter le journal -->
-                    <a href="{{ route('shop.index') }}"
-                        class="px-4 py-3 text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('shop.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
-                        Acheter le journal
-                    </a>
-
-                    <!-- Les 5 premières rubriques -->
-                    @php
-                        $allRubriques = \App\Models\Rubrique::active()->ordered()->get();
-                        $visibleRubriques = $allRubriques->take(5);
-                        $hiddenRubriques = $allRubriques->skip(5);
-                    @endphp
-
-                    @foreach ($visibleRubriques as $rubrique)
-                        <a href="{{ route('rubrique.show', $rubrique->slug) }}"
-                            class="px-4 py-3 text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('rubrique.show') && request()->route('slug') === $rubrique->slug ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
-                            {{ $rubrique->name }}
-                        </a>
-                    @endforeach
-
-                    <!-- Bouton pour afficher le reste -->
-                    @if ($hiddenRubriques->count() > 0)
-                        <button id="toggle-rubriques-btn" onclick="toggleMegaMenu()"
-                            class="px-4 py-3 text-blue-600 hover:text-blue-800 hover:bg-gray-50 transition flex items-center justify-center font-semibold text-sm uppercase whitespace-nowrap"
-                            aria-label="Afficher toutes les rubriques">
-                            <svg id="toggle-icon"
-                                class="w-5 h-5 transition-transform duration-300 border border-blue-600"
-                                style="border-radius: 50%; padding: 2px" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                    @endif
-                </div>
-            </div>
+<!-- Navigation -->
+<nav class="bg-white border-b-3 border-blue-600 shadow relative">
+    <div class="container mx-auto px-4">
+        <!-- PREMIÈRE LIGNE : PÔLES (toujours visible) -->
+        <div class="flex items-center justify-center gap-2 sm:gap-4 py-2 border-b border-gray-200 overflow-x-auto">
+            <span class="text-xs sm:text-sm font-medium whitespace-nowrap">
+                <a href="{{ route('community.index') }}"
+                    class="text-blue-600 underline uppercase hover:text-gray-600 transition">
+                    <strong>Pole Communauté</strong>
+                </a>
+            </span>
+            <span class="text-gray-400">|</span>
+            <span class="text-xs sm:text-sm font-medium whitespace-nowrap">
+                <a href="{{ route('investigation.index') }}"
+                    class="text-blue-600 underline uppercase hover:text-gray-600 transition">
+                    <strong>Pole Investigation</strong>
+                </a>
+            </span>
+            <span class="text-gray-400">|</span>
+            <span class="text-xs sm:text-sm font-medium whitespace-nowrap">
+                <a href="{{ route('witness.index') }}"
+                    class="text-blue-600 underline uppercase hover:text-gray-600 transition">
+                    <strong>Pole Témoins</strong>
+                </a>
+            </span>
         </div>
 
-        <!-- Mega Menu Dropdown - Uniquement les rubriques restantes -->
-        @if ($hiddenRubriques->count() > 0)
-            <div id="mega-menu"
-                class="hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-2xl z-50">
-                <div class="container mx-auto px-4 py-6">
-                    <div class="flex flex-col items-center">
-                        <div class="w-full max-w-6xl">
-                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-                                @foreach ($hiddenRubriques as $rubrique)
-                                    <a href="{{ route('rubrique.show', $rubrique->slug) }}"
-                                        class="group px-4 py-3 rounded-lg hover:bg-blue-50 transition flex items-center gap-2 {{ request()->routeIs('rubrique.show') && request()->route('slug') === $rubrique->slug ? 'bg-blue-50 text-blue-600' : 'text-gray-800' }}">
-                                        <span class="text-blue-600 group-hover:scale-110 transition-transform">▸</span>
-                                        <span class="font-semibold text-sm uppercase">{{ $rubrique->name }}</span>
-                                    </a>
-                                @endforeach
-                            </div>
-                        </div>
+        <!-- DEUXIÈME LIGNE : RUBRIQUES -->
+        <div class="flex items-center justify-center gap-0 overflow-x-auto">
+            <div class="flex items-center flex-shrink-0" id="nav-container">
+                <!-- Lien Accueil -->
+                <a href="{{ route('home') }}"
+                    class="px-3 sm:px-4 py-3 text-xs sm:text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('home') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
+                    Accueil
+                </a>
 
-                        <!-- Bouton fermer -->
-                        <div class="text-center mt-6 pt-4 border-t border-gray-200 w-full">
-                            <button onclick="toggleMegaMenu()"
-                                class="text-sm text-gray-600 hover:text-blue-600 font-semibold uppercase flex items-center gap-2 mx-auto transition">
-                                <span>Fermer</span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 15l7-7 7 7"></path>
-                                </svg>
-                            </button>
+                <!-- Lien Acheter le journal -->
+                <a href="{{ route('shop.index') }}"
+                    class="px-3 sm:px-4 py-3 text-xs sm:text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('shop.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
+                    Acheter le journal
+                </a>
+
+                <!-- Les 5 premières rubriques -->
+                @php
+                    $allRubriques = \App\Models\Rubrique::active()->ordered()->get();
+                    $visibleRubriques = $allRubriques->take(5);
+                    $hiddenRubriques = $allRubriques->skip(5);
+                @endphp
+
+                @foreach ($visibleRubriques as $rubrique)
+                    <a href="{{ route('rubrique.show', $rubrique->slug) }}"
+                        class="px-3 sm:px-4 py-3 text-xs sm:text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('rubrique.show') && request()->route('slug') === $rubrique->slug ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
+                        {{ $rubrique->name }}
+                    </a>
+                @endforeach
+
+                <!-- Bouton pour afficher le reste -->
+                @if ($hiddenRubriques->count() > 0)
+                    <button id="toggle-rubriques-btn" onclick="toggleMegaMenu()"
+                        class="px-3 sm:px-4 py-3 text-blue-600 hover:text-blue-800 hover:bg-gray-50 transition flex items-center justify-center font-semibold text-xs sm:text-sm uppercase whitespace-nowrap"
+                        aria-label="Afficher toutes les rubriques">
+                        <svg id="toggle-icon"
+                            class="w-5 h-5 transition-transform duration-300 border border-blue-600"
+                            style="border-radius: 50%; padding: 2px" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- Mega Menu Dropdown reste identique -->
+    @if ($hiddenRubriques->count() > 0)
+        <div id="mega-menu"
+            class="hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-2xl z-50">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex flex-col items-center">
+                    <div class="w-full max-w-6xl">
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                            @foreach ($hiddenRubriques as $rubrique)
+                                <a href="{{ route('rubrique.show', $rubrique->slug) }}"
+                                    class="group px-4 py-3 rounded-lg hover:bg-blue-50 transition flex items-center gap-2 {{ request()->routeIs('rubrique.show') && request()->route('slug') === $rubrique->slug ? 'bg-blue-50 text-blue-600' : 'text-gray-800' }}">
+                                    <span class="text-blue-600 group-hover:scale-110 transition-transform">▸</span>
+                                    <span class="font-semibold text-sm uppercase">{{ $rubrique->name }}</span>
+                                </a>
+                            @endforeach
                         </div>
+                    </div>
+
+                    <!-- Bouton fermer -->
+                    <div class="text-center mt-6 pt-4 border-t border-gray-200 w-full">
+                        <button onclick="toggleMegaMenu()"
+                            class="text-sm text-gray-600 hover:text-blue-600 font-semibold uppercase flex items-center gap-2 mx-auto transition">
+                            <span>Fermer</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 15l7-7 7 7"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
-        @endif
-    </nav>
+        </div>
+    @endif
+</nav>
 
     <!-- Overlay pour fermer le menu en cliquant à l'extérieur -->
     <div id="mega-menu-overlay" class="hidden fixed inset-0 bg-black bg-opacity-30 z-40" onclick="toggleMegaMenu()">
