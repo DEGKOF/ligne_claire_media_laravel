@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Publication;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
@@ -418,7 +419,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         // Téléchargement de médias
         Route::get('/{testimony}/download-media', [AdminWitnessController::class, 'downloadMedia'])->name('download-media');
         Route::get('/{testimony}/download-all-media', [AdminWitnessController::class, 'downloadAllMedia'])->name('download-all-media');
-        
+
         // Gestion des médias
         Route::delete('/{testimony}/media', [AdminWitnessController::class, 'deleteMedia'])->name('delete-media');
 
@@ -442,6 +443,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::delete('/{candidature}', [AdminCandidatureController::class, 'destroy'])->name('destroy');
     });
 
+});
+
+// routes/web.php - Ajouter ces routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('users', UserController::class);
 });
 
 require __DIR__.'/auth.php';

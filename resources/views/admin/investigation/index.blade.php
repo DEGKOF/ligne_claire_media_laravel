@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Gestion des Propositions d\'Investigation')
+@section('page-title', 'Gestion des Propositions d\'Investigation')
 
 @section('content')
 <div class="p-6">

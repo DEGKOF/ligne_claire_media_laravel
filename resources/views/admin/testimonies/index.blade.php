@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Gestion des Témoignages')
+@section('page-title', 'Gestion des Témoignages')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">

@@ -122,14 +122,14 @@
                                 <a href="{{ route('admin.rubriques.index') }}"
                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.rubriques.*') ? 'bg-white/20' : '' }}">
                                     <i class="fas fa-folder w-5"></i>
-                                    <span class="font-medium">Gérer les rubriques</span>
+                                    <span class="font-medium">Rubriques</span>
                                 </a>
                             </div>
                         @endif
 
                         @if(auth()->user()->isAdmin())
                             <div class="mt-6">
-                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Utilisateurs externes</div>
+                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Pôles</div>
                                 <a href="{{ route('admin.community.index') }}"
                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.community.*') ? 'bg-white/20' : '' }}">
                                     <i class="fas fa-users w-5"></i>
@@ -169,6 +169,25 @@
                                 </a>
                             </div>
                         @endif
+
+                        @if(auth()->user()->isAdmin())
+                            <div class="mt-6">
+                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
+                                <a href="{{ route('admin.users.index') }}"
+                                class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.users.*') ? 'bg-white/20' : '' }}">
+                                    <i class="fas fa-users-cog w-5"></i>
+                                    <span class="font-medium">Utilisateurs</span>
+                                </a>
+                            </div>
+                        @endif
+
+                        <div class="mt-6">
+                            <a href="{{ route('profile.edit') }}"
+                            class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('profile.*') ? 'bg-white/20' : '' }}">
+                                <i class="fas fa-user-edit w-5"></i>
+                                <span class="font-medium">Mon Profil</span>
+                            </a>
+                        </div>
 
                         @if(auth()->user()->isAdvertiser())
                             <a href="{{ route('advertiser.dashboard') }}"
@@ -260,7 +279,7 @@
                                 <a href="{{ route('admin.rubriques.index') }}"
                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.rubriques.*') ? 'bg-white/20' : '' }}">
                                     <i class="fas fa-folder w-5"></i>
-                                    <span class="font-medium">Gérer les rubriques</span>
+                                    <span class="font-medium">Rubriques</span>
                                 </a>
                             </div>
                         @endif
