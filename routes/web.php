@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Publication;
+use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,10 @@ use App\Http\Controllers\Admin\PublicationController as AdminPublicationControll
 |
 */
 
+// routes/web.php - Ajouter ces routes
+Route::get('/devenir-membre', [MembershipController::class, 'index'])->name('membership.index');
+Route::post('/devenir-membre', [MembershipController::class, 'store'])->name('membership.store');
+
 // Routes pour le recrutement (accessibles sans authentification)
 Route::get('/nous-rejoindre', [RecruitmentController::class, 'index'])->name('recruitment.index');
 Route::post('/nous-rejoindre', [RecruitmentController::class, 'store'])->name('recruitment.store');
@@ -78,7 +83,8 @@ Route::get('/subscription-process', function () {
             ->take(5)
             ->get();
 
-    return back();
+    // return back();
+    return view('welcome_success');
 })->name('subscription.process');
 
 Route::get('payment-success/{id}', function () {

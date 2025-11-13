@@ -170,6 +170,26 @@
                             </div>
                         @endif
 
+                        @if(auth()->user()->isAdvertiser())
+                            <a href="{{ route('advertiser.dashboard') }}"
+                               class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.dashboard') ? 'bg-white/20' : '' }}">
+                                <i class="fas fa-chart-line w-5"></i>
+                                <span class="font-medium">Dashboard</span>
+                            </a>
+
+                            <a href="{{ route('advertiser.profile.complete') }}"
+                               class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.profile.complete') ? 'bg-white/20' : '' }}">
+                                <i class="fa fa-industry" aria-hidden="true"></i>
+                                <span class="font-medium">Entrprise</span>
+                            </a>
+
+                            <a href="{{ route('advertiser.campaigns.index') }}"
+                               class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.campaigns.index') ? 'bg-white/20' : '' }}">
+                                <i class="fas fa-bullhorn w-5"></i>
+                                <span class="font-medium">Campagnes</span>
+                            </a>
+                        @endif
+
                         @if(auth()->user()->isAdmin())
                             <div class="mt-6">
                                 <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
@@ -185,29 +205,9 @@
                             <a href="{{ route('profile.edit') }}"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('profile.*') ? 'bg-white/20' : '' }}">
                                 <i class="fas fa-user-edit w-5"></i>
-                                <span class="font-medium">Mon Profil</span>
+                                <span class="font-medium">Compte </span>
                             </a>
                         </div>
-
-                        @if(auth()->user()->isAdvertiser())
-                            <a href="{{ route('advertiser.dashboard') }}"
-                               class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.dashboard') ? 'bg-white/20' : '' }}">
-                                <i class="fas fa-chart-line w-5"></i>
-                                <span class="font-medium">Dashboard</span>
-                            </a>
-
-                            <a href="{{ route('advertiser.profile.complete') }}"
-                               class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.profile.complete') ? 'bg-white/20' : '' }}">
-                                <i class="fas fa-user w-5"></i>
-                                <span class="font-medium">Mon profile</span>
-                            </a>
-
-                            <a href="{{ route('advertiser.campaigns.index') }}"
-                               class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.campaigns.index') ? 'bg-white/20' : '' }}">
-                                <i class="fas fa-bullhorn w-5"></i>
-                                <span class="font-medium">Mes campagnes</span>
-                            </a>
-                        @endif
                     </nav>
                 </div>
             </div>

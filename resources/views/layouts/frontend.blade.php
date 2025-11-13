@@ -275,7 +275,7 @@
     @stack('styles')
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-gradient-to-br from-blue-50 to-blue-100">
 
     <!-- Menu Latéral (Sidebar) -->
     <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity duration-300"
@@ -440,30 +440,15 @@
                         </svg>
                         <span class="mx-2">Soutenir le Media</span>
                     </a>
-                    @php
-                        $menuItems = [
-                            // ['icon' => 'desktop', 'label' => 'Soutenir le Media', 'slug' => 'sport'],
-                            ['icon' => 'desktop', 'label' => 'Devenir membre', 'slug' => 'sport'],
-                        ];
-                    @endphp
 
-                    @foreach ($menuItems as $item)
-                        <a href="{{ route('rubrique.show', $item['slug']) }}"
+                        <a href="{{ route('membership.index') }}"
                             class="flex items-center py-2 text-red-700 hover:text-red-400 font-semibold transition">
-                            @if ($item['icon'] === 'leaf')
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                                </svg>
-                            @elseif($item['icon'] === 'desktop')
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
-                            @endif
-                            <span class="mx-2">{{ $item['label'] }}</span>
+                            <span class="mx-2">Devenir membre</span>
                         </a>
-                    @endforeach
                 </div>
 
 
@@ -512,6 +497,7 @@
                     </a>
 
                     <a href="https://lnbpari.com/fr/sportsbook/upcoming"
+                    target="_blank"
                         class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
