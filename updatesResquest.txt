@@ -59,12 +59,12 @@ Ajouter Loterie nationnale => Pas d'api dispo actu, mettre le lien vers leur sit
 -Responsive des interfaces => Done
 -Email de rejt ou d'acceptation des offres de candidatures => Done
 -Responsive des backoffices => Done
+-Mettre le lien des document à télécharger pour les poles cote admin => Done
 
 
 
 
 -Integration du moyen de paiement.
--Mettre le lien des document à télécharger pour les poles cote admin
 -Page Devenir membre
 -Users management by admin
 -les Ads

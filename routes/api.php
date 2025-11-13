@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\AdminInvestigationController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth')->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -28,10 +28,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/market-data', [MarketDataController::class, 'index']);
 
+Route::prefix('admin')->group(function () {
+    // Investigation proposals
+    Route::post('/investigations/download-file', [AdminInvestigationController::class, 'downloadFile']);
+});
+
     Route::prefix('admin/investigations')->name('admin.investigations.')->group(function () {
         // Liste et détails
         Route::get('/', [AdminInvestigationController::class, 'indexApi'])->name('index');
-        Route::get('/{proposal}', [AdminInvestigationController::class, 'investigations'])->name('show');
+        Route::get('/{proposal}', [AdminInvestigationController::class, 'show'])->name('show');
 
         // Mise à jour du contenu
         Route::put('/{proposal}', [AdminInvestigationController::class, 'update'])->name('update');

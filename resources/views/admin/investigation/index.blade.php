@@ -11,9 +11,6 @@
             <p class="text-gray-600 mt-1">Gérez les propositions d'enquête soumises par les utilisateurs</p>
         </div>
         <div class="flex gap-2">
-            {{-- <button onclick="exportData()" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">
-                Exporter
-            </button> --}}
             <button onclick="refreshData()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                 Actualiser
             </button>
@@ -118,19 +115,19 @@
             </div>
             <div class="flex gap-2">
                 <button onclick="bulkAction('validate')" class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm">
-                    ✓ Valider
+                    Valider
                 </button>
                 <button onclick="bulkAction('reject')" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm">
-                    ✗ Rejeter
+                    Rejeter
                 </button>
                 <button onclick="bulkAction('start')" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
-                    ▶ Démarrer
+                    Démarrer
                 </button>
                 <button onclick="bulkAction('complete')" class="px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700 text-sm">
-                    ✓ Terminer
+                    Terminer
                 </button>
                 <button onclick="bulkAction('delete')" class="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">
-                    🗑️ Supprimer
+                    Supprimer
                 </button>
             </div>
         </div>
@@ -228,33 +225,6 @@
     </div>
 </div>
 
-{{-- Modal: Edit --}}
-<div id="modal-edit" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-11/12 max-w-3xl shadow-lg rounded-md bg-white">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold">Modifier la proposition</h3>
-            <button onclick="closeModal('edit')" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-        </div>
-        <form id="form-edit" class="space-y-4">
-            <div id="modal-edit-content">
-                <!-- Content loaded dynamically -->
-            </div>
-            <div class="flex justify-end gap-2 pt-4 border-t">
-                <button type="button" onclick="closeModal('edit')" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
-                    Annuler
-                </button>
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                    Enregistrer
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
 {{-- Modal: Validate --}}
 <div id="modal-validate" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
@@ -319,7 +289,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Setup event listeners
     document.getElementById('filter-search').addEventListener('input', debounce(applyFilters, 500));
-    document.getElementById('form-edit').addEventListener('submit', handleEditSubmit);
     document.getElementById('form-reject').addEventListener('submit', handleRejectSubmit);
 });
 
@@ -344,7 +313,6 @@ async function loadProposals() {
             per_page: 20,
             ...filters
         });
-console.log(params);
 
         const response = await fetch(`/api/admin/investigations?${params}`, {
             headers: {
@@ -420,14 +388,12 @@ function renderTable(proposals) {
             <td class="px-4 py-3 text-right text-sm">
                 <div class="flex justify-end gap-1">
                     <button onclick="viewProposal(${proposal.id})"
-                            class="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                            class="p-2 text-blue-600 hover:bg-blue-50 rounded"
                             title="Voir">
-                        👁️
-                    </button>
-                    <button onclick="editProposal(${proposal.id})"
-                            class="p-1 text-gray-600 hover:bg-gray-50 rounded"
-                            title="Modifier">
-                        ✏️
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
                     </button>
                     ${getQuickActions(proposal)}
                 </div>
@@ -455,39 +421,50 @@ function getQuickActions(proposal) {
     if (proposal.status === 'pending') {
         actions += `
             <button onclick="validateProposal(${proposal.id})"
-                    class="p-1 text-green-600 hover:bg-green-50 rounded"
+                    class="p-2 text-green-600 hover:bg-green-50 rounded"
                     title="Valider">
-                ✓
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
             </button>
             <button onclick="rejectProposal(${proposal.id})"
-                    class="p-1 text-red-600 hover:bg-red-50 rounded"
+                    class="p-2 text-red-600 hover:bg-red-50 rounded"
                     title="Rejeter">
-                ✗
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
             </button>
         `;
     } else if (proposal.status === 'validated') {
         actions += `
             <button onclick="startProposal(${proposal.id})"
-                    class="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                    class="p-2 text-blue-600 hover:bg-blue-50 rounded"
                     title="Démarrer">
-                ▶
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
             </button>
         `;
     } else if (proposal.status === 'in_progress') {
         actions += `
             <button onclick="completeProposal(${proposal.id})"
-                    class="p-1 text-purple-600 hover:bg-purple-50 rounded"
+                    class="p-2 text-purple-600 hover:bg-purple-50 rounded"
                     title="Terminer">
-                ✓
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
             </button>
         `;
     }
 
     actions += `
         <button onclick="deleteProposal(${proposal.id})"
-                class="p-1 text-red-600 hover:bg-red-50 rounded"
+                class="p-2 text-red-600 hover:bg-red-50 rounded"
                 title="Supprimer">
-            🗑️
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
         </button>
     `;
 
@@ -628,6 +605,39 @@ function updateBulkActions() {
     loadProposals();
 }
 
+// Download file
+async function downloadFile(filePath, fileName) {
+    try {
+        const response = await fetch(`/api/admin/investigations/download-file`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ file_path: filePath })
+        });
+
+        if (!response.ok) {
+            throw new Error('Erreur lors du téléchargement');
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+    } catch (error) {
+        console.error('Error downloading file:', error);
+        showNotification('Erreur lors du téléchargement du fichier', 'error');
+    }
+}
+
 // Actions
 async function viewProposal(id) {
     currentProposalId = id;
@@ -643,6 +653,38 @@ async function viewProposal(id) {
 
         if (data.success) {
             const proposal = data.proposal;
+
+            let filesHtml = '';
+            if (proposal.files && proposal.files.length > 0) {
+                filesHtml = `
+                    <div>
+                        <h4 class="font-semibold mb-2">Fichiers joints</h4>
+                        <div class="space-y-2">
+                            ${proposal.files.map(file => `
+                                <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                        </svg>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">${file.name}</div>
+                                            <div class="text-xs text-gray-500">${formatFileSize(file.size)}</div>
+                                        </div>
+                                    </div>
+                                    <button onclick="downloadFile('${file.path}', '${file.name}')"
+                                            class="p-2 text-blue-600 hover:bg-blue-50 rounded"
+                                            title="Télécharger">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
             document.getElementById('modal-view-content').innerHTML = `
                 <div class="space-y-4">
                     <div>
@@ -697,6 +739,7 @@ async function viewProposal(id) {
                             <p>${getStatusBadge(proposal.status)}</p>
                         </div>
                     </div>
+                    ${filesHtml}
                     ${proposal.rejection_reason ? `
                         <div class="bg-red-50 border border-red-200 rounded p-3">
                             <h4 class="font-semibold text-red-800 mb-2">Raison du rejet</h4>
@@ -709,103 +752,6 @@ async function viewProposal(id) {
         }
     } catch (error) {
         showNotification('Erreur lors du chargement des détails', 'error');
-    }
-}
-
-async function editProposal(id) {
-    currentProposalId = id;
-    try {
-        const response = await fetch(`/api/admin/investigations/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${getToken()}`,
-                'Accept': 'application/json'
-            }
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            const proposal = data.proposal;
-            document.getElementById('modal-edit-content').innerHTML = `
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="col-span-2">
-                        <label class="block text-sm font-medium mb-1">Titre</label>
-                        <input type="text" name="title" value="${proposal.title}"
-                               class="w-full px-3 py-2 border rounded">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Thème</label>
-                        <input type="text" name="theme" value="${proposal.theme}"
-                               class="w-full px-3 py-2 border rounded">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Format</label>
-                        <select name="format" class="w-full px-3 py-2 border rounded">
-                            <option value="Article long" ${proposal.format === 'Article long' ? 'selected' : ''}>Article long</option>
-                            <option value="Vidéo" ${proposal.format === 'Vidéo' ? 'selected' : ''}>Vidéo</option>
-                            <option value="Podcast" ${proposal.format === 'Podcast' ? 'selected' : ''}>Podcast</option>
-                            <option value="Infographie" ${proposal.format === 'Infographie' ? 'selected' : ''}>Infographie</option>
-                            <option value="Série multimédia" ${proposal.format === 'Série multimédia' ? 'selected' : ''}>Série multimédia</option>
-                        </select>
-                    </div>
-                    <div class="col-span-2">
-                        <label class="block text-sm font-medium mb-1">Angle</label>
-                        <textarea name="angle" rows="4" class="w-full px-3 py-2 border rounded">${proposal.angle}</textarea>
-                    </div>
-                    <div class="col-span-2">
-                        <label class="block text-sm font-medium mb-1">Sources</label>
-                        <textarea name="sources" rows="3" class="w-full px-3 py-2 border rounded">${proposal.sources || ''}</textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Budget (F)</label>
-                        <input type="number" name="budget" value="${proposal.budget || ''}"
-                               class="w-full px-3 py-2 border rounded">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Durée (semaines)</label>
-                        <input type="number" name="estimated_weeks" value="${proposal.estimated_weeks || ''}"
-                               class="w-full px-3 py-2 border rounded">
-                    </div>
-                    <div class="col-span-2">
-                        <label class="block text-sm font-medium mb-1">Besoins</label>
-                        <textarea name="needs" rows="2" class="w-full px-3 py-2 border rounded">${proposal.needs || ''}</textarea>
-                    </div>
-                </div>
-            `;
-            openModal('edit');
-        }
-    } catch (error) {
-        showNotification('Erreur lors du chargement', 'error');
-    }
-}
-
-async function handleEditSubmit(e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
-
-    try {
-        const response = await fetch(`/api/admin/investigations/${currentProposalId}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${getToken()}`,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-            showNotification('Proposition modifiée avec succès', 'success');
-            closeModal('edit');
-            loadProposals();
-        } else {
-            showNotification('Erreur lors de la modification', 'error');
-        }
-    } catch (error) {
-        showNotification('Erreur lors de la modification', 'error');
     }
 }
 
@@ -1021,17 +967,20 @@ function formatDate(dateString) {
     });
 }
 
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+}
+
 function showNotification(message, type = 'info') {
-    // Implement your notification system here
     alert(message);
 }
 
 function refreshData() {
     loadProposals();
-}
-
-function exportData() {
-    showNotification('Fonction d\'export à implémenter', 'info');
 }
 </script>
 @endpush

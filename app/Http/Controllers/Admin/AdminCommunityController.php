@@ -60,28 +60,20 @@ class AdminCommunityController extends Controller
             'published' => CommunitySubmission::published()->count(),
         ];
 
-        // return response()->json([
-        //     'success' => true,
-        //     'submissions' => $submissions,
-        //     'stats' => $stats
-        // ]);
-// dd($submissions);
         return view('admin.community.index', compact('submissions', 'stats'));
     }
 
     /**
-     * Afficher les détails d'une soumission
+     * Afficher les détails d'une soumission (API JSON)
      */
     public function show(CommunitySubmission $submission)
     {
         $submission->load(['user', 'validator']);
 
-        // return response()->json([
-        //     'success' => true,
-        //     'submission' => $submission
-        // ]);
-        // dd($submission->user->email);
-        return view('admin.community.show', compact('submission'));
+        return response()->json([
+            'success' => true,
+            'submission' => $submission
+        ]);
     }
 
     /**
@@ -93,11 +85,11 @@ class AdminCommunityController extends Controller
             'title' => 'sometimes|string|min:10|max:200',
             'section' => 'sometimes|string|in:Société,Économie,Politique,Tech & IA,Culture,Environnement,Investigation',
             'access_type' => 'sometimes|in:free,premium',
-            'summary' => 'sometimes|string|max:10000',
-            'content' => 'sometimes|string',
+            'summary' => 'sometimes|string|max:5000',
+            'content' => 'sometimes|string|max:10000',
             'image' => 'sometimes|image|max:5120',
         ]);
- 
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -138,17 +130,6 @@ class AdminCommunityController extends Controller
      */
     public function validateCommunity(Request $request, CommunitySubmission $submission)
     {
-        $validator = Validator::make($request->all(), [
-            'publish_immediately' => 'sometimes|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
         try {
             $publishImmediately = $request->boolean('publish_immediately', false);
             $submission->validate(Auth::id(), $publishImmediately);
@@ -164,7 +145,7 @@ class AdminCommunityController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la validation'
+                'message' => 'Erreur lors de la validation: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -197,7 +178,7 @@ class AdminCommunityController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors du rejet'
+                'message' => 'Erreur lors du rejet: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -226,7 +207,7 @@ class AdminCommunityController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la publication'
+                'message' => 'Erreur lors de la publication: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -255,58 +236,7 @@ class AdminCommunityController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la dépublication'
-            ], 500);
-        }
-    }
-
-    /**
-     * Mettre à jour le statut d'une soumission
-     */
-    public function updateStatus(Request $request, CommunitySubmission $submission)
-    {
-        $validator = Validator::make($request->all(), [
-            'status' => 'required|in:pending,validated,rejected',
-            'rejection_reason' => 'required_if:status,rejected|string|min:10|max:1000',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        try {
-            $status = $request->status;
-
-            switch ($status) {
-                case 'validated':
-                    $submission->validate(Auth::id());
-                    break;
-                case 'rejected':
-                    $submission->reject($request->rejection_reason, Auth::id());
-                    break;
-                case 'pending':
-                    $submission->update([
-                        'status' => 'pending',
-                        'rejection_reason' => null,
-                        'validated_at' => null,
-                        'validated_by' => null,
-                    ]);
-                    break;
-            }
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Statut mis à jour avec succès',
-                'submission' => $submission->fresh()
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de la mise à jour du statut'
+                'message' => 'Erreur lors de la dépublication: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -327,30 +257,7 @@ class AdminCommunityController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la suppression'
-            ], 500);
-        }
-    }
-
-    /**
-     * Restaurer une soumission supprimée
-     */
-    public function restore($id)
-    {
-        try {
-            $submission = CommunitySubmission::withTrashed()->findOrFail($id);
-            $submission->restore();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Soumission restaurée avec succès',
-                'submission' => $submission->fresh()
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de la restauration'
+                'message' => 'Erreur lors de la suppression: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -421,7 +328,7 @@ class AdminCommunityController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors du traitement en masse'
+                'message' => 'Erreur lors du traitement en masse: ' . $e->getMessage()
             ], 500);
         }
     }

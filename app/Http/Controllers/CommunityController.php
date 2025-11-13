@@ -48,7 +48,8 @@ class CommunityController extends Controller
             'title' => 'required|string|min:10|max:200',
             'section' => 'required|string|in:Société,Économie,Politique,Tech & IA,Culture,Environnement,Investigation',
             'access_type' => 'required|in:free,premium',
-            'summary' => 'nullable|string|max:10000',
+            'summary' => 'nullable|string|max:5000',
+            'content' => 'sometimes|string|max:15000',
             'image' => 'nullable|image|max:5120', // 5MB max
         ]);
 
@@ -107,6 +108,7 @@ class CommunityController extends Controller
                 'section' => $request->section,
                 'access_type' => $request->access_type,
                 'summary' => $request->summary,
+                'content' => $request->content,
                 'image_path' => $imagePath,
                 'status' => 'pending',
             ]);

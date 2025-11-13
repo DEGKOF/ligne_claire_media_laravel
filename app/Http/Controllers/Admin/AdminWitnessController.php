@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use ZipArchive;
 
 class AdminWitnessController extends Controller
 {
@@ -18,6 +19,7 @@ class AdminWitnessController extends Controller
     {
         return view('admin.testimonies.index');
     }
+
     public function index(Request $request)
     {
         $query = WitnessTestimony::with(['user', 'validator']);
@@ -31,9 +33,9 @@ class AdminWitnessController extends Controller
             $query->where('category', $request->category);
         }
 
-        if ($request->filled('anonymous')) {
-            $query->where('anonymous_publication', $request->boolean('anonymous'));
-        }
+        // if ($request->filled('anonymous')) {
+        //     $query->where('anonymous_publication', $request->boolean('anonymous'));
+        // }
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -72,7 +74,6 @@ class AdminWitnessController extends Controller
             'testimonies' => $testimonies,
             'stats' => $stats
         ]);
-        // return view('admin.testimonies.index', compact('testimonies', 'stats'));
     }
 
     /**
@@ -142,7 +143,7 @@ class AdminWitnessController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la mise à jour'
+                'message' => 'Erreur lors de la mise à jour: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -150,7 +151,7 @@ class AdminWitnessController extends Controller
     /**
      * Valider un témoignage
      */
-    public function validateInvestigation(WitnessTestimony $testimony)
+    public function validateWitness(WitnessTestimony $testimony)
     {
         if ($testimony->status !== 'pending') {
             return response()->json([
@@ -171,7 +172,7 @@ class AdminWitnessController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la validation'
+                'message' => 'Erreur lors de la validation: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -179,7 +180,7 @@ class AdminWitnessController extends Controller
     /**
      * Rejeter un témoignage
      */
-    public function rejectInvestigation(Request $request, WitnessTestimony $testimony)
+    public function rejectWitness(Request $request, WitnessTestimony $testimony)
     {
         $validator = Validator::make($request->all(), [
             'rejection_reason' => 'required|string|min:10|max:1000',
@@ -204,7 +205,7 @@ class AdminWitnessController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors du rejet'
+                'message' => 'Erreur lors du rejet: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -233,7 +234,7 @@ class AdminWitnessController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la publication'
+                'message' => 'Erreur lors de la publication: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -265,19 +266,18 @@ class AdminWitnessController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la dépublication'
+                'message' => 'Erreur lors de la dépublication: ' . $e->getMessage()
             ], 500);
         }
     }
 
     /**
-     * Mettre à jour le statut d'un témoignage
+     * Télécharger un média spécifique
      */
-    public function updateStatus(Request $request, WitnessTestimony $testimony)
+    public function downloadMedia(WitnessTestimony $testimony, Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'status' => 'required|in:pending,validated,rejected,published',
-            'rejection_reason' => 'required_if:status,rejected|string|min:10|max:1000',
+            'media_path' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -288,46 +288,77 @@ class AdminWitnessController extends Controller
         }
 
         try {
-            $status = $request->status;
+            $mediaPath = $request->media_path;
+            $filePath = storage_path('app/public/' . $mediaPath);
 
-            switch ($status) {
-                case 'validated':
-                    $testimony->validate(Auth::id());
-                    break;
-                case 'rejected':
-                    $testimony->reject($request->rejection_reason, Auth::id());
-                    break;
-                case 'published':
-                    if ($testimony->status === 'validated') {
-                        $testimony->publish();
-                    } else {
-                        return response()->json([
-                            'success' => false,
-                            'message' => 'Seuls les témoignages validés peuvent être publiés'
-                        ], 400);
-                    }
-                    break;
-                case 'pending':
-                    $testimony->update([
-                        'status' => 'pending',
-                        'rejection_reason' => null,
-                        'validated_at' => null,
-                        'validated_by' => null,
-                        'published_at' => null,
-                    ]);
-                    break;
+            if (!file_exists($filePath)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Fichier introuvable'
+                ], 404);
             }
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Statut mis à jour avec succès',
-                'testimony' => $testimony->fresh()
-            ]);
+            return response()->download($filePath);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la mise à jour du statut'
+                'message' => 'Erreur lors du téléchargement: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Télécharger tous les médias d'un témoignage en ZIP
+     */
+    public function downloadAllMedia(WitnessTestimony $testimony)
+    {
+        try {
+            $mediaFiles = $testimony->media_files ?? [];
+
+            if (empty($mediaFiles)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Aucun média à télécharger'
+                ], 404);
+            }
+
+            // Créer un fichier ZIP temporaire
+            $zipFileName = 'testimony_' . $testimony->id . '_medias_' . time() . '.zip';
+            $zipPath = storage_path('app/temp/' . $zipFileName);
+
+            // Créer le dossier temp s'il n'existe pas
+            if (!file_exists(storage_path('app/temp'))) {
+                mkdir(storage_path('app/temp'), 0755, true);
+            }
+
+            $zip = new ZipArchive();
+
+            if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+                foreach ($mediaFiles as $index => $media) {
+                    $filePath = storage_path('app/public/' . $media['path']);
+
+                    if (file_exists($filePath)) {
+                        // Utiliser le nom original du fichier ou générer un nom
+                        $fileName = $media['name'] ?? 'media_' . ($index + 1) . '.' . pathinfo($media['path'], PATHINFO_EXTENSION);
+                        $zip->addFile($filePath, $fileName);
+                    }
+                }
+
+                $zip->close();
+
+                return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Erreur lors de la création du fichier ZIP'
+                ], 500);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors du téléchargement: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -370,7 +401,7 @@ class AdminWitnessController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la suppression du média'
+                'message' => 'Erreur lors de la suppression du média: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -391,30 +422,7 @@ class AdminWitnessController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la suppression'
-            ], 500);
-        }
-    }
-
-    /**
-     * Restaurer un témoignage supprimé
-     */
-    public function restore($id)
-    {
-        try {
-            $testimony = WitnessTestimony::withTrashed()->findOrFail($id);
-            $testimony->restore();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Témoignage restauré avec succès',
-                'testimony' => $testimony->fresh()
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de la restauration'
+                'message' => 'Erreur lors de la suppression: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -425,7 +433,7 @@ class AdminWitnessController extends Controller
     public function bulkAction(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'action' => 'required|in:validate,reject,publish,unpublish,delete',
+            'action' => 'required|in:validate,reject,delete,publish,unpublish',
             'ids' => 'required|array|min:1',
             'ids.*' => 'exists:witness_testimonies,id',
             'rejection_reason' => 'required_if:action,reject|string|min:10|max:1000',
@@ -457,6 +465,10 @@ class AdminWitnessController extends Controller
                             $count++;
                         }
                         break;
+                    case 'delete':
+                        $testimony->delete();
+                        $count++;
+                        break;
                     case 'publish':
                         if ($testimony->status === 'validated') {
                             $testimony->publish();
@@ -472,10 +484,6 @@ class AdminWitnessController extends Controller
                             $count++;
                         }
                         break;
-                    case 'delete':
-                        $testimony->delete();
-                        $count++;
-                        break;
                 }
             }
 
@@ -488,7 +496,7 @@ class AdminWitnessController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors du traitement en masse'
+                'message' => 'Erreur lors du traitement en masse: ' . $e->getMessage()
             ], 500);
         }
     }

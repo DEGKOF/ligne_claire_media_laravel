@@ -47,7 +47,7 @@ class WitnessController extends Controller
             'city' => 'nullable|string|max:100',
             'title' => 'required|string|min:8|max:120',
             'category' => 'required|string',
-            'description' => 'required|string|min:30|max:1500',
+            'description' => 'required|string|min:30|max:2000',
             'location' => 'nullable|string|max:200',
             'event_date' => 'nullable|date',
             'anonymous_publication' => 'boolean',

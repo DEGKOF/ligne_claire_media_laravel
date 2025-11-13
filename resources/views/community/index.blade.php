@@ -252,8 +252,14 @@
                 </div>
 
                 <div class="lcm-form-group">
-                    <label class="lcm-form-label">Contenu / Résumé *</label>
-                    <textarea name="summary" class="lcm-form-textarea" placeholder="Collez ici votre texte ou décrivez votre sujet..." required></textarea>
+                    <label class="lcm-form-label">Résumé *</label>
+                    <textarea name="summary" class="lcm-form-textarea" rows="5"  placeholder="Collez ici votre texte ou décrivez votre sujet..." required></textarea>
+                    <div class="lcm-form-hint">Les sources et chiffres renforcent vos chances d'être publiés</div>
+                </div>
+
+                <div class="lcm-form-group">
+                    <label class="lcm-form-label">Contenu *</label>
+                    <textarea name="content" class="lcm-form-textarea" rows="15" placeholder="Collez ici votre texte ou décrivez votre sujet..." required></textarea>
                     <div class="lcm-form-hint">Les sources et chiffres renforcent vos chances d'être publiés</div>
                 </div>
 

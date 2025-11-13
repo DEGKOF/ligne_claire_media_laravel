@@ -333,7 +333,7 @@ Route::get('/ad/click/{advertisement}', [AdTrackingController::class, 'trackClic
 // Route::get('/api/ad/next/{position}', [AdTrackingController::class, 'getNextAd'])->name('ad.next');
 Route::get('/api/ad/next/{position}', [App\Http\Controllers\AdController::class, 'getNextAd'])->name('ad.next');
 
-Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // ============================================
     // COMMUNITY SUBMISSIONS (Soumissions Communauté)
@@ -364,10 +364,12 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     // ============================================
     // INVESTIGATION PROPOSALS (Propositions d'Investigation)
     // ============================================
+
+
     Route::prefix('investigations')->name('admin.investigations.')->group(function () {
         // Liste et détails
         Route::get('/', [AdminInvestigationController::class, 'index'])->name('index');
-        Route::get('/{proposal}', [AdminInvestigationController::class, 'investigations'])->name('show');
+        Route::get('/{proposal}', [AdminInvestigationController::class, 'show'])->name('show');
 
         // Mise à jour du contenu
         Route::put('/{proposal}', [AdminInvestigationController::class, 'update'])->name('update');
@@ -391,7 +393,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     });
     Route::prefix('investigations')->name('apiadmin.investigations.')->group(function () {
         // Liste et détails
-        Route::get('/{proposal}', [AdminInvestigationController::class, 'investigations'])->name('show');
+        Route::get('/{proposal}', [AdminInvestigationController::class, 'show'])->name('show');
     });
 
     // ============================================
@@ -407,21 +409,22 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
         Route::put('/{testimony}', [AdminWitnessController::class, 'update'])->name('update');
 
         // Gestion des statuts
-        Route::post('/{testimony}/validate', [AdminWitnessController::class, 'validateInvestigation'])->name('validate');
-        Route::post('/{testimony}/reject', [AdminWitnessController::class, 'rejectInvestigation'])->name('reject');
+        Route::post('/{testimony}/validate', [AdminWitnessController::class, 'validateWitness'])->name('validate');
+        Route::post('/{testimony}/reject', [AdminWitnessController::class, 'rejectWitness'])->name('reject');
         Route::post('/{testimony}/publish', [AdminWitnessController::class, 'publish'])->name('publish');
         Route::post('/{testimony}/unpublish', [AdminWitnessController::class, 'unpublish'])->name('unpublish');
         Route::put('/{testimony}/status', [AdminWitnessController::class, 'updateStatus'])->name('update-status');
 
+        // Téléchargement de médias
+        Route::get('/{testimony}/download-media', [AdminWitnessController::class, 'downloadMedia'])->name('download-media');
+        Route::get('/{testimony}/download-all-media', [AdminWitnessController::class, 'downloadAllMedia'])->name('download-all-media');
+        
         // Gestion des médias
         Route::delete('/{testimony}/media', [AdminWitnessController::class, 'deleteMedia'])->name('delete-media');
 
         // Suppression et restauration
         Route::delete('/{testimony}', [AdminWitnessController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/restore', [AdminWitnessController::class, 'restore'])->name('restore');
-
-        // Actions en masse
-        Route::post('/bulk-action', [AdminWitnessController::class, 'bulkAction'])->name('bulk-action');
     });
 });
 

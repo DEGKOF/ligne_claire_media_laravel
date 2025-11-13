@@ -269,13 +269,13 @@
                                     placeholder="Ex. Cotonou, Quartier Akpakpa">
                             </div>
                             <div id="fDesc" class="field" style="grid-column:span 2">
-                                <label class="label">Description (30-1500 caractères) *</label>
+                                <label class="label">Description (30-2000 caractères) *</label>
                                 <div class="control">
-                                    <textarea name="description" id="wDesc" class="textarea"
-                                        placeholder="Décrivez ce que vous avez vu, entendu ou vécu..." required minlength="30" maxlength="1500"></textarea>
-                                    <span class="counter" id="cDesc">0/1500</span>
+                                    <textarea name="description" id="wDesc" class="textarea" maxlength="2000"
+                                        placeholder="Décrivez ce que vous avez vu, entendu ou vécu..." required minlength="30" maxlength="2000"></textarea>
+                                    <span class="counter" id="cDesc">0/2000</span>
                                 </div>
-                                <span class="error">Description requise (30-1500 caractères)</span>
+                                <span class="error">Description requise (30-2000 caractères)</span>
                             </div>
                             <div class="field">
                                 <label class="label">Date de l'événement</label>
@@ -428,7 +428,7 @@
         }, {
             el: '#wDesc',
             c: '#cDesc',
-            max: 1500
+            max: 2000
         }];
         counters.forEach(({
             el,
