@@ -63,6 +63,7 @@ Ajouter Loterie nationnale => Pas d'api dispo actu, mettre le lien vers leur sit
 -Users management by admin => Done
 -Page Devenir membre => Done
 
+-Nouvelles rubriques: Découverte, immigration clandestine et religion.
 -Comming soon pour podcast et documentaire
 -Juste 2 offres comme dans annonceurs pour devenir membre
 -Integration du moyen de paiement.
