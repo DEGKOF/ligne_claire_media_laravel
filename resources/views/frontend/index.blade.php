@@ -109,6 +109,11 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+    .container {
+        max-width: 1320px;
+        margin: 0 auto;
+        /* padding: 0 22px */
+    }
 </style>
 
 <div class="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
@@ -323,7 +328,7 @@
                 <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 pb-3 sm:pb-4 border-b-2 border-blue-600">
                     🔥 Les + Lus
                 </h3>
-                @foreach($popularArticles as $index => $popular)
+                @foreach($popularArticles->take(3) as $index => $popular)
                 <div class="flex gap-3 sm:gap-4 py-3 sm:py-4 border-b last:border-0 hover:bg-gray-50 cursor-pointer transition">
                     <div class="text-2xl sm:text-3xl font-bold text-blue-600 min-w-[30px] sm:min-w-[40px]">
                         {{ $index + 1 }}
@@ -537,12 +542,15 @@
 </div>
 
 <!-- Section Politique -->
-<section class="bg-gradient-to-br from-gray-50 to-gray-100 py-8 sm:py-12 lg:py-16 my-8 sm:my-12 lg:my-16">
+<section class="py-8 sm:py-12 lg:py-16 my-8 sm:my-8 lg:my-8">
     <div class="container mx-auto px-2 sm:px-4">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
-            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase relative pl-4 sm:pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 sm:before:w-1.5 before:h-8 sm:before:h-12 before:bg-gradient-to-b before:from-red-600 before:to-blue-600 before:rounded">
+            {{-- <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase relative pl-4 sm:pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 sm:before:w-1.5 before:h-8 sm:before:h-12 before:bg-gradient-to-b before:from-red-600 before:to-blue-600 before:rounded">
                 Politique
-            </h2>
+            </h2> --}}
+                <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 pl-3 sm:pl-4 border-l-4 border-blue-600">
+                    Politique
+                </h2>
             <a href="{{ route('rubrique.show', 'politique') }}"
                class="bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold text-xs sm:text-sm uppercase hover:bg-blue-700 transition shadow-lg">
                 Toute la Politique →
@@ -588,13 +596,16 @@
 </section>
 
 <!-- Section Podcasts - Style exact de l'image -->
-<section class="bg-white py-8 sm:py-12 lg:py-16">
+<section class="py-8 sm:py-12 lg:py-16">
     <div class="container mx-auto px-2 sm:px-4">
         <!-- Header -->
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl sm:text-3xl font-black uppercase">
+            {{-- <h2 class="text-2xl sm:text-3xl font-black uppercase">
                 PODCASTS
-            </h2>
+            </h2> --}}
+                <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 pl-3 sm:pl-4 border-l-4 border-blue-600">
+                    PODCASTS
+                </h2>
             <div class="flex items-center gap-4">
                 <a
                     href="#"

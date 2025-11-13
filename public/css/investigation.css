@@ -345,7 +345,11 @@
         .section {
             display: none;
             padding: 26px 0;
-        }
+
+    max-width: 1220px !important;
+    margin: 0 auto;
+    /* padding: 0 22px */
+}
 
         .section.active {
             display: block;

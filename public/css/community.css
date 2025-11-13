@@ -19,7 +19,7 @@
     --comm-danger: #e05263;
     --comm-border: #e7edf5;
     padding: 10px 0;
-    background: var(--comm-bg);
+    /* background: var(--comm-bg); */
 }
 
 .lcm-community-container {

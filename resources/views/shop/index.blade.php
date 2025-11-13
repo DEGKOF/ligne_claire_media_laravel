@@ -7,7 +7,7 @@
 
 @section('content')
 
-<div class="bg-gray-100 min-h-screen">
+<div class="min-h-screen">
     <!-- Breadcrumb -->
     <div class="container mx-auto px-4 py-4">
         <nav class="text-sm">
@@ -25,7 +25,7 @@
     </div>
 
     <!-- Hero Section - Journal Actuel -->
-    <section class="py-12 bg-gradient-to-b from-gray-200 to-gray-100">
+    <section class="py-12 ">
         <div class="container mx-auto px-4">
             <h1 class="text-4xl md:text-5xl font-black text-center mb-6 uppercase tracking-tight">
                 Acheter un numéro du Ligne claire News
@@ -115,7 +115,7 @@ Nous croyons qu’un média moderne doit être libre, interactif et durable — 
     </section>
 
     <!-- Tous les numéros disponibles -->
-    <section class="py-16 bg-white">
+    <section class="py-16">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl md:text-4xl font-black text-center mb-12 uppercase">
                 Tous les numéros du Ligne claire News

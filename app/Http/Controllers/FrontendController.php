@@ -173,7 +173,7 @@ class FrontendController extends Controller
 
         if (empty($query)) {
             // return redirect()->route('home');
-        $query = "Votre recherche";
+        $query = "Votre recherche ici";
         }
 
         $breakingNews = Publication::published()

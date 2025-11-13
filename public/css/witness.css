@@ -197,9 +197,12 @@ menu {
 
 .section {
     display: none;
-    padding: 28px 0
-}
+    padding: 28px 0;
 
+    max-width: 1220px !important;
+    margin: 0 auto;
+    /* padding: 0 22px */
+}
 .section.active {
     display: block
 }

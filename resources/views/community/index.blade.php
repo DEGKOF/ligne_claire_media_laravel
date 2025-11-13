@@ -5,10 +5,10 @@
 
 @section('content')
 
-<div class="lcm-community-wrapper">
+<div class="lcm-community-wrapper mt-8">
     <div class="lcm-community-container">
         <!-- Hero -->
-        <div class="lcm-community-hero">
+        <div class="lcm-community-hero shadow">
             <center>
                 <h1><strong>LCM Communauté — La voix des contributeurs</strong></h1>
                 <h2>Renforcer un journalisme indépendant</h2>

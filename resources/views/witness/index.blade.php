@@ -2,7 +2,7 @@
 
 @section('title', 'LCM TÉMOINS — Vous êtes nos yeux, nos oreilles, notre vérité')
 
-    <link rel="stylesheet" href="{{ asset('css/witness.css') }}">
+<link rel="stylesheet" href="{{ asset('css/witness.css') }}">
 @section('content')
 
     <section class="hero">
@@ -37,15 +37,21 @@
     </div>
 
     <!-- Introduction -->
-<!-- Introduction -->
     <section id="intro" class="section active">
         <div class="container col-md-7 p-grid">
             <div class="panel" style="grid-column:span 12;margin-bottom:20px">
                 <header>Notre mission</header>
                 <div class="body">
-                    <p style="margin-bottom:14px;line-height:1.7">Donner la parole à ceux qui vivent l'actualité au quotidien.</p>
-                    <p style="margin-bottom:14px;line-height:1.7">LCM TÉMOINS est la plateforme participative de <strong>LCM+</strong> où chaque citoyen peut partager ses vidéos, photos ou témoignages sur des faits d'intérêt public : accidents, injustices, initiatives locales, réussites communautaires, environnement ou innovation.</p>
-                    <p style="line-height:1.7">Nous croyons que le journalisme participatif est un pilier essentiel d'une société informée et responsable. Grâce à LCM Témoins, chaque citoyen devient acteur de l'information, aux côtés de notre rédaction.</p>
+                    <p style="margin-bottom:14px;line-height:1.7">Donner la parole à ceux qui vivent l'actualité au
+                        quotidien.</p>
+                    <p style="margin-bottom:14px;line-height:1.7">LCM TÉMOINS est la plateforme participative de
+                        <strong>LCM+</strong> où chaque citoyen peut partager ses vidéos, photos ou témoignages sur des
+                        faits d'intérêt public : accidents, injustices, initiatives locales, réussites communautaires,
+                        environnement ou innovation.
+                    </p>
+                    <p style="line-height:1.7">Nous croyons que le journalisme participatif est un pilier essentiel d'une
+                        société informée et responsable. Grâce à LCM Témoins, chaque citoyen devient acteur de
+                        l'information, aux côtés de notre rédaction.</p>
                 </div>
             </div>
 
@@ -55,18 +61,22 @@
                     <ol style="margin:0;padding-left:20px;line-height:1.9">
                         <li style="margin-bottom:12px">
                             <strong>Vous témoignez.</strong><br>
-                            <span style="color:var(--muted);font-size:15px">Vous envoyez votre vidéo, photo ou récit directement sur la plateforme LCM Témoins.</span>
+                            <span style="color:var(--muted);font-size:15px">Vous envoyez votre vidéo, photo ou récit
+                                directement sur la plateforme LCM Témoins.</span>
                         </li>
                         <li style="margin-bottom:12px">
                             <strong>Nous vérifions.</strong><br>
-                            <span style="color:var(--muted);font-size:15px">Notre équipe journalistique analyse, authentifie et contextualise chaque témoignage.</span>
+                            <span style="color:var(--muted);font-size:15px">Notre équipe journalistique analyse, authentifie
+                                et contextualise chaque témoignage.</span>
                         </li>
                         <li>
                             <strong>Nous publions.</strong><br>
-                            <span style="color:var(--muted);font-size:15px">Après validation, votre contribution est diffusée sur <strong>LCM+</strong>, nos réseaux sociaux et nos émissions.</span>
+                            <span style="color:var(--muted);font-size:15px">Après validation, votre contribution est
+                                diffusée sur <strong>LCM+</strong>, nos réseaux sociaux et nos émissions.</span>
                         </li>
                     </ol>
-                    <p style="margin-top:16px;font-style:italic;color:var(--muted);line-height:1.7">Votre regard devient une information vérifiée.</p>
+                    <p style="margin-top:16px;font-style:italic;color:var(--muted);line-height:1.7">Votre regard devient une
+                        information vérifiée.</p>
                 </div>
             </div>
 
@@ -92,9 +102,11 @@
                         <li>la <strong>confidentialité</strong> des sources et témoins,</li>
                         <li>la <strong>vérification systématique</strong> des contenus avant toute diffusion,</li>
                         <li>le <strong>respect de la dignité humaine</strong> et du droit à l'image,</li>
-                        <li>une <strong>modération stricte</strong> contre les fausses informations, la diffamation ou les contenus sensibles.</li>
+                        <li>une <strong>modération stricte</strong> contre les fausses informations, la diffamation ou les
+                            contenus sensibles.</li>
                     </ul>
-                    <p style="line-height:1.7">Chaque envoi passe par une <strong>double vérification humaine et numérique</strong> avant publication.</p>
+                    <p style="line-height:1.7">Chaque envoi passe par une <strong>double vérification humaine et
+                            numérique</strong> avant publication.</p>
                 </div>
             </div>
 
@@ -108,7 +120,8 @@
                         <li>une <strong>invitation aux émissions</strong> LCM Communauté,</li>
                         <li>ou une <strong>prime symbolique</strong> selon l'impact de leur témoignage.</li>
                     </ul>
-                    <p style="margin-top:16px;line-height:1.7">Chaque citoyen peut devenir témoin, chaque témoin peut faire bouger les lignes.</p>
+                    <p style="margin-top:16px;line-height:1.7">Chaque citoyen peut devenir témoin, chaque témoin peut faire
+                        bouger les lignes.</p>
                 </div>
             </div>
 
@@ -119,7 +132,8 @@
                         <li>Approche <strong>citoyenne et participative</strong> unique au Bénin.</li>
                         <li>Création d'un <strong>réseau de correspondants indépendants</strong> à travers le pays.</li>
                         <li>Source de contenus <strong>authentiques et ancrés dans la réalité du terrain</strong>.</li>
-                        <li>Contribution directe à la <strong>transparence</strong> et à la <strong>mobilisation communautaire</strong>.</li>
+                        <li>Contribution directe à la <strong>transparence</strong> et à la <strong>mobilisation
+                                communautaire</strong>.</li>
                     </ul>
                 </div>
             </div>
@@ -127,13 +141,19 @@
             <div class="panel" style="grid-column:span 12">
                 <header>LCM TÉMOINS</header>
                 <div class="body">
-                    <p style="margin-bottom:12px;line-height:1.7">Vous avez filmé un événement, un incident ou une initiative d'intérêt public ?<br>
-                    Partagez votre témoignage avec notre rédaction.</p>
-                    <p style="margin-bottom:20px;line-height:1.7">Votre vidéo, votre photo ou votre histoire peuvent aider à informer, à dénoncer ou à inspirer.</p>
+                    <p style="margin-bottom:12px;line-height:1.7">Vous avez filmé un événement, un incident ou une
+                        initiative d'intérêt public ?<br>
+                        Partagez votre témoignage avec notre rédaction.</p>
+                    <p style="margin-bottom:20px;line-height:1.7">Votre vidéo, votre photo ou votre histoire peuvent aider à
+                        informer, à dénoncer ou à inspirer.</p>
 
-                    <div style="text-align:center;padding:24px;background:var(--sky);border-radius:12px;border-left:5px solid var(--blue3)">
-                        <button class="btn success" style="font-size:16px;padding:14px 24px" id="btnIntroSubmit">Envoyer un témoignage maintenant</button>
-                        <button class="btn secondary" style="font-size:16px;padding:14px 24px;margin-left:10px" onclick="document.querySelector('[data-tab=temoins]').click()">Découvrir les témoignages du mois</button>
+                    <div
+                        style="text-align:center;padding:24px;background:var(--sky);border-radius:12px;border-left:5px solid var(--blue3)">
+                        <button class="btn success" style="font-size:16px;padding:14px 24px" id="btnIntroSubmit">Envoyer un
+                            témoignage maintenant</button>
+                        <button class="btn secondary" style="font-size:16px;padding:14px 24px;margin-left:10px"
+                            onclick="document.querySelector('[data-tab=temoins]').click()">Découvrir les témoignages du
+                            mois</button>
                     </div>
                 </div>
             </div>
@@ -146,32 +166,32 @@
             <div class="panel">
                 <header>Témoignages vérifiés et publiés</header>
                 <div class="body">
-                   <div class="p-grid" id="gridPublies">
+                    <div class="p-grid" id="gridPublies">
                         @forelse($testimonies as $witness)
-                                <article class="card">
-                                    <a href="{{ route('witness.show', $witness->id ) }}" style="text-decoration: none; ">
+                            <article class="card">
+                                <a href="{{ route('witness.show', $witness->id) }}" style="text-decoration: none; ">
                                     <div class="media">
                                         @if ($witness->first_media)
                                             {{-- Afficher le premier média selon son type --}}
                                             @if ($witness->first_media['is_video'])
                                                 <video class="media-preview" controls>
                                                     <source src="{{ Storage::url($witness->first_media['path']) }}"
-                                                            type="{{ $witness->first_media['type'] }}">
+                                                        type="{{ $witness->first_media['type'] }}">
                                                     Votre navigateur ne supporte pas la lecture de vidéos.
                                                 </video>
                                                 <div class="media-badge">
                                                     <span>🎥 vidéo citoyenne</span>
-                                                    @if($witness->media_count > 1)
+                                                    @if ($witness->media_count > 1)
                                                         <span class="media-count">+{{ $witness->media_count - 1 }}</span>
                                                     @endif
                                                 </div>
                                             @else
                                                 <img src="{{ Storage::url($witness->first_media['path']) }}"
-                                                    alt="{{ $witness->title }}"
-                                                    class="media-preview">
+                                                    alt="{{ $witness->title }}" class="media-preview">
                                                 <div class="media-badge">
-                                                    <span>📷 photo{{ $witness->media_count > 1 ? 's' : '' }} citoyenne{{ $witness->media_count > 1 ? 's' : '' }}</span>
-                                                    @if($witness->media_count > 1)
+                                                    <span>📷 photo{{ $witness->media_count > 1 ? 's' : '' }}
+                                                        citoyenne{{ $witness->media_count > 1 ? 's' : '' }}</span>
+                                                    @if ($witness->media_count > 1)
                                                         <span class="media-count">{{ $witness->media_count }}</span>
                                                     @endif
                                                 </div>
@@ -186,7 +206,8 @@
                                     <div class="content">
                                         <div class="meta">
                                             <span class="pill">{{ $witness->category }}</span>
-                                            <span class="status {{ $witness->status == 'validated' ? 'validated' : 'pending' }}">
+                                            <span
+                                                class="status {{ $witness->status == 'validated' ? 'validated' : 'pending' }}">
                                                 {{ $witness->status }}
                                             </span>
                                         </div>
@@ -195,8 +216,8 @@
                                             {{ $witness->location ?? '—' }} — {{ Str::limit($witness->description, 80) }}
                                         </p>
                                     </div>
-                            </a>
-                                </article>
+                                </a>
+                            </article>
                         @empty
                             <div style="grid-column:span 12;text-align:center;padding:40px">
                                 <p class="legend">Aucun témoignage publié pour le moment.</p>
@@ -331,7 +352,7 @@
     <div id="toast"
         style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#0e1116;color:#fff;padding:10px 14px;border-radius:999px;opacity:0;transition:opacity .25s ease;z-index:80">
         Action effectuée.</div>
-<script>
+    <script>
         // Helpers
         const $ = s => document.querySelector(s),
             $$ = s => document.querySelectorAll(s);
@@ -740,59 +761,59 @@ Description: ${pDesc?.textContent || ''}`;
         // renderList();
 
         // ========================================
-// ANIMATIONS HOVER AMÉLIORÉES
-// ========================================
+        // ANIMATIONS HOVER AMÉLIORÉES
+        // ========================================
 
-// Ajouter un effet de pulsation subtil au survol des boutons CTA
-const btnIntroSubmit = $('#btnIntroSubmit');
-if (btnIntroSubmit) {
-    btnIntroSubmit.addEventListener('click', () => {
-        document.querySelector('[data-tab="submit"]')?.click();
-        // Animation de scroll fluide
-        setTimeout(() => {
-            window.scrollTo({
-                top: document.querySelector('#submit').offsetTop - 100,
-                behavior: 'smooth'
+        // Ajouter un effet de pulsation subtil au survol des boutons CTA
+        const btnIntroSubmit = $('#btnIntroSubmit');
+        if (btnIntroSubmit) {
+            btnIntroSubmit.addEventListener('click', () => {
+                document.querySelector('[data-tab="submit"]')?.click();
+                // Animation de scroll fluide
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: document.querySelector('#submit').offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }, 100);
             });
-        }, 100);
-    });
-}
-
-// Effet sonore subtil au clic (optionnel)
-$$('.panel').forEach(panel => {
-    panel.addEventListener('mouseenter', function() {
-        this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-    });
-
-    panel.addEventListener('mouseleave', function() {
-        this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-    });
-});
-
-// Animation des cards au scroll (optionnel mais léger)
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const cardObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-            setTimeout(() => {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }, index * 50); // Délai progressif
         }
-    });
-}, observerOptions);
 
-// Appliquer l'observer aux cards
-$$('.card').forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    card.style.transition = 'all 0.5s ease';
-    cardObserver.observe(card);
-});
+        // Effet sonore subtil au clic (optionnel)
+        $$('.panel').forEach(panel => {
+            panel.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+
+            panel.addEventListener('mouseleave', function() {
+                this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+
+        // Animation des cards au scroll (optionnel mais léger)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 50); // Délai progressif
+                }
+            });
+        }, observerOptions);
+
+        // Appliquer l'observer aux cards
+        $$('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.5s ease';
+            cardObserver.observe(card);
+        });
     </script>
 
 @endsection

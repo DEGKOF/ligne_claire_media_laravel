@@ -42,6 +42,16 @@ use App\Http\Controllers\Admin\PublicationController as AdminPublicationControll
 |
 */
 
+// routes/web.php - Ajouter cette route
+Route::get('/coming-soon', function () {
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+    return view('coming-soon', compact('breakingNews'));
+})->name('coming-soon');
+
 // routes/web.php - Ajouter ces routes
 Route::get('/devenir-membre', [MembershipController::class, 'index'])->name('membership.index');
 Route::post('/devenir-membre', [MembershipController::class, 'store'])->name('membership.store');

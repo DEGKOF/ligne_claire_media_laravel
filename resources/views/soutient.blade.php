@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="{{ asset('css/soutient.css') }}">
     <div class="support-page">
         <!-- Banner -->
-        <div class="support-banner">
+        {{-- <div class="support-banner">
             La clarté de l'information - Un média indépendant, par vous, pour vous
-        </div>
+        </div> --}}
 
         <!-- Hero Section -->
         <section class="support-hero">
@@ -130,8 +130,8 @@
         </div>
 
         <!-- Section supplémentaire : Pourquoi nous soutenir -->
-        <div class="container mx-auto px-4 py-12 max-w-4xl">
-            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-2 border-blue-200">
+        <div class="container mx-auto px-4 py-12 max-w-4xl ">
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-2 border-blue-200 shadow">
                 <h2 class="text-3xl font-black text-blue-900 mb-6 text-center">
                     Pourquoi soutenir LCM Plus ?
                 </h2>
