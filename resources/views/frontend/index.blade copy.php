@@ -3,288 +3,244 @@
 @section('title', 'LIGNE CLAIRE MÉDIA+ - L\'info en continu')
 
 @section('content')
-<!-- Swiper CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-<style>
-    /* Hero Section avec Swiper */
-    .hero-section {
-        position: relative;
-        height: 70vh;
-        min-height: 600px;
-        overflow: hidden;
-    }
-
-    .heroSwiper {
-        width: 100%;
-        height: 100%;
-    }
-
-    .hero-slide-link {
-        display: block;
-        width: 100%;
-        height: 100%;
-    }
-
-    .hero-slide-bg {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #1e3a8a 0%, #6b21a8 100%);
-        background-size: cover;
-        background-position: center;
-    }
-
-    .hero-overlay-dark {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1;
-    }
-
-    .hero-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.3) 0%, transparent 50%);
-        z-index: 2;
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 10;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        padding: 0 2rem;
-        max-width: 1320px;
-        margin: 0 auto;
-    }
-
-    .hero-category {
-        display: inline-block;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        color: white;
-        padding: 0.5rem 1.5rem;
-        border-radius: 2rem;
-        font-weight: bold;
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 1.5rem;
-    }
-
-    .hero-date {
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 0.875rem;
-        margin-bottom: 1rem;
-    }
-
-    .hero-title {
-        font-size: clamp(2rem, 5vw, 4rem);
-        font-weight: 900;
-        color: white;
-        line-height: 1.2;
-        margin-bottom: 2rem;
-        max-width: 800px;
-        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Swiper Navigation personnalisée */
-    .swiper-button-next,
-    .swiper-button-prev {
-        color: white;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-    }
-
-    .swiper-button-next:after,
-    .swiper-button-prev:after {
-        font-size: 20px;
-    }
-
-    .swiper-button-next:hover,
-    .swiper-button-prev:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(1.1);
-    }
-
-    /* Swiper Pagination personnalisée */
-    .swiper-pagination-bullet {
-        width: 12px;
-        height: 12px;
-        background: rgba(255, 255, 255, 0.5);
-        opacity: 1;
-        transition: all 0.3s ease;
-    }
-
-    .swiper-pagination-bullet-active {
-        background: white;
-        width: 30px;
-        border-radius: 6px;
-    }
-
-    /* Decorative circles */
-    .circle {
-        position: absolute;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-        animation: float 20s infinite ease-in-out;
-        z-index: 3;
-    }
-
-    @keyframes float {
-        0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-        50% { transform: translate(30px, -30px) scale(1.1); opacity: 0.5; }
-    }
-
-    .circle:nth-child(1) { width: 200px; height: 200px; top: 10%; left: 5%; animation-delay: 0s; }
-    .circle:nth-child(2) { width: 150px; height: 150px; top: 20%; right: 10%; animation-delay: 2s; }
-    .circle:nth-child(3) { width: 100px; height: 100px; bottom: 30%; left: 15%; animation-delay: 4s; }
-    .circle:nth-child(4) { width: 180px; height: 180px; top: 40%; right: 20%; animation-delay: 1s; }
-    .circle:nth-child(5) { width: 120px; height: 120px; bottom: 20%; right: 15%; animation-delay: 3s; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .hero-content {
-            padding: 0 1rem;
+    <style>
+        /* Style pour la scrollbar personnalisée */
+        #news-scroll::-webkit-scrollbar {
+            width: 6px;
         }
 
-        .hero-title {
-            font-size: 2rem;
+        #news-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
 
-        .swiper-button-next,
-        .swiper-button-prev {
-            width: 40px;
-            height: 40px;
+        #news-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
         }
 
-        .swiper-button-next:after,
-        .swiper-button-prev:after {
-            font-size: 16px;
+        #news-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
-    }
 
-    /* Style pour la scrollbar personnalisée */
-    #news-scroll::-webkit-scrollbar {
-        width: 6px;
-    }
+        /* Firefox */
+        #news-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f1f1;
+        }
 
-    #news-scroll::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
+        /* Animation smooth pour le hover */
+        #news-scroll article {
+            transition: all 0.2s ease;
+        }
 
-    #news-scroll::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 3px;
-    }
+        /* Responsive pour les boutons de filtres */
+        @media (max-width: 640px) {
+            .filter-buttons a {
+                font-size: 0.75rem;
+                padding: 0.5rem 1rem;
+            }
+        }
 
-    #news-scroll::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-    }
+        /* Animation pour les mises à jour */
+        .market-item {
+            transition: background-color 0.3s ease;
+        }
 
-    #news-scroll {
-        scrollbar-width: thin;
-        scrollbar-color: #cbd5e1 #f1f1f1;
-    }
+        /* Animation du badge de statut */
+        @keyframes pulse {
 
-    .container {
-        max-width: 1320px;
-        margin: 0 auto;
-    }
-</style>
+            0%,
+            100% {
+                opacity: 1;
+            }
 
+            50% {
+                opacity: 0.5;
+            }
+        }
 
-<section class="hero-section">
-    <div class="swiper heroSwiper">
-        <div class="swiper-wrapper">
-            @foreach ($featuredArticles as $featuredArticle)
-                <div class="swiper-slide">
-                    <a href="{{ route('publication.show', $featuredArticle->slug) }}" class="hero-slide-link">
-                        <div class="hero-slide-bg"
-                             @if($featuredArticle->featured_image)
-                                style="background-image: url('{{ asset('storage/' . $featuredArticle->featured_image) }}');"
-                             @endif>
-                            <!-- Afficher l'icône si pas d'image -->
-                            @if(!$featuredArticle->featured_image)
-                                <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-600 to-purple-600">
-                                    <span class="text-white text-9xl opacity-30">
-                                        {{ $featuredArticle->rubrique->icon ?? '📰' }}
-                                    </span>
-                                </div>
-                            @endif
-                            <!-- Dark overlay -->
-                            <div class="hero-overlay-dark"></div>
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
 
-                            <!-- Decorative circles -->
-                            <div class="circle"></div>
-                            <div class="circle"></div>
-                            <div class="circle"></div>
-                            <div class="circle"></div>
-                            <div class="circle"></div>
+        /* Largeur des cartes selon l'écran */
+        @media (max-width: 640px) {
+            .podcast-card {
+                width: calc(100% - 1rem);
+                min-width: calc(100% - 1rem);
+            }
+        }
 
-                            <!-- Gradient overlay -->
-                            <div class="hero-overlay"></div>
+        @media (min-width: 641px) and (max-width: 768px) {
+            .podcast-card {
+                width: calc(50% - 0.5rem);
+                min-width: calc(50% - 0.5rem);
+            }
+        }
 
-                            <!-- Content -->
-                            <div class="hero-content">
-                                <span class="hero-category">{{ $featuredArticle->rubrique->name }}</span>
-                                <div class="hero-date">
-                                    {{ $featuredArticle->published_at->locale('fr')->isoFormat('DD MMMM YYYY - HH[H]mm') }}
-                                </div>
-                                <h1 class="hero-title">{{ $featuredArticle->title }}</h1>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            @endforeach
-        </div>
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .podcast-card {
+                width: calc(33.333% - 0.75rem);
+                min-width: calc(33.333% - 0.75rem);
+            }
+        }
 
-        <!-- Navigation buttons -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        @media (min-width: 1025px) and (max-width: 1280px) {
+            .podcast-card {
+                width: calc(25% - 0.75rem);
+                min-width: calc(25% - 0.75rem);
+            }
+        }
 
-        <!-- Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
-</section>
-    <!-- Main Content -->
-    <div class="container mx-auto px-2 sm:px-4 py-8 sm:py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        @media (min-width: 1281px) {
+            .podcast-card {
+                width: calc(20% - 0.8rem);
+                min-width: calc(20% - 0.8rem);
+            }
+        }
+
+        #podcast-carousel {
+            scroll-behavior: smooth;
+        }
+
+        #podcast-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        #podcast-carousel {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            /* padding: 0 22px */
+        }
+    </style>
+
+    <div class="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
 
             <!-- Main Content -->
             <div class="lg:col-span-2">
+
+                <!-- Filtres / Boutons de navigation -->
+                <div class="mb-3 overflow-x-auto pb-2 filter-buttons">
+                    <div class="flex gap-2 min-w-max">
+                        @foreach ($metaKeywords as $item)
+                            <a href="{{ route('publication.show', $item->meta_title ?? '#') }}"
+                                class="inline-block border border-gray-300 text-gray-800 bg-gray-100 hover:bg-blue-600 hover:text-white hover:border-blue-600 px-4 sm:px-8 py-1 rounded-full font-bold transition whitespace-nowrap">
+                                {{ $item->meta_title }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Lecteur Vidéo Direct YouTube -->
+                <div class="bg-black rounded-lg overflow-hidden shadow-2xl mb-6 sm:mb-8 aspect-video relative">
+                    <iframe id="youtube-player" class="w-full h-full"
+                        src="https://www.youtube.com/embed/TgOshEXFrKQ?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+                        title="LIGNE CLAIRE MÉDIA+ - Direct" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+
+                    <!-- Badge DIRECT en overlay -->
+                    <div
+                        class="absolute top-2 right-2 sm:top-4 sm:right-4 bg-red-600 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold flex items-center gap-1 sm:gap-2 shadow-lg z-10 pointer-events-none">
+                        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse"></span>
+                        DIRECT
+                    </div>
+                </div>
+
+                <!-- Article à la Une -->
+                @if ($featuredArticle)
+                    <article class="bg-white rounded-lg shadow-lg overflow-hidden mb-6 sm:mb-8 hover:shadow-xl transition">
+                        <div
+                            class="h-48 sm:h-64 md:h-80 lg:h-96 bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center relative">
+                            @if ($featuredArticle->featured_image)
+                                <img src="{{ asset('storage/' . $featuredArticle->featured_image) }}"
+                                    alt="{{ $featuredArticle->title }}" class="w-full h-full object-cover">
+                            @endif
+                            <span
+                                class="absolute top-2 left-2 sm:top-4 sm:left-4 bg-blue-600 text-white px-2 py-1 sm:px-4 sm:py-2 rounded font-bold text-xs uppercase">
+                                À LA UNE
+                            </span>
+                            @if ($featuredArticle->is_new)
+                                <span
+                                    class="absolute top-2 right-2 sm:top-4 sm:right-4 bg-red-600 text-white px-2 py-1 sm:px-3 sm:py-1 rounded font-bold text-xs uppercase animate-pulse">
+                                    NEW
+                                </span>
+                            @endif
+                        </div>
+                        <div class="p-4 sm:p-6 lg:p-8">
+                            <h1
+                                class="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4 leading-tight hover:text-blue-600 transition">
+                                <a href="{{ route('publication.show', $featuredArticle->slug) }}">
+                                    {{ $featuredArticle->title }}
+                                </a>
+                            </h1>
+                            <div class="flex flex-wrap gap-3 sm:gap-6 text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
+                                {{-- <span>👤 {{ $featuredArticle->user->public_name }}</span>
+                        <span>📅 {{ $featuredArticle->formatted_published_date }}</span>
+                        <span>👁️ {{ number_format($featuredArticle->views_count) }} vues</span> --}}
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    {{ $featuredArticle->user->public_name }}
+                                </span>
+
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    {{ $featuredArticle->formatted_published_date }}
+                                </span>
+
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    {{ number_format($featuredArticle->views_count) }} vues
+                                </span>
+                            </div>
+                            <p
+                                class="text-sm sm:text-base text-gray-700 leading-relaxed mb-4 sm:mb-6 line-clamp-3 sm:line-clamp-none text-justify">
+                                {{ $featuredArticle->excerpt }}
+                            </p>
+                            <a href="{{ route('publication.show', $featuredArticle->slug) }}"
+                                class="inline-block bg-blue-600 text-white px-6 sm:px-8 py-2 rounded-full font-bold hover:bg-blue-700 transition text-sm sm:text-base">
+                                Lire l'article complet →
+                            </a>
+                        </div>
+                    </article>
+                @endif
+
                 <!-- Actualités du jour -->
-                <section class="mb-12">
-                    <h2 class="text-2xl sm:text-3xl font-bold mb-6 pl-4 border-l-4 border-blue-600">
+                <section class="mb-8 sm:mb-12">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 pl-3 sm:pl-4 border-l-4 border-blue-600">
                         Actualités du jour
                     </h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                         @foreach ($recentArticles as $article)
                             <article
-                                class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-2 transition cursor-pointer">
+                                class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 sm:hover:-translate-y-2 transition cursor-pointer">
                                 <a href="{{ route('publication.show', $article->slug) }}">
                                     <div
-                                        class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center relative">
+                                        class="h-40 sm:h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center relative">
                                         @if ($article->featured_image)
                                             <img src="{{ asset('storage/' . $article->featured_image) }}"
                                                 alt="{{ $article->title }}" class="w-full h-full object-cover">
                                         @else
-                                            <span class="text-white text-5xl">📰</span>
+                                            <span class="text-white text-4xl sm:text-5xl">📰</span>
                                         @endif
                                         @if ($article->is_new)
                                             <span
@@ -293,19 +249,22 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="p-5">
+                                    <div class="p-4 sm:p-5">
                                         <div class="text-blue-600 text-xs font-bold uppercase mb-2">
                                             {{ $article->rubrique->name }}
                                         </div>
-                                        <h3 class="text-lg font-bold mb-3 leading-tight line-clamp-2">
+                                        <h3
+                                            class="text-base sm:text-lg font-bold mb-2 sm:mb-3 leading-tight line-clamp-1 h-30">
                                             {{ $article->title }}
                                         </h3>
-                                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                                        <p class="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
                                             {{ $article->excerpt }}
                                         </p>
-                                        <div class="flex justify-between items-center text-xs text-gray-500 pt-4 border-t">
+                                        <div
+                                            class="flex justify-between items-center text-xs text-gray-500 pt-3 sm:pt-4 border-t">
                                             <span class="flex items-center gap-1">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
@@ -313,7 +272,8 @@
                                             </span>
 
                                             <span class="flex items-center gap-1">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                                 </svg>
@@ -329,12 +289,12 @@
             </div>
 
             <!-- Sidebar -->
-            <aside class="space-y-6">
+            <aside class="space-y-4 sm:space-y-5 lg:w-auto">
 
                 <!-- Bouton Acheter le journal -->
                 <div class="w-full">
                     <a href="{{ route('shop.index') }}"
-                        class="block bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-lg font-bold text-sm uppercase text-center w-full transition shadow-lg hover:shadow-xl transform hover:scale-105">
+                        class="block bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg font-bold text-sm uppercase text-center w-full transition shadow-lg hover:shadow-xl transform hover:scale-105">
                         📰 Acheter le journal
                     </a>
                 </div>
@@ -342,15 +302,16 @@
                 <!-- Section NEWS 24/7 avec scroll vertical -->
                 <div class="bg-gray-200 rounded-lg shadow-lg overflow-hidden" style="min-height: 100vh">
                     <!-- Header NEWS 24/7 -->
-                    <div class="bg-red-600 text-white px-3 py-2">
-                        <h3 class="font-black text-lg uppercase tracking-wide">NEWS 24/7</h3>
+                    <div class="bg-red-600 text-white px-3 py-2 w-full sm:w-auto sm:inline-block">
+                        <h3 class="font-black text-base sm:text-lg uppercase tracking-wide">NEWS 24/7</h3>
                     </div>
 
                     <!-- Zone scrollable -->
-                    <div class="overflow-y-auto max-h-[1200px] scroll-smooth p-3 bg-gray-200" id="news-scroll">
-                        <div class="space-y-3">
+                    <div class="overflow-y-auto max-h-[800px] sm:max-h-[1200px] scroll-smooth p-2 sm:p-3 bg-gray-200"
+                        id="news-scroll">
+                        <div class="space-y-2 sm:space-y-3">
                             @foreach ($recentArticles->take(30) as $article)
-                                <article class="p-4 hover:bg-gray-100 bg-white transition cursor-pointer rounded">
+                                <article class="p-3 sm:p-4 hover:bg-gray-100 bg-white transition cursor-pointer rounded">
                                     <a href="{{ route('publication.show', $article->slug) }}" class="block">
                                         <!-- Timestamp -->
                                         <div class="flex items-center gap-2 text-gray-400 text-xs mb-2">
@@ -363,27 +324,46 @@
                                         </div>
 
                                         <!-- Titre -->
-                                        <h4 class="font-bold text-sm leading-tight mb-3 line-clamp-2 hover:text-blue-600 transition">
+                                        <h4
+                                            class="font-bold text-xs sm:text-sm leading-tight mb-2 sm:mb-3 line-clamp-2 hover:text-blue-600 transition">
                                             {{ $article->title }}
                                         </h4>
 
                                         <!-- Image + Texte -->
-                                        <div class="flex gap-3">
+                                        <div class="flex gap-2 sm:gap-3">
                                             <!-- Miniature -->
-                                            <div class="relative flex-shrink-0 w-24 h-24 bg-gray-200 rounded overflow-hidden">
+                                            <div
+                                                class="relative flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 rounded overflow-hidden">
                                                 @if ($article->featured_image)
                                                     <img src="{{ asset('storage/' . $article->featured_image) }}"
                                                         alt="{{ $article->title }}" class="w-full h-full object-cover">
                                                 @else
-                                                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-600">
-                                                        <span class="text-white text-2xl">📰</span>
+                                                    <div
+                                                        class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-600">
+                                                        <span class="text-white text-xl sm:text-2xl">📰</span>
+                                                    </div>
+                                                @endif
+
+                                                <!-- Play button si vidéo -->
+                                                @if ($article->has_video ?? false)
+                                                    <div
+                                                        class="absolute inset-0 flex items-center justify-center bg-black/30">
+                                                        <div
+                                                            class="w-6 h-6 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center">
+                                                            <svg class="w-3 h-3 sm:w-4 sm:h-4 text-red-600 ml-0.5"
+                                                                fill="currentColor" viewBox="0 0 20 20">
+                                                                <path
+                                                                    d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                                            </svg>
+                                                        </div>
                                                     </div>
                                                 @endif
                                             </div>
 
                                             <!-- Texte d'aperçu -->
                                             <div class="flex-1 min-w-0">
-                                                <p class="text-gray-600 text-xs leading-relaxed line-clamp-4">
+                                                <p
+                                                    class="text-gray-600 text-xs leading-relaxed line-clamp-3 sm:line-clamp-4">
                                                     {{ Str::limit($article->excerpt ?? $article->content, 120) }}
                                                 </p>
                                             </div>
@@ -396,37 +376,44 @@
 
                     <!-- Footer "Toute l'actualité" -->
                     <div class="bg-gray-500 border-t border-gray-200">
-                        <a href="#" class="block text-center py-3 font-bold text-sm hover:bg-gray-400 transition text-white">
+                        <a href="#"
+                            class="block text-center py-2 sm:py-3 font-bold text-xs sm:text-sm hover:bg-gray-400 transition text-white">
                             Toute l'actualité
                         </a>
                     </div>
                 </div>
 
                 <!-- Les + Lus -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-xl font-bold mb-4 pb-4 border-b-2 border-blue-600 flex items-center gap-2">
-                        <svg class="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3.5 3.5 5.5 7 7-3.5 1.5-5.5 3.5-7 7-1.5-3.5-3.5-5.5-7-7 3.5-1.5 5.5-3.5 7-7z" />
+                <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+                    <h3
+                        class="text-lg sm:text-xl font-bold mb-3 sm:mb-4 pb-3 sm:pb-4 border-b-2 border-blue-600 flex items-center gap-2">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2c1.5 3.5 3.5 5.5 7 7-3.5 1.5-5.5 3.5-7 7-1.5-3.5-3.5-5.5-7-7 3.5-1.5 5.5-3.5 7-7z" />
                         </svg>
                         Les + Lus
                     </h3>
                     @foreach ($popularArticles->take(3) as $index => $popular)
-                        <div class="flex gap-4 py-4 border-b last:border-0 hover:bg-gray-50 cursor-pointer transition">
-                            <div class="text-3xl font-bold text-blue-600 min-w-[40px]">
+                        <div
+                            class="flex gap-3 sm:gap-4 py-3 sm:py-4 border-b last:border-0 hover:bg-gray-50 cursor-pointer transition">
+                            <div class="text-2xl sm:text-3xl font-bold text-blue-600 min-w-[30px] sm:min-w-[40px]">
                                 {{ $index + 1 }}
                             </div>
                             <div class="flex-1 min-w-0">
                                 <a href="{{ route('publication.show', $popular->slug) }}">
-                                    <h4 class="font-semibold text-sm leading-tight mb-2 hover:text-blue-600 line-clamp-2">
+                                    <h4
+                                        class="font-semibold text-xs sm:text-sm leading-tight mb-1 sm:mb-2 hover:text-blue-600 line-clamp-2">
                                         {{ $popular->title }}
                                     </h4>
                                     <span class="text-xs text-gray-500 flex">
-                                        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                         {{ $popular->published_at->diffForHumans() }}
                                     </span>
+
                                 </a>
                             </div>
                         </div>
@@ -608,24 +595,25 @@
                     </div>
                 </div>
 
+
                 <!-- Newsletter -->
-                <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-lg shadow-lg p-4 sm:p-6">
+                    <h3 class="text-lg sm:text-xl font-bold mb-2 sm:mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                         Newsletter
                     </h3>
-                    <p class="text-sm mb-4 text-blue-100">
+                    <p class="text-xs sm:text-sm mb-3 sm:mb-4 text-blue-100">
                         Recevez l'essentiel de l'actualité directement dans votre boîte mail.
                     </p>
                     <form action="{{ route('newsletter.subscribe') }}" method="POST" class="space-y-3">
                         @csrf
                         <input type="email" name="email" placeholder="Votre adresse email" required
-                            class="w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm">
+                            class="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm">
                         <button type="submit"
-                            class="w-full bg-white text-blue-600 px-4 py-3 rounded-lg font-bold hover:bg-blue-50 transition text-sm">
+                            class="w-full bg-white text-blue-600 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-bold hover:bg-blue-50 transition text-sm">
                             S'abonner
                         </button>
                     </form>
@@ -635,14 +623,17 @@
     </div>
 
     <!-- Section Politique -->
-    <section class="py-12 my-2">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-                <h2 class="text-2xl font-bold pl-4 border-l-4 border-blue-600">
+    <section class="py-8 sm:py-12 lg:py-16 my-2 sm:my-2 lg:my-2">
+        <div class="container mx-auto px-2 sm:px-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+                {{-- <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black uppercase relative pl-4 sm:pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 sm:before:w-1.5 before:h-8 sm:before:h-12 before:bg-gradient-to-b before:from-red-600 before:to-blue-600 before:rounded">
+                Politique
+            </h2> --}}
+                <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 pl-3 sm:pl-4 border-l-4 border-blue-600">
                     Politique
                 </h2>
                 <a href="{{ route('rubrique.show', 'politique') }}"
-                    class="bg-blue-600 text-white px-6 py-3 rounded-full font-bold text-sm uppercase hover:bg-blue-700 transition shadow-lg">
+                    class="bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold text-xs sm:text-sm uppercase hover:bg-blue-700 transition shadow-lg">
                     Toute la Politique →
                 </a>
             </div>
@@ -656,25 +647,27 @@
             @endphp
 
             @if ($politiqueArticles->isNotEmpty())
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                     @foreach ($politiqueArticles as $article)
                         <article
-                            class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition">
+                            class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 sm:hover:-translate-y-2 transition">
                             <a href="{{ route('publication.show', $article->slug) }}">
-                                <div class="h-40 bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center">
+                                <div
+                                    class="h-32 sm:h-40 bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center">
                                     @if ($article->featured_image)
                                         <img src="{{ asset('storage/' . $article->featured_image) }}"
                                             alt="{{ $article->title }}" class="w-full h-full object-cover">
                                     @else
-                                        <span class="text-white text-4xl">🏛️</span>
+                                        <span class="text-white text-3xl sm:text-4xl">🏛️</span>
                                     @endif
                                 </div>
-                                <div class="p-5">
-                                    <h3 class="font-bold text-base leading-tight mb-3 line-clamp-2">
+                                <div class="p-4 sm:p-5">
+                                    <h3 class="font-bold text-sm sm:text-base leading-tight mb-2 sm:mb-3 line-clamp-1">
                                         {{ $article->title }}
                                     </h3>
                                     <span class="text-xs text-gray-500 flex">
-                                        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
@@ -689,34 +682,27 @@
         </div>
     </section>
 
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const swiper = new Swiper('.heroSwiper', {
-                loop: true,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
-                speed: 800,
-                effect: 'fade',
-                fadeEffect: {
-                    crossFade: true
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-            });
-        });
-    </script>
+        // API YouTube pour contrôler le player
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+        var player;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // La vidéo démarre automatiquement en mode muet grâce aux paramètres de l'URL
+        }
+    </script>
 
     <script>
         // Configuration
@@ -910,6 +896,103 @@
                 updateMarketData(); // Mise à jour immédiate
                 startAutoUpdate();
             }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.getElementById('podcast-carousel');
+            const prevBtn = document.getElementById('podcast-prev');
+            const nextBtn = document.getElementById('podcast-next');
+
+            if (!carousel || !prevBtn || !nextBtn) return;
+
+            const cards = carousel.querySelectorAll('.podcast-card');
+            let currentIndex = 0;
+
+            function getVisibleCards() {
+                const width = window.innerWidth;
+                if (width < 641) return 1;
+                if (width < 769) return 2;
+                if (width < 1025) return 3;
+                if (width < 1281) return 4;
+                return 5;
+            }
+
+            function getCardWidth() {
+                if (cards.length === 0) return 0;
+                const card = cards[0];
+                const style = window.getComputedStyle(card);
+                const marginRight = parseFloat(style.marginRight) || 16;
+                return card.offsetWidth + marginRight;
+            }
+
+            function updateCarousel() {
+                const cardWidth = getCardWidth();
+                const offset = currentIndex * cardWidth;
+                carousel.style.transform = `translateX(-${offset}px)`;
+
+                const maxIndex = Math.max(0, cards.length - getVisibleCards());
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex >= maxIndex;
+
+                prevBtn.style.opacity = prevBtn.disabled ? '0.3' : '1';
+                nextBtn.style.opacity = nextBtn.disabled ? '0.3' : '1';
+                prevBtn.style.cursor = prevBtn.disabled ? 'not-allowed' : 'pointer';
+                nextBtn.style.cursor = nextBtn.disabled ? 'not-allowed' : 'pointer';
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                const maxIndex = Math.max(0, cards.length - getVisibleCards());
+                if (currentIndex < maxIndex) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            });
+
+            // Swipe sur mobile
+            let startX = 0;
+            let isDragging = false;
+
+            carousel.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            });
+
+            carousel.addEventListener('touchend', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+
+                const endX = e.changedTouches[0].clientX;
+                const diff = startX - endX;
+
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        nextBtn.click();
+                    } else {
+                        prevBtn.click();
+                    }
+                }
+            });
+
+            // Resize
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    currentIndex = 0;
+                    updateCarousel();
+                }, 250);
+            });
+
+            updateCarousel();
         });
     </script>
 @endsection

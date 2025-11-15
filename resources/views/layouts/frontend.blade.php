@@ -197,30 +197,15 @@
                         </svg>
                         <span class="mx-2">Soutenir le Media</span>
                     </a>
-                    @php
-                        $menuItems = [
-                            // ['icon' => 'desktop', 'label' => 'Soutenir le Media', 'slug' => 'sport'],
-                            ['icon' => 'desktop', 'label' => 'Devenir membre', 'slug' => 'sport'],
-                        ];
-                    @endphp
 
-                    @foreach ($menuItems as $item)
-                        <a href="{{ route('rubrique.show', $item['slug']) }}"
-                            class="flex items-center py-2 text-red-700 hover:text-red-400 font-semibold transition">
-                            @if ($item['icon'] === 'leaf')
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                                </svg>
-                            @elseif($item['icon'] === 'desktop')
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                            @endif
-                            <span class="mx-2">{{ $item['label'] }}</span>
-                        </a>
-                    @endforeach
+                    <a href="{{ route('membership.index') }}"
+                        class="flex items-center py-2 text-red-700 hover:text-red-400 font-semibold transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        <span class="mx-2">Devenir membre</span>
+                    </a>
                 </div>
 
 
@@ -259,7 +244,7 @@
                         <span class="mx-2">Documentaires</span>
                     </a>
 
-                    <a {{-- href="{{ route('podcasts.index') }}" --}}
+                    <a href="{{ route('coming-soon') }}"
                         class="flex items-center py-2 text-gray-800 hover:text-blue-600 font-semibold transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -292,7 +277,7 @@
 
                 <!-- Section Autres -->
                 <div class="space-y-1">
-                    <a href="{{ route('annonceurs') }}"
+                    <a href="{{ route('coming-soon') }}"
                         class="flex items-center py-2 px-3 text-gray-500 hover:text-gray-700 text-sm font-medium transition">
                         <span>Annonceurs</span>
                         <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -506,7 +491,7 @@
 <nav class="bg-white border-b-3 border-blue-600 shadow relative">
     <div class="container mx-auto px-4">
         <!-- PREMIÈRE LIGNE : PÔLES (toujours visible) -->
-        <div class="flex items-center justify-center gap-2 sm:gap-4 py-2 border-b border-gray-200 overflow-x-auto">
+        <div class="flex items-center justify-center gap-2 sm:gap-4 py-2 border-b border-gray-200 overflow-x-auto px-2">
             <span class="text-xs sm:text-sm font-medium whitespace-nowrap">
                 <a href="{{ route('community.index') }}"
                     class="text-blue-600 underline uppercase hover:text-gray-600 transition">
@@ -528,7 +513,6 @@
                 </a>
             </span>
         </div>
-
         <!-- DEUXIÈME LIGNE : RUBRIQUES -->
         <div class="flex items-center justify-center gap-0 overflow-x-auto">
             <div class="flex items-center flex-shrink-0" id="nav-container">
@@ -723,7 +707,9 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 mt-16">
+    {{-- <footer class="bg-gray-900 text-white py-12 mt-16"> --}}
+
+    <footer class="bg-gray-900 text-white py-12">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <div>
@@ -1025,6 +1011,149 @@
                 closeSidebar();
             }
         });
+    </script>
+    <script>
+        // ========================================
+        // 1. DÉSACTIVER LE CLIC DROIT
+        // ========================================
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // ========================================
+        // 2. BLOQUER LES RACCOURCIS CLAVIER
+        // ========================================
+        document.addEventListener('keydown', function(e) {
+            // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
+            if (
+                e.keyCode === 123 || // F12
+                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+                (e.ctrlKey && e.shiftKey && e.keyCode === 74) || // Ctrl+Shift+J
+                (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
+                (e.ctrlKey && e.keyCode === 83) || // Ctrl+S
+                (e.ctrlKey && e.shiftKey && e.keyCode === 67) || // Ctrl+Shift+C
+                (e.metaKey && e.altKey && e.keyCode === 73) || // Cmd+Option+I (Mac)
+                (e.metaKey && e.altKey && e.keyCode === 74)    // Cmd+Option+J (Mac)
+            ) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // ========================================
+        // 3. DÉSACTIVER LA SÉLECTION DE TEXTE
+        // ========================================
+        document.onselectstart = function() { return false; };
+        document.ondragstart = function() { return false; };
+
+        // Via CSS aussi
+        document.body.style.userSelect = 'none';
+        document.body.style.webkitUserSelect = 'none';
+        document.body.style.mozUserSelect = 'none';
+        document.body.style.msUserSelect = 'none';
+
+        // ========================================
+        // 4. DÉTECTION DES DEVTOOLS (Améliorée)
+        // ========================================
+        (function() {
+            let devtoolsOpen = false;
+
+            const detectDevTools = () => {
+                // Ne pas bloquer sur mobile ou petits écrans
+                if (window.innerWidth < 768) return;
+
+                const threshold = 160;
+                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+
+                // Vérifier aussi si la console est ouverte
+                const element = new Image();
+                Object.defineProperty(element, 'id', {
+                    get: function() {
+                        devtoolsOpen = true;
+                        throw new Error('DevTools');
+                    }
+                });
+
+                if ((widthThreshold || heightThreshold) && devtoolsOpen) {
+                    // DevTools vraiment détectés
+                    document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px;">⛔ Accès non autorisé détecté</h1>';
+                    setTimeout(() => window.location.reload(), 500);
+                }
+
+                devtoolsOpen = false;
+            };
+
+            // Vérifier toutes les 2 secondes (moins agressif)
+            setInterval(detectDevTools, 2000);
+
+            // Détecter via debugger (seulement sur desktop)
+            if (window.innerWidth >= 768) {
+                setInterval(function() {
+                    const start = performance.now();
+                    debugger;
+                    const end = performance.now();
+                    if (end - start > 100) {
+                        document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px;">⛔ Débogage détecté</h1>';
+                        setTimeout(() => window.location.reload(), 500);
+                    }
+                }, 2000);
+            }
+        })();
+
+        // ========================================
+        // 5. PROTECTION CONTRE LE COPIER-COLLER
+        // ========================================
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // ========================================
+        // 6. DÉSACTIVER L'IMPRESSION
+        // ========================================
+        window.addEventListener('beforeprint', function(e) {
+            e.preventDefault();
+            document.body.innerHTML = '<h1>Impression désactivée</h1>';
+        });
+
+        // ========================================
+        // 7. DÉTECTION BASIQUE DE BOTS
+        // ========================================
+        (function() {
+            const botPatterns = [
+                /bot/i, /crawl/i, /spider/i, /wget/i, /curl/i,
+                /httrack/i, /scraper/i, /python/i
+            ];
+
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isBot = botPatterns.some(pattern => pattern.test(userAgent));
+
+            if (isBot) {
+                document.body.innerHTML = '<h1>Accès refusé</h1>';
+                throw new Error('Bot détecté');
+            }
+
+            // Vérifier si webdriver est activé (Selenium, Puppeteer)
+            if (navigator.webdriver) {
+                document.body.innerHTML = '<h1>Accès automatisé détecté</h1>';
+                throw new Error('WebDriver détecté');
+            }
+        })();
+
+        // ========================================
+        // 8. OBSCURCIR LE CODE SOURCE
+        // ========================================
+        console.log = console.warn = console.error = function() {};
+        console.clear();
+
+        // ========================================
+        // 9. PROTECTION CONTRE LES IFRAMES
+        // ========================================
+        if (window.top !== window.self) {
+            window.top.location = window.self.location;
+        }
     </script>
     @stack('scripts')
 </body>

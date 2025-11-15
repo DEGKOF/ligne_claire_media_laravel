@@ -25,16 +25,16 @@ class FrontendController extends Controller
             $brvmService->getMarketData()
         );
 
-        $featuredArticle = Publication::published()
+        $featuredArticles = Publication::published()
             ->featured()
             ->with(['user', 'rubrique'])
-            ->latest('published_at')
-            ->first();
+            ->latest('published_at')->take(5)->get();
+            // ->first();
 
         $recentArticles = Publication::published()
             ->with(['user', 'rubrique'])
             ->latest('published_at')
-            ->take(9)
+            ->take(21)
             ->get();
 
         $breakingNews = Publication::published()
@@ -58,11 +58,11 @@ class FrontendController extends Controller
             ->take(6)
             ->get();
 
-        // dd($metaKeywords);
+        // dd($featuredArticles);
 
         return view('frontend.index', compact(
             'marketData',
-            'featuredArticle',
+            'featuredArticles',
             'recentArticles',
             'breakingNews',
             'popularArticles',
@@ -203,7 +203,7 @@ class FrontendController extends Controller
         $recentArticles = Publication::published()
             ->with(['user', 'rubrique'])
             ->latest('published_at')
-            ->take(9)
+            ->take(12)
             ->get();
 
         $breakingNews = Publication::published()
