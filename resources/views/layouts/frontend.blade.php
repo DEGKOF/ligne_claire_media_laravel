@@ -374,7 +374,7 @@
     </a>
 
     <!-- Bouton Direct -->
-    <a href="{{ route('direct') }}"
+    <a href="{{ route('coming-soon') }}"
         class="bg-red-600 border-2 border-red-600 text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs uppercase font-bold hover:bg-red-700 transition whitespace-nowrap flex items-center gap-1">
         <span class="inline-block w-2 h-2 bg-white rounded-full animate-pulse"></span>
         <span class="hidden xs:inline sm:hidden">Dir</span>

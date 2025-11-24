@@ -44,7 +44,7 @@ use App\Http\Controllers\Admin\PublicationController as AdminPublicationControll
 
 // routes/web.php - Ajouter cette route
 Route::get('/coming-soon', function () {
-        $breakingNews = Publication::published()
+        $breakingNews = Publication::published() 
             ->breaking()
             ->latest('published_at')
             ->take(5)

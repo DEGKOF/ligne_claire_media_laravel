@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Membership;
 use App\Models\Publication;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class MembershipController extends Controller
 {
@@ -25,51 +26,62 @@ class MembershipController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'type_membre' => 'required|in:individuel,association,entreprise',
-            'civilite' => 'required_if:type_membre,individuel|in:M.,Mme,Mlle',
             'nom' => 'required|string|max:255',
-            'prenom' => 'required_if:type_membre,individuel|string|max:255',
-            'nom_association' => 'required_if:type_membre,association|string|max:255',
-            'nom_entreprise' => 'required_if:type_membre,entreprise|string|max:255',
-            'date_naissance' => 'required_if:type_membre,individuel|date',
-            'lieu_naissance' => 'required_if:type_membre,individuel|string|max:255',
-            'nationalite' => 'required|string|max:255',
-            'profession' => 'required|string|max:255',
-            'adresse_postale' => 'required|string|max:500',
+            'prenom' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('memberships')->whereNull('deleted_at'),
+            ],
             'telephone' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
-            'montant' => 'required|numeric|min:1000',
-            'mode_paiement' => 'required|in:mobile_money,virement,especes',
+            'formule' => 'required|in:citoyen,ambassadeur',
+            'mode_paiement' => 'required|in:mobile_money,carte_bancaire,crypto',
+            'frequence' => 'required|in:mensuel,trimestriel,semestriel,annuel',
+            'apparaitre_publiquement' => 'boolean',
+            'charte_acceptee' => 'required|accepted',
+        ], [
+            'nom.required' => 'Le nom est obligatoire',
+            'prenom.required' => 'Le prénom est obligatoire',
+            'email.required' => 'L\'adresse e-mail est obligatoire',
+            'email.unique' => 'Cette adresse e-mail est déjà utilisée',
+            'telephone.required' => 'Le numéro de téléphone (WhatsApp) est obligatoire',
+            'formule.required' => 'Veuillez choisir une formule d\'engagement',
+            'charte_acceptee.accepted' => 'Vous devez accepter la Charte du membre citoyen LCM+',
         ]);
 
-        // dd($validator);
         if ($validator->fails()) {
-            dd($validator->errors());
-            // return back()->withErrors($validator)->withInput();
+            return back()->withErrors($validator)->withInput();
         }
+
+        // Déterminer le montant selon la formule
+        $montant = $request->formule === Membership::FORMULE_AMBASSADEUR
+            ? Membership::MONTANT_AMBASSADEUR
+            : Membership::MONTANT_CITOYEN;
 
         // Créer le membre
         $membership = Membership::create([
-            'type_membre' => $request->type_membre,
-            'civilite' => $request->civilite,
             'nom' => $request->nom,
             'prenom' => $request->prenom,
-            'nom_association' => $request->nom_association,
-            'nom_entreprise' => $request->nom_entreprise,
-            'date_naissance' => $request->date_naissance,
-            'lieu_naissance' => $request->lieu_naissance,
-            'nationalite' => $request->nationalite,
-            'profession' => $request->profession,
-            'adresse_postale' => $request->adresse_postale,
-            'telephone' => $request->telephone,
             'email' => $request->email,
-            'montant' => $request->montant,
+            'telephone' => $request->telephone,
+            'formule' => $request->formule,
             'mode_paiement' => $request->mode_paiement,
-            'status' => 'pending',
+            'frequence' => $request->frequence,
+            'montant' => $montant,
+            'apparaitre_publiquement' => $request->boolean('apparaitre_publiquement'),
+            'statut' => Membership::STATUT_EN_ATTENTE,
+            'charte_acceptee' => true,
+            'charte_acceptee_at' => now(),
         ]);
+
+        // Message de confirmation adapté à la formule
+        $messageFormule = $request->formule === Membership::FORMULE_AMBASSADEUR
+            ? 'Ambassadeur LCM'
+            : 'Membre Citoyen';
 
         // Rediriger vers la page de paiement
         return redirect()->route('shop.payment', $membership->id)
-            ->with('success', 'Votre demande d\'adhésion a été enregistrée. Veuillez procéder au paiement.');
+            ->with('success', "Merci pour votre confiance ! Votre demande d'adhésion comme {$messageFormule} a été enregistrée. Veuillez procéder au paiement pour activer votre abonnement.");
     }
 }

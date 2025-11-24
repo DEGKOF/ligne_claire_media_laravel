@@ -7,7 +7,7 @@
 <div class="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 flex items-center justify-center py-12 px-4">
     <div class="max-w-4xl w-full text-center">
         <!-- Animation Icon -->
-        <div class="mb-8 animate-bounce">
+        <div class="mb-5 animate-bounce">
             <svg class="w-32 h-32 mx-auto text-white opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
@@ -19,7 +19,7 @@
         </h1>
 
         <!-- Subtitle -->
-        <p class="text-xl md:text-2xl text-blue-100 mb-8 max-w-2xl mx-auto">
+        <p class="text-xl md:text-2xl text-blue-100 mb-6 max-w-2xl mx-auto">
             Nous travaillons activement sur cette fonctionnalité pour vous offrir la meilleure expérience possible.
         </p>
 
@@ -50,8 +50,8 @@
         </div> --}}
 
         <!-- Newsletter Signup -->
-        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-xl mx-auto mb-8">
-            <svg class="w-16 h-16 mx-auto mb-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 pt-5 max-w-xl mx-auto mb-8">
+            <svg class="w-16 h-10 mx-auto mb-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
             </svg>
             <h3 class="text-2xl font-bold text-gray-800 mb-4">Restez informé</h3>
