@@ -474,6 +474,13 @@
         });
     </script>
 
+    {{-- <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        if (document.getElementById('editor')) {
+            CKEDITOR.replace('editor');
+        }
+    </script> --}}
+
     {{-- <script>
         // ========================================
         // 1. DÉSACTIVER LE CLIC DROIT
@@ -818,6 +825,91 @@ ClassicEditor
         console.error('❌ Erreur lors de l\'initialisation de CKEditor:', error);
     });
 
+// Bouton personnalisé pour l'upload de vidéos
+document.addEventListener('DOMContentLoaded', function() {
+    // Créer un bouton séparé pour uploader des vidéos
+    const toolbar = document.querySelector('.ck-editor__top');
+
+    if (toolbar) {
+        setTimeout(() => {
+            const videoBtn = document.createElement('button');
+            videoBtn.type = 'button';
+            videoBtn.className = 'ck ck-button ck-off';
+            videoBtn.innerHTML = `
+                <span class="ck-button__label">🎬 Vidéo</span>
+            `;
+            videoBtn.style.cssText = 'margin-left: 10px; padding: 8px 12px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; font-size: 14px;';
+
+            videoBtn.onclick = function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'video/*';
+
+                input.onchange = async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    // Vérifier la taille (max 50MB)
+                    if (file.size > 50 * 1024 * 1024) {
+                        alert('❌ La vidéo est trop volumineuse. Maximum 50 MB.');
+                        return;
+                    }
+
+                    const formData = new FormData();
+                    formData.append('upload', file);
+
+                    // Afficher un loader
+                    videoBtn.innerHTML = '<span class="ck-button__label">⏳ Upload...</span>';
+                    videoBtn.disabled = true;
+
+                    try {
+                        const response = await fetch('{{ route("admin.publications.upload-video") }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: formData
+                        });
+
+                        const data = await response.json();
+
+                        if (data.url) {
+                            // Insérer la vidéo dans l'éditeur
+                            const videoHtml = `
+                                <figure class="media">
+                                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                        <video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                                            <source src="${data.url}" type="${file.type}">
+                                            Votre navigateur ne supporte pas la lecture de vidéos.
+                                        </video>
+                                    </div>
+                                </figure>
+                            `;
+
+                            const viewFragment = editorInstance.data.processor.toView(videoHtml);
+                            const modelFragment = editorInstance.data.toModel(viewFragment);
+                            editorInstance.model.insertContent(modelFragment);
+
+                            alert('✅ Vidéo ajoutée avec succès !');
+                        } else {
+                            alert('❌ Erreur lors de l\'upload de la vidéo.');
+                        }
+                    } catch (error) {
+                        console.error('Erreur:', error);
+                        alert('❌ Erreur lors de l\'upload de la vidéo.');
+                    } finally {
+                        videoBtn.innerHTML = '<span class="ck-button__label">🎬 Vidéo</span>';
+                        videoBtn.disabled = false;
+                    }
+                };
+
+                input.click();
+            };
+
+            toolbar.appendChild(videoBtn);
+        }, 500);
+    }
+});
 </script>
 
 <style>
@@ -827,6 +919,11 @@ ClassicEditor
     }
 
     .ck-content img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .ck-content video {
         max-width: 100%;
         height: auto;
     }

@@ -41,6 +41,14 @@ use App\Http\Controllers\Admin\PublicationController as AdminPublicationControll
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Ajoutez cette nouvelle route
+// Route::post('/admin/publications/upload-video', [AdminPublicationController::class, 'uploadVideo'])
+//     ->name('admin.publications.upload-video')
+//     ->middleware(['auth']);
+
+Route::post('/admin/publications/upload-image', [AdminPublicationController::class, 'uploadImage'])
+    ->name('admin.publications.upload-image')
+    ->middleware(['auth']);
 
 // routes/web.php - Ajouter cette route
 Route::get('/coming-soon', function () {

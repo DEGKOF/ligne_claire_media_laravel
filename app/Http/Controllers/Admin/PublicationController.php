@@ -231,4 +231,32 @@ class PublicationController extends Controller
             abort(403, 'Vous n\'êtes pas autorisé à modifier cette publication.');
         }
     }
+
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'upload' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 5MB max
+        ]);
+
+        if ($request->hasFile('upload')) {
+            $image = $request->file('upload');
+            $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            // Stocker dans public/storage/publications/content
+            $path = $image->storeAs('publications/content', $filename, 'public');
+
+            $url = asset('storage/' . $path);
+
+            // Format de réponse pour CKEditor
+            return response()->json([
+                'url' => $url
+            ]);
+        }
+
+        return response()->json([
+            'error' => [
+                'message' => 'Échec de l\'upload de l\'image'
+            ]
+        ], 400);
+    }
 }
