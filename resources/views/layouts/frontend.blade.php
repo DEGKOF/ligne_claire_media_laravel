@@ -1012,149 +1012,154 @@
             }
         });
     </script>
-    <script>
-        // ========================================
-        // 1. DÉSACTIVER LE CLIC DROIT
-        // ========================================
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            return false;
-        });
 
-        // ========================================
-        // 2. BLOQUER LES RACCOURCIS CLAVIER
-        // ========================================
-        document.addEventListener('keydown', function(e) {
-            // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
-            if (
-                e.keyCode === 123 || // F12
-                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
-                (e.ctrlKey && e.shiftKey && e.keyCode === 74) || // Ctrl+Shift+J
-                (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
-                (e.ctrlKey && e.keyCode === 83) || // Ctrl+S
-                (e.ctrlKey && e.shiftKey && e.keyCode === 67) || // Ctrl+Shift+C
-                (e.metaKey && e.altKey && e.keyCode === 73) || // Cmd+Option+I (Mac)
-                (e.metaKey && e.altKey && e.keyCode === 74)    // Cmd+Option+J (Mac)
-            ) {
+    {{-- Anti inspection --}}
+        {{-- <script>
+            // ========================================
+            // 1. DÉSACTIVER LE CLIC DROIT
+            // ========================================
+            document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
                 return false;
-            }
-        });
+            });
 
-        // ========================================
-        // 3. DÉSACTIVER LA SÉLECTION DE TEXTE
-        // ========================================
-        document.onselectstart = function() { return false; };
-        document.ondragstart = function() { return false; };
-
-        // Via CSS aussi
-        document.body.style.userSelect = 'none';
-        document.body.style.webkitUserSelect = 'none';
-        document.body.style.mozUserSelect = 'none';
-        document.body.style.msUserSelect = 'none';
-
-        // ========================================
-        // 4. DÉTECTION DES DEVTOOLS (Améliorée)
-        // ========================================
-        (function() {
-            let devtoolsOpen = false;
-
-            const detectDevTools = () => {
-                // Ne pas bloquer sur mobile ou petits écrans
-                if (window.innerWidth < 768) return;
-
-                const threshold = 160;
-                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-
-                // Vérifier aussi si la console est ouverte
-                const element = new Image();
-                Object.defineProperty(element, 'id', {
-                    get: function() {
-                        devtoolsOpen = true;
-                        throw new Error('DevTools');
-                    }
-                });
-
-                if ((widthThreshold || heightThreshold) && devtoolsOpen) {
-                    // DevTools vraiment détectés
-                    document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px;">⛔ Accès non autorisé détecté</h1>';
-                    setTimeout(() => window.location.reload(), 500);
+            // ========================================
+            // 2. BLOQUER LES RACCOURCIS CLAVIER
+            // ========================================
+            document.addEventListener('keydown', function(e) {
+                // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
+                if (
+                    e.keyCode === 123 || // F12
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 74) || // Ctrl+Shift+J
+                    (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
+                    (e.ctrlKey && e.keyCode === 83) || // Ctrl+S
+                    (e.ctrlKey && e.shiftKey && e.keyCode === 67) || // Ctrl+Shift+C
+                    (e.metaKey && e.altKey && e.keyCode === 73) || // Cmd+Option+I (Mac)
+                    (e.metaKey && e.altKey && e.keyCode === 74)    // Cmd+Option+J (Mac)
+                ) {
+                    e.preventDefault();
+                    return false;
                 }
+            });
 
-                devtoolsOpen = false;
-            };
+            // ========================================
+            // 3. DÉSACTIVER LA SÉLECTION DE TEXTE
+            // ========================================
+            document.onselectstart = function() { return false; };
+            document.ondragstart = function() { return false; };
 
-            // Vérifier toutes les 2 secondes (moins agressif)
-            setInterval(detectDevTools, 2000);
+            // Via CSS aussi
+            document.body.style.userSelect = 'none';
+            document.body.style.webkitUserSelect = 'none';
+            document.body.style.mozUserSelect = 'none';
+            document.body.style.msUserSelect = 'none';
 
-            // Détecter via debugger (seulement sur desktop)
-            if (window.innerWidth >= 768) {
-                setInterval(function() {
-                    const start = performance.now();
-                    debugger;
-                    const end = performance.now();
-                    if (end - start > 100) {
-                        document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px;">⛔ Débogage détecté</h1>';
+            // ========================================
+            // 4. DÉTECTION DES DEVTOOLS (Améliorée)
+            // ========================================
+            (function() {
+                let devtoolsOpen = false;
+
+                const detectDevTools = () => {
+                    // Ne pas bloquer sur mobile ou petits écrans
+                    if (window.innerWidth < 768) return;
+
+                    const threshold = 160;
+                    const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                    const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+
+                    // Vérifier aussi si la console est ouverte
+                    const element = new Image();
+                    Object.defineProperty(element, 'id', {
+                        get: function() {
+                            devtoolsOpen = true;
+                            throw new Error('DevTools');
+                        }
+                    });
+
+                    if ((widthThreshold || heightThreshold) && devtoolsOpen) {
+                        // DevTools vraiment détectés
+                        document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px;">⛔ Accès non autorisé détecté</h1>';
                         setTimeout(() => window.location.reload(), 500);
                     }
-                }, 2000);
+
+                    devtoolsOpen = false;
+                };
+
+                // Vérifier toutes les 2 secondes (moins agressif)
+                setInterval(detectDevTools, 2000);
+
+                // Détecter via debugger (seulement sur desktop)
+                if (window.innerWidth >= 768) {
+                    setInterval(function() {
+                        const start = performance.now();
+                        debugger;
+                        const end = performance.now();
+                        if (end - start > 100) {
+                            document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px;">⛔ Débogage détecté</h1>';
+                            setTimeout(() => window.location.reload(), 500);
+                        }
+                    }, 2000);
+                }
+            })();
+
+            // ========================================
+            // 5. PROTECTION CONTRE LE COPIER-COLLER
+            // ========================================
+            document.addEventListener('copy', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // ========================================
+            // 6. DÉSACTIVER L'IMPRESSION
+            // ========================================
+            window.addEventListener('beforeprint', function(e) {
+                e.preventDefault();
+                document.body.innerHTML = '<h1>Impression désactivée</h1>';
+            });
+
+            // ========================================
+            // 7. DÉTECTION BASIQUE DE BOTS
+            // ========================================
+            (function() {
+                const botPatterns = [
+                    /bot/i, /crawl/i, /spider/i, /wget/i, /curl/i,
+                    /httrack/i, /scraper/i, /python/i
+                ];
+
+                const userAgent = navigator.userAgent.toLowerCase();
+                const isBot = botPatterns.some(pattern => pattern.test(userAgent));
+
+                if (isBot) {
+                    document.body.innerHTML = '<h1>Accès refusé</h1>';
+                    throw new Error('Bot détecté');
+                }
+
+                // Vérifier si webdriver est activé (Selenium, Puppeteer)
+                if (navigator.webdriver) {
+                    document.body.innerHTML = '<h1>Accès automatisé détecté</h1>';
+                    throw new Error('WebDriver détecté');
+                }
+            })();
+
+            // ========================================
+            // 8. OBSCURCIR LE CODE SOURCE
+            // ========================================
+            console.log = console.warn = console.error = function() {};
+            console.clear();
+
+            // ========================================
+            // 9. PROTECTION CONTRE LES IFRAMES
+            // ========================================
+            if (window.top !== window.self) {
+                window.top.location = window.self.location;
             }
-        })();
+        </script> --}}
+    {{-- End Anti inspection --}}
 
-        // ========================================
-        // 5. PROTECTION CONTRE LE COPIER-COLLER
-        // ========================================
-        document.addEventListener('copy', function(e) {
-            e.preventDefault();
-            return false;
-        });
 
-        // ========================================
-        // 6. DÉSACTIVER L'IMPRESSION
-        // ========================================
-        window.addEventListener('beforeprint', function(e) {
-            e.preventDefault();
-            document.body.innerHTML = '<h1>Impression désactivée</h1>';
-        });
-
-        // ========================================
-        // 7. DÉTECTION BASIQUE DE BOTS
-        // ========================================
-        (function() {
-            const botPatterns = [
-                /bot/i, /crawl/i, /spider/i, /wget/i, /curl/i,
-                /httrack/i, /scraper/i, /python/i
-            ];
-
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isBot = botPatterns.some(pattern => pattern.test(userAgent));
-
-            if (isBot) {
-                document.body.innerHTML = '<h1>Accès refusé</h1>';
-                throw new Error('Bot détecté');
-            }
-
-            // Vérifier si webdriver est activé (Selenium, Puppeteer)
-            if (navigator.webdriver) {
-                document.body.innerHTML = '<h1>Accès automatisé détecté</h1>';
-                throw new Error('WebDriver détecté');
-            }
-        })();
-
-        // ========================================
-        // 8. OBSCURCIR LE CODE SOURCE
-        // ========================================
-        console.log = console.warn = console.error = function() {};
-        console.clear();
-
-        // ========================================
-        // 9. PROTECTION CONTRE LES IFRAMES
-        // ========================================
-        if (window.top !== window.self) {
-            window.top.location = window.self.location;
-        }
-    </script>
     @stack('scripts')
 </body>
 

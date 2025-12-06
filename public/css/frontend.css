@@ -1,111 +1,173 @@
+/* Overlay Play Button pour vidéos */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 5;
+}
 
-        .flash-popup {
-            position: fixed;
-            z-index: 9999;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
+.play-button {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
 
-        .flash-popup.hidden {
-            opacity: 0;
-            transform: translateY(100px) scale(0.8);
-            pointer-events: none;
-        }
+.play-button svg {
+    width: 24px;
+    height: 24px;
+    color: #1e3a8a;
+    margin-left: 4px;
+}
 
-        .flash-popup.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
+.video-container:hover .video-overlay {
+    opacity: 1;
+}
 
-        @keyframes slideInRight {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
+.video-container:hover .play-button {
+    transform: scale(1.1);
+}
 
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
+/* Badge VIDEO */
+.video-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(220, 38, 38, 0.95);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 10;
+}
 
-        @keyframes pulse {
+/* ********************************* */
+.flash-popup {
+    position: fixed;
+    z-index: 9999;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
 
-            0%,
-            100% {
-                transform: scale(1);
-            }
+.flash-popup.hidden {
+    opacity: 0;
+    transform: translateY(100px) scale(0.8);
+    pointer-events: none;
+}
 
-            50% {
-                transform: scale(1.05);
-            }
-        }
+.flash-popup.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
 
-        #sidebar-menu {
-            z-index: 9998;
-        }
+@keyframes slideInRight {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
 
-        #sidebar-menu.open {
-            transform: translateX(0);
-        }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
 
-        #sidebar-overlay {
-            z-index: 9997;
-        }
+@keyframes pulse {
 
-        #sidebar-overlay.show {
-            opacity: 1;
-        }
+    0%,
+    100% {
+        transform: scale(1);
+    }
 
-        /* Scrollbar pour le menu latéral */
-        #sidebar-menu::-webkit-scrollbar {
-            width: 6px;
-        }
+    50% {
+        transform: scale(1.05);
+    }
+}
 
-        #sidebar-menu::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
+#sidebar-menu {
+    z-index: 9998;
+}
 
-        #sidebar-menu::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
+#sidebar-menu.open {
+    transform: translateX(0);
+}
 
-        #sidebar-menu::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+#sidebar-overlay {
+    z-index: 9997;
+}
 
-        /* Scrollbar personnalisée pour la première ligne (pôles) */
-        nav > div > div:first-child::-webkit-scrollbar {
-            height: 3px;
-        }
+#sidebar-overlay.show {
+    opacity: 1;
+}
 
-        nav > div > div:first-child::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
+/* Scrollbar pour le menu latéral */
+#sidebar-menu::-webkit-scrollbar {
+    width: 6px;
+}
 
-        nav > div > div:first-child::-webkit-scrollbar-thumb {
-            background: #3b82f6;
-            border-radius: 10px;
-        }
+#sidebar-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
 
-        /* Scrollbar personnalisée pour la deuxième ligne (rubriques) */
-        #nav-container::-webkit-scrollbar {
-            height: 4px;
-        }
+#sidebar-menu::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
 
-        #nav-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
+#sidebar-menu::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
 
-        #nav-container::-webkit-scrollbar-thumb {
-            background-color: #2563eb;
-            border-radius: 10px;
-        }
+/* Scrollbar personnalisée pour la première ligne (pôles) */
+nav>div>div:first-child::-webkit-scrollbar {
+    height: 3px;
+}
 
-        /* Animation smooth pour le scroll horizontal */
-        nav > div > div:first-child,
-        #nav-container {
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
+nav>div>div:first-child::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+nav>div>div:first-child::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 10px;
+}
+
+/* Scrollbar personnalisée pour la deuxième ligne (rubriques) */
+#nav-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+#nav-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#nav-container::-webkit-scrollbar-thumb {
+    background-color: #2563eb;
+    border-radius: 10px;
+}
+
+/* Animation smooth pour le scroll horizontal */
+nav>div>div:first-child,
+#nav-container {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}

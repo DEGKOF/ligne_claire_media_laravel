@@ -116,7 +116,7 @@
                             </div>
                         @endif
 
-                        @if(auth()->user()->canManageRubriques())
+                        @if(auth()->user()->canManageRubriques() || auth()->user()->canWriteArticles())
                             <div class="mt-6">
                                 <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Rubriques</div>
                                 <a href="{{ route('admin.rubriques.index') }}"
@@ -127,7 +127,7 @@
                             </div>
                         @endif
 
-                        @if(auth()->user()->isAdmin())
+                        @if(auth()->user()->isMasterAdmin())
                             <div class="mt-6">
                                 <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Pôles</div>
                                 <a href="{{ route('admin.community.index') }}"
@@ -190,7 +190,7 @@
                             </a>
                         @endif
 
-                        @if(auth()->user()->isAdmin())
+                        @if(auth()->user()->isMasterAdmin())
                             <div class="mt-6">
                                 <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
                                 <a href="{{ route('admin.users.index') }}"
@@ -216,11 +216,11 @@
             <div class="p-4 bg-blue-950/50 border-t border-blue-700">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold text-sm">
-                        {{ strtoupper(substr(auth()->user()->username, 0, 2)) }}
+                        {{ strtoupper(substr(auth()->user()->nom, 0, 2)) }}
                     </div>
                     <div class="flex-1 min-w-0">
-                        <div class="text-sm font-medium truncate">{{ auth()->user()->display_name ?? auth()->user()->username }}</div>
-                        <div class="text-xs text-blue-300">{{ ucfirst(auth()->user()->role) }}</div>
+                        <div class="text-sm font-medium truncate">{{ auth()->user()->prenom ?? auth()->user()->username }}</div>
+                        <div class="text-xs text-blue-300">{{ str_replace('_', ' ', ucfirst(auth()->user()->role)) }}</div>
                     </div>
                 </div>
             </div>
@@ -284,9 +284,9 @@
                             </div>
                         @endif
 
-                        @if(auth()->user()->isAdmin())
+                        @if(auth()->user()->isMasterAdmin())
                             <div class="mt-6">
-                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Utilisateurs externes</div>
+                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Pôles</div>
                                 <a href="{{ route('admin.community.index') }}"
                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.community.*') ? 'bg-white/20' : '' }}">
                                     <i class="fas fa-users w-5"></i>
@@ -328,7 +328,7 @@
                         @endif
 
 
-                        @if(auth()->user()->isAdmin())
+                        @if(auth()->user()->isMasterAdmin())
                             <div class="mt-6">
                                 <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
                                 <a href="{{ route('admin.users.index') }}"
@@ -346,7 +346,7 @@
                                 <span class="font-medium">Compte </span>
                             </a>
                         </div>
-                        
+
                         @if(auth()->user()->isAdvertiser())
                             <a href="{{ route('advertiser.dashboard') }}"
                                class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('advertiser.dashboard') ? 'bg-white/20' : '' }}">
@@ -374,11 +374,11 @@
             <div class="p-4 bg-blue-950/50 border-t border-blue-700">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold text-sm">
-                        {{ strtoupper(substr(auth()->user()->username, 0, 2)) }}
+                        {{ strtoupper(substr(auth()->user()->nom, 0, 2)) }}
                     </div>
                     <div class="flex-1 min-w-0">
-                        <div class="text-sm font-medium truncate">{{ auth()->user()->display_name ?? auth()->user()->username }}</div>
-                        <div class="text-xs text-blue-300">{{ ucfirst(auth()->user()->role) }}</div>
+                        <div class="text-sm font-medium truncate">{{ auth()->user()->prenom ?? auth()->user()->username }}</div>
+                        <div class="text-xs text-blue-300">{{ str_replace('_', ' ', ucfirst(auth()->user()->role)) }}</div>
                     </div>
                 </div>
             </div>

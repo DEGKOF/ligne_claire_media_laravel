@@ -53,32 +53,21 @@
 
                 <!-- Title -->
                 <div class="px-8 pt-6">
+                <!-- Excerpt -->
+                @if ($publication->excerpt)
+                    <div class="mb-6">
+                        <p
+                            class="text-xl text-gray-700 leading-relaxed font-medium border-l-4 border-blue-600 pl-6 pr-4 py-4 bg-blue-50 rounded text-justify">
+                            <strong>
+                                {{ $publication->excerpt }}
+                            </strong>
+                        </p>
+                    </div>
+                @endif
                     <h1 class="text-4xl md:text-5xl font-black leading-tight mb-6">
                         {{ $publication->title }}
                     </h1>
 
-                    <!-- Dans article -->
-                    {{-- <x-ad-slot position="popup" :context="['rubrique_id' => $publication->rubrique_id ?? null]" /> --}}
-
-                    <!-- Meta Info -->
-                    {{-- <div class="flex flex-wrap gap-6 text-sm text-gray-600 mb-6 pb-6 border-b">
-                        <div class="flex items-center gap-2">
-                            <span class="text-lg">👤</span>
-                            <span>Par <strong class="text-gray-900">{{ $publication->user->public_name }}</strong></span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-lg">📅</span>
-                            <span>{{ $publication->formatted_published_date }}</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-lg">👁️</span>
-                            <span>{{ number_format($publication->views_count) }} vues</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-lg">⏱️</span>
-                            <span>{{ $publication->read_time }} min de lecture</span>
-                        </div>
-                    </div> --}}
                     <div class="flex flex-wrap gap-6 text-sm text-gray-600 mb-6 pb-6 border-b">
                         <div class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,13 +103,54 @@
                 </div>
 
                 <!-- Featured Image -->
+                <!-- Featured Media (Image ou Vidéo) -->
                 @if ($publication->featured_image)
                     <div class="px-8 mb-8">
-                        <img src="{{ asset('storage/' . $publication->featured_image) }}" alt="{{ $publication->title }}"
-                            class="w-full h-auto rounded-lg shadow-lg">
+                        @php
+                            $extension = pathinfo($publication->featured_image, PATHINFO_EXTENSION);
+                            $isVideo = in_array(strtolower($extension), ['mp4', 'mov', 'avi', 'webm']);
+                        @endphp
+
+                        @if ($isVideo)
+                            <!-- Vidéo uploadée -->
+                            <div class="relative rounded-lg overflow-hidden shadow-lg bg-black">
+                                <video controls class="w-full h-auto" preload="metadata">
+                                    <source src="{{ asset('storage/' . $publication->featured_image) }}"
+                                        type="video/{{ $extension }}">
+                                    Votre navigateur ne supporte pas la lecture de vidéos.
+                                </video>
+
+                                <!-- Badge VIDÉO -->
+                                <div
+                                    class="absolute top-4 left-4 bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold uppercase flex items-center gap-2 shadow-lg">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                                    </svg>
+                                    VIDÉO
+                                </div>
+
+                                @if ($publication->video_duration)
+                                    <!-- Durée de la vidéo -->
+                                    <div
+                                        class="absolute bottom-4 right-4 bg-black/80 text-white px-3 py-1 rounded text-sm font-semibold">
+                                        {{ gmdate('i:s', $publication->video_duration) }}
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Titre de la vidéo (optionnel) -->
+                            <div class="mt-3 text-center text-sm text-gray-600">
+                                <p>{{ $publication->title }}</p>
+                            </div>
+                        @else
+                            <!-- Image classique -->
+                            <img src="{{ asset('storage/' . $publication->featured_image) }}"
+                                alt="{{ $publication->title }}" class="w-full h-auto rounded-lg shadow-lg">
+                        @endif
                     </div>
                 @endif
-
+{{--
                 <!-- Excerpt -->
                 @if ($publication->excerpt)
                     <div class="px-8 mb-6">
@@ -129,7 +159,7 @@
                             {{ $publication->excerpt }}
                         </p>
                     </div>
-                @endif
+                @endif --}}
                 <center><br>
 
                     <x-ad-slot position="popup" :rotation="true" :interval="15000">
@@ -243,7 +273,60 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($relatedArticles as $related)
                             <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
-                                <!-- ... contenu de l'article similaire ... -->
+                                <a href="{{ route('publication.show', $related->slug) }}">
+                                    <div
+                                        class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center relative video-container">
+                                        @if ($related->featured_image)
+                                            @php
+                                                $extension = pathinfo($related->featured_image, PATHINFO_EXTENSION);
+                                                $isVideo = in_array(strtolower($extension), [
+                                                    'mp4',
+                                                    'mov',
+                                                    'avi',
+                                                    'webm',
+                                                ]);
+                                            @endphp
+
+                                            @if ($isVideo)
+                                                <video class="w-full h-full object-cover" muted>
+                                                    <source src="{{ asset('storage/' . $related->featured_image) }}"
+                                                        type="video/{{ $extension }}">
+                                                </video>
+                                                <!-- Badge VIDEO -->
+                                                <span class="video-badge">
+                                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path
+                                                            d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                                                    </svg>
+                                                    VIDÉO
+                                                </span>
+                                                <!-- Play Button Overlay -->
+                                                <div class="video-overlay">
+                                                    <div class="play-button">
+                                                        <svg fill="currentColor" viewBox="0 0 20 20">
+                                                            <path
+                                                                d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <img src="{{ asset('storage/' . $related->featured_image) }}"
+                                                    alt="{{ $related->title }}" class="w-full h-full object-cover">
+                                            @endif
+                                        @else
+                                            <span class="text-white text-5xl">📰</span>
+                                        @endif
+                                    </div>
+                                    <div class="p-4">
+                                        <h3
+                                            class="font-bold text-sm leading-tight line-clamp-2 hover:text-blue-600 transition">
+                                            {{ $related->title }}
+                                        </h3>
+                                        <span class="text-xs text-gray-500 mt-2 block">
+                                            {{ $related->published_at->diffForHumans() }}
+                                        </span>
+                                    </div>
+                                </a>
                             </article>
                         @endforeach
                     </div>

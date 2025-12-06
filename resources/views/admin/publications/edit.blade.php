@@ -109,7 +109,7 @@
         <div class="bg-white rounded-lg shadow p-6 space-y-4">
             <h3 class="font-bold text-lg mb-4">Médias</h3>
 
-            <div>
+            {{-- <div>
                 <label class="block text-sm font-bold text-gray-700 mb-2">
                     Image à la une
                 </label>
@@ -126,6 +126,45 @@
                        accept="image/*"
                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600">
                 <p class="text-sm text-gray-500 mt-1">Laissez vide pour conserver l'image actuelle</p>
+                @error('featured_image')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div> --}}
+
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">
+                    Média à la une (Image ou Vidéo)
+                </label>
+                @if($publication->featured_image)
+                    <div class="mb-3">
+                        @php
+                            $extension = pathinfo($publication->featured_image, PATHINFO_EXTENSION);
+                            $isVideo = in_array(strtolower($extension), ['mp4', 'mov', 'avi', 'webm']);
+                        @endphp
+
+                        @if($isVideo)
+                            <video controls class="h-48 w-auto rounded border border-gray-300">
+                                <source src="{{ asset('storage/' . $publication->featured_image) }}" type="video/{{ $extension }}">
+                                Votre navigateur ne supporte pas la lecture vidéo.
+                            </video>
+                        @else
+                            <img src="{{ asset('storage/' . $publication->featured_image) }}"
+                                alt="Image actuelle"
+                                class="h-32 w-auto rounded border border-gray-300">
+                        @endif
+                        <p class="text-sm text-gray-500 mt-1">Média actuel</p>
+                    </div>
+                @endif
+                <input type="file"
+                    name="featured_image"
+                    accept="image/*,video/*"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
+                    onchange="previewMedia(event)">
+                <p class="text-sm text-gray-500 mt-1">Image (Max: 2 Mo) ou Vidéo (Max: 50 Mo). Laissez vide pour conserver le média actuel.</p>
+
+                <!-- Prévisualisation -->
+                <div id="mediaPreview" class="mt-3"></div>
+
                 @error('featured_image')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror

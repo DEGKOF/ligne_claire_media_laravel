@@ -77,20 +77,19 @@
                     <div>
                         <label for="role" class="block text-sm font-medium text-gray-700 mb-2">Rôle *</label>
                         <select name="role" id="role" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('role') border-red-500 @enderror">
-                            <option value="" disabled selected>Sélectionner un rôle</option>
+                            <option value="">Sélectionner un rôle</option>
                             <option value="journaliste" {{ old('role') === 'journaliste' ? 'selected' : '' }}>Journaliste</option>
                             <option value="redacteur" {{ old('role') === 'redacteur' ? 'selected' : '' }}>Rédacteur</option>
-                            {{-- isMasterAdmin --}}
-
-                            @if(auth()->user()->isMasterAdmin())
-                                <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="master_admin" {{ old('role') === 'master_admin' ? 'selected' : '' }}>Master Admin</option>
-                            @endif
+                            <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="master_admin" {{ old('role') === 'master_admin' ? 'selected' : '' }}>Master Admin</option>
+                            <option value="advertiser" {{ old('role') === 'advertiser' ? 'selected' : '' }}>Annonceur</option>
+                            <option value="contributor" {{ old('role') === 'contributor' ? 'selected' : '' }}>Contributeur</option>
+                            <option value="investigator" {{ old('role') === 'investigator' ? 'selected' : '' }}>Investigateur</option>
+                            <option value="witness" {{ old('role') === 'witness' ? 'selected' : '' }}>Témoin</option>
                         </select>
                         @error('role')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
-                        <p class="mt-1 text-sm text-gray-500">Les autres utilisateurs (Annonceur, Contributeur, etc.) s'inscrivent eux-mêmes</p>
                     </div>
 
                     <div>
@@ -103,10 +102,50 @@
                 </div>
             </div>
 
-            {{-- Informations de l'annonceur (masquées car non applicable) --}}
+            {{-- Informations de l'annonceur (visible si rôle = advertiser) --}}
             <div id="advertiserFields" class="mb-6" style="display: none;">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Informations de l'annonceur</h3>
-                <p class="text-sm text-gray-500 italic">Ces champs sont remplis lors de l'inscription de l'annonceur</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="company_name" class="block text-sm font-medium text-gray-700 mb-2">Nom de l'entreprise</label>
+                        <input type="text" name="company_name" id="company_name" value="{{ old('company_name') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label for="website" class="block text-sm font-medium text-gray-700 mb-2">Site web</label>
+                        <input type="url" name="website" id="website" value="{{ old('website') }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="https://example.com">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Adresse</label>
+                        <textarea name="address" id="address" rows="3"
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('address') }}</textarea>
+                    </div>
+
+                    <div>
+                        <label for="logo" class="block text-sm font-medium text-gray-700 mb-2">Logo</label>
+                        <input type="file" name="logo" id="logo" accept="image/*"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <p class="mt-1 text-sm text-gray-500">Format accepté: JPG, PNG, GIF (Max: 2MB)</p>
+                    </div>
+
+                    <div>
+                        <label for="balance" class="block text-sm font-medium text-gray-700 mb-2">Solde initial</label>
+                        <input type="number" name="balance" id="balance" value="{{ old('balance', '0') }}" step="0.01" min="0"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label for="advertiser_status" class="block text-sm font-medium text-gray-700 mb-2">Statut de l'annonceur</label>
+                        <select name="advertiser_status" id="advertiser_status" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="pending" {{ old('advertiser_status', 'pending') === 'pending' ? 'selected' : '' }}>En attente</option>
+                            <option value="active" {{ old('advertiser_status') === 'active' ? 'selected' : '' }}>Actif</option>
+                            <option value="suspended" {{ old('advertiser_status') === 'suspended' ? 'selected' : '' }}>Suspendu</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             {{-- Mot de passe --}}
@@ -178,5 +217,23 @@ function togglePassword(inputId, iconId) {
         `;
     }
 }
+
+// Afficher/masquer les champs annonceur selon le rôle
+document.getElementById('role').addEventListener('change', function() {
+    const advertiserFields = document.getElementById('advertiserFields');
+    if (this.value === 'advertiser') {
+        advertiserFields.style.display = 'block';
+    } else {
+        advertiserFields.style.display = 'none';
+    }
+});
+
+// Vérifier à l'initialisation (pour old values)
+document.addEventListener('DOMContentLoaded', function() {
+    const role = document.getElementById('role').value;
+    if (role === 'advertiser') {
+        document.getElementById('advertiserFields').style.display = 'block';
+    }
+});
 </script>
 @endsection

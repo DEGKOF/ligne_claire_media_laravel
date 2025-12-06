@@ -94,31 +94,34 @@
                            title="Voir">
                             Voir
                         </a>
-                        <a href="{{ route('admin.rubriques.edit', $rubrique) }}"
-                           class="text-blue-600 hover:text-blue-900"
-                            style="text-decoration: underline"
-                           title="Modifier">
-                            Modifier
-                        </a>
-                        @if(($rubrique->publications_count ?? 0) === 0)
-                        <form action="{{ route('admin.rubriques.destroy', $rubrique) }}"
-                              method="POST"
-                              class="inline"
-                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette rubrique ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                             style="text-decoration: underline"
-                                    class="text-red-600 hover:text-red-900"
-                                    title="Supprimer">
+
+                    @if(auth()->user()->isAdmin())
+                            <a href="{{ route('admin.rubriques.edit', $rubrique) }}"
+                            class="text-blue-600 hover:text-blue-900"
+                                style="text-decoration: underline"
+                            title="Modifier">
+                                Modifier
+                            </a>
+                            @if(($rubrique->publications_count ?? 0) === 0)
+                            <form action="{{ route('admin.rubriques.destroy', $rubrique) }}"
+                                method="POST"
+                                class="inline"
+                                onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette rubrique ?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                style="text-decoration: underline"
+                                        class="text-red-600 hover:text-red-900"
+                                        title="Supprimer">
+                                    Supp
+                                </button>
+                            </form>
+                            @else
+                            <span class="text-gray-400 cursor-not-allowed" title="Impossible de supprimer : contient des publications">
                                 Supp
-                            </button>
-                        </form>
-                        @else
-                        <span class="text-gray-400 cursor-not-allowed" title="Impossible de supprimer : contient des publications">
-                            Supp
-                        </span>
-                        @endif
+                            </span>
+                            @endif
+                    @endif
                     </div>
                 </td>
             </tr>

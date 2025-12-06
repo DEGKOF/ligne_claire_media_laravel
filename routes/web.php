@@ -44,7 +44,7 @@ use App\Http\Controllers\Admin\PublicationController as AdminPublicationControll
 
 // routes/web.php - Ajouter cette route
 Route::get('/coming-soon', function () {
-        $breakingNews = Publication::published() 
+        $breakingNews = Publication::published()
             ->breaking()
             ->latest('published_at')
             ->take(5)
@@ -168,7 +168,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     | Accessible par: admin, master_admin
     |--------------------------------------------------------------------------
     */
-    Route::middleware([CheckRole::class . ':admin,master_admin'])
+    Route::middleware([CheckRole::class . ':admin,master_admin,journaliste,redacteur'])
         ->group(function () {
             Route::resource('rubriques', RubriqueController::class);
             Route::post('rubriques/{rubrique}/toggle', [RubriqueController::class, 'toggleActive'])

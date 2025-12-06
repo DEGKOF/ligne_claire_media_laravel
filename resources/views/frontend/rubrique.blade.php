@@ -4,6 +4,81 @@
 @section('meta_description', $rubrique->description)
 
 @section('content')
+    <style>
+        /* Overlay Play Button pour vidéos */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .play-button svg {
+            width: 24px;
+            height: 24px;
+            color: #1e3a8a;
+            margin-left: 4px;
+        }
+
+        .video-container:hover .video-overlay {
+            opacity: 1;
+        }
+
+        .video-container:hover .play-button {
+            transform: scale(1.1);
+        }
+
+        /* Badge VIDEO */
+        .video-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(220, 38, 38, 0.95);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 10;
+        }
+
+        /* Play button plus grand pour featured article */
+        .featured-play-button {
+            width: 80px;
+            height: 80px;
+        }
+
+        .featured-play-button svg {
+            width: 32px;
+            height: 32px;
+        }
+    </style>
+
     <div class="bg-gradient-to-br from-blue-900 to-blue-600 py-16 mb-12 relative overflow-hidden">
         <div class="absolute inset-0 opacity-10">
             <span class="text-9xl absolute right-12 top-1/2 -translate-y-1/2">{{ $rubrique->icon }}</span>
@@ -29,10 +104,39 @@
             <article class="bg-white rounded-xl shadow-2xl overflow-hidden mb-12 hover:shadow-3xl transition">
                 <a href="{{ route('publication.show', $featured->slug) }}">
                     <div
-                        class="h-96 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center relative">
+                        class="h-96 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center relative video-container">
                         @if ($featured->featured_image)
-                            <img src="{{ asset('storage/' . $featured->featured_image) }}" alt="{{ $featured->title }}"
-                                class="w-full h-full object-cover">
+                            @php
+                                $extension = pathinfo($featured->featured_image, PATHINFO_EXTENSION);
+                                $isVideo = in_array(strtolower($extension), ['mp4', 'mov', 'avi', 'webm']);
+                            @endphp
+
+                            @if ($isVideo)
+                                <video autoplay muted loop class="w-full h-full object-cover" muted>
+                                    <source src="{{ asset('storage/' . $featured->featured_image) }}"
+                                        type="video/{{ $extension }}">
+                                </video>
+                                <!-- Badge VIDEO -->
+                                <span class="video-badge">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                                    </svg>
+                                    VIDÉO
+                                </span>
+                                <!-- Play Button Overlay (plus grand) -->
+                                <div class="video-overlay">
+                                    <div class="play-button featured-play-button">
+                                        <svg fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            @else
+                                <img src="{{ asset('storage/' . $featured->featured_image) }}" alt="{{ $featured->title }}"
+                                    class="w-full h-full object-cover">
+                            @endif
                         @else
                             <span class="text-white text-9xl">{{ $rubrique->icon }}</span>
                         @endif
@@ -84,10 +188,39 @@
                         class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-2 transition cursor-pointer">
                         <a href="{{ route('publication.show', $publication->slug) }}">
                             <div
-                                class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center relative">
+                                class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center relative video-container">
                                 @if ($publication->featured_image)
-                                    <img src="{{ asset('storage/' . $publication->featured_image) }}"
-                                        alt="{{ $publication->title }}" class="w-full h-full object-cover">
+                                    @php
+                                        $extension = pathinfo($publication->featured_image, PATHINFO_EXTENSION);
+                                        $isVideo = in_array(strtolower($extension), ['mp4', 'mov', 'avi', 'webm']);
+                                    @endphp
+
+                                    @if ($isVideo)
+                                        <video autoplay muted loop class="w-full h-full object-cover" muted>
+                                            <source src="{{ asset('storage/' . $publication->featured_image) }}"
+                                                type="video/{{ $extension }}">
+                                        </video>
+                                        <!-- Badge VIDEO -->
+                                        <span class="video-badge">
+                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                                            </svg>
+                                            VIDÉO
+                                        </span>
+                                        <!-- Play Button Overlay -->
+                                        <div class="video-overlay">
+                                            <div class="play-button">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <img src="{{ asset('storage/' . $publication->featured_image) }}"
+                                            alt="{{ $publication->title }}" class="w-full h-full object-cover">
+                                    @endif
                                 @else
                                     <span class="text-white text-5xl">{{ $rubrique->icon }}</span>
                                 @endif

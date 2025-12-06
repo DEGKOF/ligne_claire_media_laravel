@@ -103,11 +103,13 @@
                 <h3 class="font-bold text-lg mb-4">Médias</h3>
 
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">
+                    {{-- <label class="block text-sm font-bold text-gray-700 mb-2">
                         Image à la une
-                    </label>
-                    <input type="file" name="featured_image" accept="image/*"
+                    </label> --}}
+                    <label class="block text-gray-700 font-medium mb-2">Média à la une (Image ou Vidéo)</label>
+                    <input type="file" name="featured_image" accept="image/*,video/*"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600">
+                    <p class="text-gray-500 text-sm mt-1">Image (Max: 2 Mo) ou Vidéo (Max: 50 Mo)</p>
                     @error('featured_image')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror

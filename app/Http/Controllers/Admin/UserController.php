@@ -18,8 +18,7 @@ class UserController extends Controller
                 'journaliste',
                 'redacteur',
                 'admin',
-                'master_admin',
-                'advertiser',])->latest()->paginate(20);
+                'master_admin'])->latest()->paginate(20);
 
 
 
@@ -30,48 +29,60 @@ class UserController extends Controller
     {
         return view('admin.users.create');
     }
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'nom' => 'required|string|max:255',
+        'prenom' => 'required|string|max:255',
+        'username' => 'required|string|max:255|unique:users',
+        'email' => 'required|email|unique:users',
+        'phone' => 'nullable|string|max:20',
+        'city' => 'nullable|string|max:255',
+        'password' => 'required|string|min:8|confirmed',
+        'display_name' => 'nullable|string|max:255',
+        'role' => 'required|in:journaliste,redacteur,admin,master_admin',
+        'is_active' => 'nullable|boolean',
+    ]);
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'username' => 'required|string|max:255|unique:users',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'display_name' => 'nullable|string|max:255',
-            'role' => 'required|in:admin,editor,advertiser',
-        ]);
+    $validated['password'] = Hash::make($validated['password']);
 
+    // Si is_active n'est pas fourni, définir par défaut à true
+    $validated['is_active'] = $validated['is_active'] ?? true;
+
+    User::create($validated);
+
+    return redirect()->route('admin.users.index')->with('success', 'Utilisateur créé avec succès.');
+}
+
+public function update(Request $request, User $user)
+{
+    $validated = $request->validate([
+        'nom' => 'required|string|max:255',
+        'prenom' => 'required|string|max:255',
+        'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
+        'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+        'phone' => 'nullable|string|max:20',
+        'city' => 'nullable|string|max:255',
+        'display_name' => 'nullable|string|max:255',
+        'role' => 'required|in:journaliste,redacteur,admin,master_admin',
+        'is_active' => 'nullable|boolean',
+        'password' => 'nullable|string|min:8|confirmed',
+    ]);
+
+    if (!empty($validated['password'])) {
         $validated['password'] = Hash::make($validated['password']);
-
-        User::create($validated);
-
-        return redirect()->route('admin.users.index')->with('success', 'Utilisateur créé avec succès.');
+    } else {
+        unset($validated['password']);
     }
+
+    $user->update($validated);
+
+    return redirect()->route('admin.users.index')->with('success', 'Utilisateur mis à jour avec succès.');
+}
 
     public function edit(User $user)
     {
         return view('admin.users.edit', compact('user'));
-    }
-
-    public function update(Request $request, User $user)
-    {
-        $validated = $request->validate([
-            'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-            'display_name' => 'nullable|string|max:255',
-            'role' => 'required|in:admin,editor,advertiser',
-            'password' => 'nullable|string|min:8|confirmed',
-        ]);
-
-        if (!empty($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
-        }
-
-        $user->update($validated);
-
-        return redirect()->route('admin.users.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
 
     public function destroy(User $user)

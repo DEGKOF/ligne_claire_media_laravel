@@ -124,7 +124,8 @@ class User extends Authenticatable
 
     public function canManageRubriques(): bool
     {
-        return $this->isAdmin();
+        // return $this->isAdmin();
+        return in_array($this->role, ['journaliste', 'redacteur', 'admin', 'master_admin']);
     }
 
     // Nouveaux rôles externes

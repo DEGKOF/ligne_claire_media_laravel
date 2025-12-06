@@ -3,225 +3,288 @@
 @section('title', 'LIGNE CLAIRE MÉDIA+ - L\'info en continu')
 
 @section('content')
-<!-- Swiper CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-<style>
-    /* Hero Section avec Swiper */
-    .hero-section {
-        position: relative;
-        height: 70vh;
-        min-height: 600px;
-        overflow: hidden;
-    }
+    <style>
+        /* Hero Section avec Swiper */
+        .hero-section {
+            position: relative;
+            height: 70vh;
+            min-height: 600px;
+            overflow: hidden;
+        }
 
-    .heroSwiper {
-        width: 100%;
-        height: 100%;
-    }
+        .heroSwiper {
+            width: 100%;
+            height: 100%;
+        }
 
-    .hero-slide-link {
-        display: block;
-        width: 100%;
-        height: 100%;
-    }
+        .hero-slide-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
 
-    .hero-slide-bg {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #1e3a8a 0%, #6b21a8 100%);
-        background-size: cover;
-        background-position: center;
-    }
+        .hero-slide-bg {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #6b21a8 100%);
+            background-size: cover;
+            background-position: center;
+        }
 
-    .hero-overlay-dark {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1;
-    }
+        .hero-overlay-dark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
 
-    .hero-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.3) 0%, transparent 50%);
-        z-index: 2;
-    }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.3) 0%, transparent 50%);
+            z-index: 2;
+        }
 
-    .hero-content {
-        position: relative;
-        z-index: 10;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        padding: 0 2rem;
-        max-width: 1320px;
-        margin: 0 auto;
-    }
-
-    .hero-category {
-        display: inline-block;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        color: white;
-        padding: 0.5rem 1.5rem;
-        border-radius: 2rem;
-        font-weight: bold;
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 1.5rem;
-    }
-
-    .hero-date {
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 0.875rem;
-        margin-bottom: 1rem;
-    }
-
-    .hero-title {
-        font-size: clamp(2rem, 5vw, 4rem);
-        font-weight: 900;
-        color: white;
-        line-height: 1.2;
-        margin-bottom: 2rem;
-        max-width: 800px;
-        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Swiper Navigation personnalisée */
-    .swiper-button-next,
-    .swiper-button-prev {
-        color: white;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-    }
-
-    .swiper-button-next:after,
-    .swiper-button-prev:after {
-        font-size: 20px;
-    }
-
-    .swiper-button-next:hover,
-    .swiper-button-prev:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(1.1);
-    }
-
-    /* Swiper Pagination personnalisée */
-    .swiper-pagination-bullet {
-        width: 12px;
-        height: 12px;
-        background: rgba(255, 255, 255, 0.5);
-        opacity: 1;
-        transition: all 0.3s ease;
-    }
-
-    .swiper-pagination-bullet-active {
-        background: white;
-        width: 30px;
-        border-radius: 6px;
-    }
-
-    /* Decorative circles */
-    .circle {
-        position: absolute;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-        animation: float 20s infinite ease-in-out;
-        z-index: 3;
-    }
-
-    @keyframes float {
-        0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-        50% { transform: translate(30px, -30px) scale(1.1); opacity: 0.5; }
-    }
-
-    .circle:nth-child(1) { width: 200px; height: 200px; top: 10%; left: 5%; animation-delay: 0s; }
-    .circle:nth-child(2) { width: 150px; height: 150px; top: 20%; right: 10%; animation-delay: 2s; }
-    .circle:nth-child(3) { width: 100px; height: 100px; bottom: 30%; left: 15%; animation-delay: 4s; }
-    .circle:nth-child(4) { width: 180px; height: 180px; top: 40%; right: 20%; animation-delay: 1s; }
-    .circle:nth-child(5) { width: 120px; height: 120px; bottom: 20%; right: 15%; animation-delay: 3s; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
         .hero-content {
-            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 2rem;
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        .hero-category {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-date {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
         }
 
         .hero-title {
-            font-size: 2rem;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
         }
 
+        /* Swiper Navigation personnalisée */
         .swiper-button-next,
         .swiper-button-prev {
-            width: 40px;
-            height: 40px;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
         }
 
         .swiper-button-next:after,
         .swiper-button-prev:after {
-            font-size: 16px;
+            font-size: 20px;
         }
-    }
 
-    /* Style pour la scrollbar personnalisée */
-    #news-scroll::-webkit-scrollbar {
-        width: 6px;
-    }
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
 
-    #news-scroll::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
+        /* Swiper Pagination personnalisée */
+        .swiper-pagination-bullet {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
 
-    #news-scroll::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 3px;
-    }
+        .swiper-pagination-bullet-active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+        }
 
-    #news-scroll::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-    }
+        /* Decorative circles */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 20s infinite ease-in-out;
+            z-index: 3;
+        }
 
-    #news-scroll {
-        scrollbar-width: thin;
-        scrollbar-color: #cbd5e1 #f1f1f1;
-    }
+        @keyframes float {
 
-    .container {
-        max-width: 1320px;
-        margin: 0 auto;
-    }
-</style>
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: translate(30px, -30px) scale(1.1);
+                opacity: 0.5;
+            }
+        }
+
+        .circle:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .circle:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .circle:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            bottom: 30%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        .circle:nth-child(4) {
+            width: 180px;
+            height: 180px;
+            top: 40%;
+            right: 20%;
+            animation-delay: 1s;
+        }
+
+        .circle:nth-child(5) {
+            width: 120px;
+            height: 120px;
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                padding: 0 1rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .swiper-button-next,
+            .swiper-button-prev {
+                width: 40px;
+                height: 40px;
+            }
+
+            .swiper-button-next:after,
+            .swiper-button-prev:after {
+                font-size: 16px;
+            }
+        }
+
+        /* Style pour la scrollbar personnalisée */
+        #news-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #news-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        #news-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        #news-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        #news-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f1f1;
+        }
+
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+    </style>
 
 
-<section class="hero-section">
-    <div class="swiper heroSwiper">
-        <div class="swiper-wrapper">
-            @foreach ($featuredArticles as $featuredArticle)
-                <div class="swiper-slide">
-                    <a href="{{ route('publication.show', $featuredArticle->slug) }}" class="hero-slide-link">
+    <section class="hero-section">
+        <div class="swiper heroSwiper">
+            <div class="swiper-wrapper">
+                @foreach ($featuredArticles as $featuredArticle)
+                    <div class="swiper-slide">
                         <div class="hero-slide-bg"
-                             @if($featuredArticle->featured_image)
-                                style="background-image: url('{{ asset('storage/' . $featuredArticle->featured_image) }}');"
-                             @endif>
+                            @if ($featuredArticle->featured_image) @php
+            $extension = pathinfo($featuredArticle->featured_image, PATHINFO_EXTENSION);
+            $isVideo = in_array(strtolower($extension), ['mp4', 'mov', 'avi', 'webm']);
+        @endphp
+
+        @if ($isVideo)
+            style="background: #000;">
+            <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+                <source src="{{ asset('storage/' . $featuredArticle->featured_image) }}" type="video/{{ $extension }}">
+            </video>
+            <!-- Play Button miniature -->
+            <div class="video-overlay">
+                <div class="play-button" style="width: 120px; height: 120px;">
+                    <svg fill="currentColor" viewBox="0 0 20 20"
+                        style="width: 56px; height: 56px;">
+                        <path
+                            d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                    </svg>
+                </div>
+            </div>
+        @else
+            style="background-image: url('{{ asset('storage/' . $featuredArticle->featured_image) }}');" @endif
+                            @endif>
                             <!-- Afficher l'icône si pas d'image -->
-                            @if(!$featuredArticle->featured_image)
-                                <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-600 to-purple-600">
+                            @if (!$featuredArticle->featured_image)
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-600 to-purple-600">
                                     <span class="text-white text-9xl opacity-30">
                                         {{ $featuredArticle->rubrique->icon ?? '📰' }}
                                     </span>
@@ -249,19 +312,19 @@
                                 <h1 class="hero-title">{{ $featuredArticle->title }}</h1>
                             </div>
                         </div>
-                    </a>
-                </div>
-            @endforeach
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
         </div>
-
-        <!-- Navigation buttons -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-
-        <!-- Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
-</section>
+    </section>
     <!-- Main Content -->
     <div class="container mx-auto px-2 sm:px-4 py-8 sm:py-12">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -279,10 +342,44 @@
                                 class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-2 transition cursor-pointer">
                                 <a href="{{ route('publication.show', $article->slug) }}">
                                     <div
-                                        class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center relative">
+                                        class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center relative video-container">
                                         @if ($article->featured_image)
-                                            <img src="{{ asset('storage/' . $article->featured_image) }}"
-                                                alt="{{ $article->title }}" class="w-full h-full object-cover">
+                                            @php
+                                                $extension = pathinfo($article->featured_image, PATHINFO_EXTENSION);
+                                                $isVideo = in_array(strtolower($extension), [
+                                                    'mp4',
+                                                    'mov',
+                                                    'avi',
+                                                    'webm',
+                                                ]);
+                                            @endphp
+
+                                            @if ($isVideo)
+                                                <video autoplay muted loop class="w-full h-full object-cover" muted>
+                                                    <source src="{{ asset('storage/' . $article->featured_image) }}"
+                                                        type="video/{{ $extension }}">
+                                                </video>
+                                                <!-- Badge VIDEO -->
+                                                <span class="video-badge">
+                                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path
+                                                            d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                                                    </svg>
+                                                    VIDÉO
+                                                </span>
+                                                <!-- Play Button Overlay -->
+                                                <div class="video-overlay">
+                                                    <div class="play-button">
+                                                        <svg fill="currentColor" viewBox="0 0 20 20">
+                                                            <path
+                                                                d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <img src="{{ asset('storage/' . $article->featured_image) }}"
+                                                    alt="{{ $article->title }}" class="w-full h-full object-cover">
+                                            @endif
                                         @else
                                             <span class="text-white text-5xl">📰</span>
                                         @endif
@@ -305,7 +402,8 @@
                                         </p>
                                         <div class="flex justify-between items-center text-xs text-gray-500 pt-4 border-t">
                                             <span class="flex items-center gap-1">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
@@ -313,7 +411,8 @@
                                             </span>
 
                                             <span class="flex items-center gap-1">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                                 </svg>
@@ -363,19 +462,54 @@
                                         </div>
 
                                         <!-- Titre -->
-                                        <h4 class="font-bold text-sm leading-tight mb-3 line-clamp-2 hover:text-blue-600 transition">
+                                        <h4
+                                            class="font-bold text-sm leading-tight mb-3 line-clamp-2 hover:text-blue-600 transition">
                                             {{ $article->title }}
                                         </h4>
 
                                         <!-- Image + Texte -->
                                         <div class="flex gap-3">
                                             <!-- Miniature -->
-                                            <div class="relative flex-shrink-0 w-24 h-24 bg-gray-200 rounded overflow-hidden">
+                                            <div
+                                                class="relative flex-shrink-0 w-24 h-24 bg-gray-200 rounded overflow-hidden video-container">
                                                 @if ($article->featured_image)
-                                                    <img src="{{ asset('storage/' . $article->featured_image) }}"
-                                                        alt="{{ $article->title }}" class="w-full h-full object-cover">
+                                                    @php
+                                                        $extension = pathinfo(
+                                                            $article->featured_image,
+                                                            PATHINFO_EXTENSION,
+                                                        );
+                                                        $isVideo = in_array(strtolower($extension), [
+                                                            'mp4',
+                                                            'mov',
+                                                            'avi',
+                                                            'webm',
+                                                        ]);
+                                                    @endphp
+
+                                                    @if ($isVideo)
+                                                        <video autoplay muted loop class="w-full h-full object-cover" muted>
+                                                            <source
+                                                                src="{{ asset('storage/' . $article->featured_image) }}"
+                                                                type="video/{{ $extension }}">
+                                                        </video>
+                                                        <!-- Play Button miniature -->
+                                                        <div class="video-overlay">
+                                                            <div class="play-button" style="width: 30px; height: 30px;">
+                                                                <svg fill="currentColor" viewBox="0 0 20 20"
+                                                                    style="width: 14px; height: 14px;">
+                                                                    <path
+                                                                        d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <img src="{{ asset('storage/' . $article->featured_image) }}"
+                                                            alt="{{ $article->title }}"
+                                                            class="w-full h-full object-cover">
+                                                    @endif
                                                 @else
-                                                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-600">
+                                                    <div
+                                                        class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-600">
                                                         <span class="text-white text-2xl">📰</span>
                                                     </div>
                                                 @endif
@@ -396,7 +530,8 @@
 
                     <!-- Footer "Toute l'actualité" -->
                     <div class="bg-gray-500 border-t border-gray-200">
-                        <a href="#" class="block text-center py-3 font-bold text-sm hover:bg-gray-400 transition text-white">
+                        <a href="#"
+                            class="block text-center py-3 font-bold text-sm hover:bg-gray-400 transition text-white">
                             Toute l'actualité
                         </a>
                     </div>
@@ -406,7 +541,8 @@
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h3 class="text-xl font-bold mb-4 pb-4 border-b-2 border-blue-600 flex items-center gap-2">
                         <svg class="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2c1.5 3.5 3.5 5.5 7 7-3.5 1.5-5.5 3.5-7 7-1.5-3.5-3.5-5.5-7-7 3.5-1.5 5.5-3.5 7-7z" />
+                            <path
+                                d="M12 2c1.5 3.5 3.5 5.5 7 7-3.5 1.5-5.5 3.5-7 7-1.5-3.5-3.5-5.5-7-7 3.5-1.5 5.5-3.5 7-7z" />
                         </svg>
                         Les + Lus
                     </h3>
@@ -421,7 +557,8 @@
                                         {{ $popular->title }}
                                     </h4>
                                     <span class="text-xs text-gray-500 flex">
-                                        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
@@ -661,10 +798,40 @@
                         <article
                             class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition">
                             <a href="{{ route('publication.show', $article->slug) }}">
-                                <div class="h-40 bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center">
+                                <div
+                                    class="h-40 bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center relative video-container">
                                     @if ($article->featured_image)
-                                        <img src="{{ asset('storage/' . $article->featured_image) }}"
-                                            alt="{{ $article->title }}" class="w-full h-full object-cover">
+                                        @php
+                                            $extension = pathinfo($article->featured_image, PATHINFO_EXTENSION);
+                                            $isVideo = in_array(strtolower($extension), ['mp4', 'mov', 'avi', 'webm']);
+                                        @endphp
+
+                                        @if ($isVideo)
+                                            <video autoplay muted loop class="w-full h-full object-cover" muted>
+                                                <source src="{{ asset('storage/' . $article->featured_image) }}"
+                                                    type="video/{{ $extension }}">
+                                            </video>
+                                            <!-- Badge VIDEO -->
+                                            <span class="video-badge">
+                                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                                                </svg>
+                                                VIDÉO
+                                            </span>
+                                            <!-- Play Button Overlay -->
+                                            <div class="video-overlay">
+                                                <div class="play-button">
+                                                    <svg fill="currentColor" viewBox="0 0 20 20">
+                                                        <path
+                                                            d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <img src="{{ asset('storage/' . $article->featured_image) }}"
+                                                alt="{{ $article->title }}" class="w-full h-full object-cover">
+                                        @endif
                                     @else
                                         <span class="text-white text-4xl">🏛️</span>
                                     @endif
@@ -674,7 +841,8 @@
                                         {{ $article->title }}
                                     </h3>
                                     <span class="text-xs text-gray-500 flex">
-                                        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
