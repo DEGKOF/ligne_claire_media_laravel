@@ -134,6 +134,17 @@
                     </div>
                 @endif
 
+                @if (session('error'))
+                    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                        <p class="font-semibold">{{ session('error') }}</p>
+                        @if (session('account_inactive'))
+                            <p class="mt-2 text-sm">
+                                Pour toute question, contactez-nous à :
+                                <a href="mailto:admin@example.com" class="underline font-medium">admin@example.com</a>
+                            </p>
+                        @endif
+                    </div>
+                @endif
                 <!-- Formulaire de connexion -->
                 <form method="POST" action="{{ route('login') }}" class="space-y-6">
                     @csrf

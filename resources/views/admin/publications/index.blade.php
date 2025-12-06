@@ -86,8 +86,8 @@
                 <option value="">Tous les statuts</option>
                 <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Publié</option>
                 <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Brouillon</option>
-                <option value="hidden" {{ request('status') == 'hidden' ? 'selected' : '' }}>Masqué</option>
-                <option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archivé</option>
+                {{-- <option value="hidden" {{ request('status') == 'hidden' ? 'selected' : '' }}>Masqué</option> --}}
+                {{-- <option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archivé</option> --}}
             </select>
 
             <!-- Type -->
@@ -95,11 +95,11 @@
                 class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600">
                 <option value="">Tous les types</option>
                 <option value="article" {{ request('type') == 'article' ? 'selected' : '' }}>Article</option>
-                <option value="direct" {{ request('type') == 'direct' ? 'selected' : '' }}>Direct</option>
+                {{-- <option value="direct" {{ request('type') == 'direct' ? 'selected' : '' }}>Direct</option>
                 <option value="rediffusion" {{ request('type') == 'rediffusion' ? 'selected' : '' }}>Rediffusion</option>
                 <option value="video_courte" {{ request('type') == 'video_courte' ? 'selected' : '' }}>Vidéo courte
                 </option>
-                <option value="lien_externe" {{ request('type') == 'lien_externe' ? 'selected' : '' }}>Lien externe
+                <option value="lien_externe" {{ request('type') == 'lien_externe' ? 'selected' : '' }}>Lien externe --}}
                 </option>
             </select>
 
@@ -273,7 +273,7 @@
                                     </span>
                                 @break
 
-                                @case('hidden')
+                                {{-- @case('hidden')
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
                                         Masqué
@@ -285,7 +285,7 @@
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                         Archivé
                                     </span>
-                                @break
+                                @break --}}
                             @endswitch
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -296,26 +296,38 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex justify-end gap-2">
-                                <a href="{{ route('publication.show', $publication->slug) }}" target="_blank"
-                                    style="text-decoration: underline" class="text-gray-600 hover:text-gray-900"
-                                    title="Voir">
-                                    Voir
-                                </a>
+                                @if ($publication->status === 'published')
+                                    <a href="{{ route('publication.show', $publication->slug) }}" target="_blank"
+                                        style="text-decoration: underline" class="text-gray-600 hover:text-gray-900"
+                                        title="Voir">
+                                        Voir
+                                    </a>
+                                @else
+                                    <button
+                                        onclick="showPendingModal('{{ addslashes($publication->title) }}', '{{ $publication->status }}')"
+                                        style="text-decoration: underline" class="text-gray-600 hover:text-gray-900"
+                                        title="Article non publié">
+                                        Voir
+                                    </button>
+                                @endif
 
                                 @php
-                                    $canEdit =
-                                        in_array(auth()->user()->role, ['admin', 'master_admin']) ||
-                                        $publication->user_id === auth()->id();
+                                    $isAdmin = in_array(auth()->user()->role, ['admin', 'master_admin']);
+                                    $isOwner = $publication->user_id === auth()->id();
+                                    $isPublished = $publication->status === 'published';
+
+                                    // Admin peut toujours modifier, utilisateur normal seulement si non publié
+                                    $canEdit = $isAdmin || ($isOwner && !$isPublished);
                                 @endphp
 
+                                @if ($canEdit)
+                                    <a href="{{ route('admin.publications.edit', $publication) }}"
+                                        style="text-decoration: underline" class="text-blue-600 hover:text-blue-900"
+                                        title="Modifier">
+                                        Modifier
+                                    </a>
 
-                                @if (auth()->user()->isAdmin())
-                                    @if ($canEdit)
-                                        <a href="{{ route('admin.publications.edit', $publication) }}"
-                                            style="text-decoration: underline" class="text-blue-600 hover:text-blue-900"
-                                            title="Modifier">
-                                            Modifier
-                                        </a>
+                                    @if ($isAdmin)
                                         <form action="{{ route('admin.publications.destroy', $publication) }}"
                                             method="POST" class="inline"
                                             onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');">
@@ -326,10 +338,11 @@
                                                 Supp
                                             </button>
                                         </form>
-                                    @else
-                                        <span class="text-gray-400" title="Vous ne pouvez pas modifier cette publication">
-                                            🔒
-                                        </span>
+                                    @elseif($isOwner && !$isPublished)
+                                        <button style="text-decoration: underline" class="text-red-600 hover:text-red-900"
+                                            title="Supprimer">
+                                            Supp (🔒)
+                                        </button>
                                     @endif
                                 @endif
                             </div>
@@ -337,7 +350,6 @@
                     </tr>
                     @empty
                         <tr>
-                            {{-- <td colspan="8" class="px-6 py-12 text-center text-gray-500"> --}}
                             <td colspan="9" class="px-6 py-12 text-center text-gray-500">
                                 <div class="text-4xl mb-4">📭</div>
                                 <p class="text-lg">Aucune publication trouvée</p>
@@ -367,12 +379,28 @@
                 <div id="mediaContainer" class="rounded-lg overflow-hidden">
                     <!-- Le contenu sera injecté ici par JavaScript -->
                 </div>
+            </div>
+        </div>
 
-                <!-- Info publication -->
-                {{-- <div class="bg-white mt-4 p-4 rounded-lg">
-                    <h3 id="modalTitle" class="text-xl font-bold text-gray-900 mb-2"></h3>
-                    <div id="modalMeta" class="flex gap-4 text-sm text-gray-600"></div>
-                </div> --}}
+        <!-- Modal Article en attente -->
+        <div id="pendingModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">⏳</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2" id="pendingTitle">Article non publié</h3>
+                    <p class="text-gray-600 mb-4" id="pendingMessage">
+                        Cet article est en attente de validation et n'est pas encore accessible au public.
+                    </p>
+                    <div class="bg-gray-100 rounded-lg p-3 mb-4">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-semibold">Statut:</span> <span id="pendingStatus" class="font-medium"></span>
+                        </p>
+                    </div>
+                    <button onclick="closePendingModal()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                        Fermer
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -381,16 +409,6 @@
                 function openMediaModal(publication) {
                     const modal = document.getElementById('mediaPreviewModal');
                     const container = document.getElementById('mediaContainer');
-                    // const title = document.getElementById('modalTitle');
-                    // const meta = document.getElementById('modalMeta');
-
-                    // Mettre à jour le titre et les métadonnées
-                //     title.textContent = publication.title;
-                //     meta.innerHTML = `
-                //     <span>📁 ${publication.rubrique}</span>
-                //     <span>📅 ${publication.date}</span>
-                //     <span>👁️ ${publication.views} vues</span>
-                // `;
 
                     // Créer le contenu du média
                     if (publication.isVideo) {
@@ -430,10 +448,51 @@
                     document.body.style.overflow = 'auto';
                 }
 
+                function showPendingModal(title, status) {
+                    const modal = document.getElementById('pendingModal');
+                    const statusElement = document.getElementById('pendingStatus');
+                    const messageElement = document.getElementById('pendingMessage');
+
+                    // Définir le message en fonction du statut
+                    let message = '';
+                    let statusText = '';
+
+                    switch (status) {
+                        case 'draft':
+                            statusText = 'Brouillon';
+                            message = 'Cet article est encore en brouillon et n\'est pas accessible au public.';
+                            break;
+                        case 'hidden':
+                            statusText = 'Masqué';
+                            message = 'Cet article a été masqué et n\'est pas visible sur le site.';
+                            break;
+                        case 'archived':
+                            statusText = 'Archivé';
+                            message = 'Cet article a été archivé et n\'est plus accessible au public.';
+                            break;
+                        default:
+                            statusText = 'En attente';
+                            message = 'Cet article est en attente de validation et n\'est pas encore accessible au public.';
+                    }
+
+                    statusElement.textContent = statusText;
+                    messageElement.textContent = message;
+
+                    modal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closePendingModal() {
+                    const modal = document.getElementById('pendingModal');
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+
                 // Fermer avec la touche Échap
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'Escape') {
                         closeMediaModal();
+                        closePendingModal();
                     }
                 });
 
@@ -441,6 +500,12 @@
                 document.getElementById('mediaPreviewModal')?.addEventListener('click', function(e) {
                     if (e.target === this) {
                         closeMediaModal();
+                    }
+                });
+
+                document.getElementById('pendingModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closePendingModal();
                     }
                 });
             </script>

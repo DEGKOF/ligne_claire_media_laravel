@@ -56,12 +56,12 @@
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
                         required>
                         <option value="article" {{ old('type') == 'article' ? 'selected' : '' }}>📰 Article</option>
-                        <option value="direct" {{ old('type') == 'direct' ? 'selected' : '' }}>🔴 Direct</option>
+                        {{-- <option value="direct" {{ old('type') == 'direct' ? 'selected' : '' }}>🔴 Direct</option>
                         <option value="rediffusion" {{ old('type') == 'rediffusion' ? 'selected' : '' }}>📺 Rediffusion
                         </option>
                         <option value="video_courte" {{ old('type') == 'video_courte' ? 'selected' : '' }}>📹 Vidéo courte
                         </option>
-                        <option value="lien_externe" {{ old('type') == 'lien_externe' ? 'selected' : '' }}>🔗 Lien externe
+                        <option value="lien_externe" {{ old('type') == 'lien_externe' ? 'selected' : '' }}>🔗 Lien externe --}}
                         </option>
                     </select>
                     @error('type')
@@ -167,8 +167,8 @@
                             @if (Auth::user()->role === 'admin' || Auth::user()->role === 'master_admin')
                                 <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>Publié
                                 </option>
-                                <option value="hidden" {{ old('status') == 'hidden' ? 'selected' : '' }}>Masqué
-                                </option>
+                                {{-- <option value="hidden" {{ old('status') == 'hidden' ? 'selected' : '' }}>Masqué
+                                </option> --}}
                             @endif
                         </select>
                         @error('status')

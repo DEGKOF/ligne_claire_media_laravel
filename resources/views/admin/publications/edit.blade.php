@@ -66,10 +66,10 @@
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
                         required>
                     <option value="article" {{ old('type', $publication->type) == 'article' ? 'selected' : '' }}>📰 Article</option>
-                    <option value="direct" {{ old('type', $publication->type) == 'direct' ? 'selected' : '' }}>🔴 Direct</option>
+                    {{-- <option value="direct" {{ old('type', $publication->type) == 'direct' ? 'selected' : '' }}>🔴 Direct</option>
                     <option value="rediffusion" {{ old('type', $publication->type) == 'rediffusion' ? 'selected' : '' }}>📺 Rediffusion</option>
                     <option value="video_courte" {{ old('type', $publication->type) == 'video_courte' ? 'selected' : '' }}>📹 Vidéo courte</option>
-                    <option value="lien_externe" {{ old('type', $publication->type) == 'lien_externe' ? 'selected' : '' }}>🔗 Lien externe</option>
+                    <option value="lien_externe" {{ old('type', $publication->type) == 'lien_externe' ? 'selected' : '' }}>🔗 Lien externe</option> --}}
                 </select>
                 @error('type')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -229,8 +229,8 @@
                             >
                         <option value="draft" {{ old('status', $publication->status) == 'draft' ? 'selected' : '' }}>Brouillon</option>
                         <option value="published" {{ old('status', $publication->status) == 'published' ? 'selected' : '' }}>Publié</option>
-                        <option value="hidden" {{ old('status', $publication->status) == 'hidden' ? 'selected' : '' }}>Masqué</option>
-                        <option value="archived" {{ old('status', $publication->status) == 'archived' ? 'selected' : '' }}>Archivé</option>
+                        {{-- <option value="hidden" {{ old('status', $publication->status) == 'hidden' ? 'selected' : '' }}>Masqué</option>
+                        <option value="archived" {{ old('status', $publication->status) == 'archived' ? 'selected' : '' }}>Archivé</option> --}}
                     </select>
                     @error('status')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>

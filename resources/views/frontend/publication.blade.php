@@ -205,11 +205,21 @@
                                             allowfullscreen>
                                         </iframe>
                                     @endif
-                                @else
+                                {{-- @else
                                     <a href="{{ $publication->video_url }}" target="_blank"
                                         class="flex items-center justify-center h-full text-white hover:text-blue-400">
                                         <span class="text-6xl">▶️</span>
                                     </a>
+                                @endif --}}
+                                @else
+                                    {{-- Vidéo non-YouTube --}}
+                                    <video
+                                        class="w-full rounded-lg shadow-lg"
+                                        controls
+                                        preload="metadata">
+                                        <source src="{{ $publication->video_url }}">
+                                        Votre navigateur ne supporte pas la lecture de vidéos.
+                                    </video>
                                 @endif
                             </div>
                         </div>

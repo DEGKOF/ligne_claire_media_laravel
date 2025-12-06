@@ -36,6 +36,9 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
+            // Ajouter ici, à la fin du groupe web
+            \App\Http\Middleware\CheckAccountActive::class,
         ],
 
         'api' => [
@@ -70,5 +73,7 @@ class Kernel extends HttpKernel
 
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'advertiser' => \App\Http\Middleware\Advertiser::class,
+
+        'account.active' => \App\Http\Middleware\CheckAccountActive::class,
     ];
 }

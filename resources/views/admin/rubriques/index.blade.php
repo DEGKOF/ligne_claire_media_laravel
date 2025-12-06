@@ -5,10 +5,12 @@
 @section('content')
 <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-black">Gestion des Rubriques</h1>
-    <a href="{{ route('admin.rubriques.create') }}"
-       class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition flex items-center gap-2">
-        <span class="text-xl">+</span> Nouvelle rubrique
-    </a>
+   @if (auth()->user()->isAdmin())
+        <a href="{{ route('admin.rubriques.create') }}"
+        class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition flex items-center gap-2">
+            <span class="text-xl">+</span> Nouvelle rubrique
+        </a>
+   @endif
 </div>
 
 <div class="bg-white rounded-lg shadow overflow-hidden">
