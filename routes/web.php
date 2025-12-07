@@ -32,6 +32,11 @@ use App\Http\Controllers\Admin\AdvertiserManagementController;
 use App\Http\Controllers\Admin\AdvertisementManagementController;
 use App\Http\Controllers\Admin\PublicationController as AdminPublicationController;
 
+
+use App\Http\Controllers\Admin\EditoController as AdminEditoController;
+
+use App\Http\Controllers\EditoController as FrontendEditoController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -487,6 +492,33 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::patch('issues/{issue}/status', [IssueController::class, 'updateStatus'])
         ->name('issues.update-status');
 });
+
+
+// ========================================
+// ROUTES ADMIN - Gestion des éditos
+// ========================================
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+
+    // Routes CRUD pour les éditos
+    Route::resource('editos', AdminEditoController::class);
+
+    // Routes supplémentaires
+    Route::post('editos/{id}/restore', [AdminEditoController::class, 'restore'])
+        ->name('editos.restore');
+
+    Route::delete('editos/{id}/force-delete', [AdminEditoController::class, 'forceDelete'])
+        ->name('editos.force-delete');
+
+    Route::patch('editos/{edito}/status', [AdminEditoController::class, 'updateStatus'])
+        ->name('editos.update-status');
+});
+
+// ========================================
+// ROUTES FRONTEND - Page éditos publics
+// ========================================
+Route::get('/editos', [FrontendEditoController::class, 'index'])->name('editos.index');
+Route::get('/edito/{edito:slug}', [FrontendEditoController::class, 'show'])->name('editos.show');
+
 
 // routes/web.php - Ajouter ces routes
 Route::middleware(['auth'])->group(function () {

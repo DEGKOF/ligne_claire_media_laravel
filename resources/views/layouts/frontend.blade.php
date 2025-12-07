@@ -522,6 +522,11 @@
                     Accueil
                 </a>
 
+                <a href="{{ route('editos.index') }}"
+                    class="px-3 sm:px-4 py-3 text-xs sm:text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('editos.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
+                    Edito
+                </a>
+
                 <!-- Lien Acheter le journal -->
                 <a href="{{ route('shop.index') }}"
                     class="px-3 sm:px-4 py-3 text-xs sm:text-sm font-semibold uppercase whitespace-nowrap hover:text-blue-600 hover:bg-gray-50 border-b-3 border-transparent hover:border-blue-600 transition {{ request()->routeIs('shop.index') ? 'text-blue-600 border-blue-600 bg-gray-50' : 'text-gray-800' }}">
