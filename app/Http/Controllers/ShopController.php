@@ -13,7 +13,7 @@ class ShopController extends Controller
      * Affiche la page de la boutique avec tous les numéros
      */
     public function index()
-    {
+    { 
         // Récupérer le numéro le plus récent
         $currentIssue = Issue::where('status', 'published')
             ->latest('published_at')
@@ -110,7 +110,7 @@ class ShopController extends Controller
             ->get();
             // 'breakingNews',
             // use App\Models\Publication;
-            
+
         return view('shop.purchase', compact('issue', 'format', 'breakingNews'));
     }
 

@@ -50,6 +50,11 @@ class Rubrique extends Model
     {
         return $this->hasMany(Publication::class);
     }
+public function getPublicationsCountAttribute()
+{
+    return $this->publications()->count();
+}
+
 
     public function publishedPublications()
     {

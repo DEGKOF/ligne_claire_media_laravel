@@ -127,6 +127,17 @@
                             </div>
                         @endif
 
+                        @if(auth()->user()->canManageIssues())
+                            <div class="mt-6">
+                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Presse Papier</div>
+                                <a href="{{ route('admin.issues.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.issues.*') ? 'bg-white/20' : '' }}">
+                                    <i class="fas fa-folder w-5"></i>
+                                    <span class="font-medium">Journaux</span>
+                                </a>
+                            </div>
+                        @endif
+
                         @if(auth()->user()->isMasterAdmin())
                             <div class="mt-6">
                                 <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Pôles</div>

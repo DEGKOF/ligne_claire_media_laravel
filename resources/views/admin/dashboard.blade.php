@@ -99,7 +99,7 @@
             {{-- <i class="fas fa-fire"></i> --}}
             Rubriques les plus vues
         </h2>
-        <div class="space-y-3">
+        <div class="space-y-3"> 
             @foreach($popularRubriques as $rubrique)
             <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition">
                 <div class="flex items-center gap-3">

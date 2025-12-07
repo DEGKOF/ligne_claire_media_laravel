@@ -128,6 +128,12 @@ class User extends Authenticatable
         return in_array($this->role, ['journaliste', 'redacteur', 'admin', 'master_admin']);
     }
 
+    public function canManageIssues(): bool
+    {
+        // return $this->isAdmin();
+        return in_array($this->role, ['journaliste', 'redacteur', 'admin', 'master_admin']);
+    }
+
     // Nouveaux rôles externes
     public function isContributor(): bool
     {

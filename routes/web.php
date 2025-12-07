@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Publication;
+use App\Http\Controllers\Admin\IssueController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Middleware\CheckRole;
@@ -467,6 +468,24 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::delete('/{candidature}', [AdminCandidatureController::class, 'destroy'])->name('destroy');
     });
 
+});
+
+
+// Routes Admin pour la gestion des journaux
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+
+    // Routes CRUD pour les journaux
+    Route::resource('issues', IssueController::class);
+
+    // Routes supplémentaires
+    Route::post('issues/{id}/restore', [IssueController::class, 'restore'])
+        ->name('issues.restore');
+
+    Route::delete('issues/{id}/force-delete', [IssueController::class, 'forceDelete'])
+        ->name('issues.force-delete');
+
+    Route::patch('issues/{issue}/status', [IssueController::class, 'updateStatus'])
+        ->name('issues.update-status');
 });
 
 // routes/web.php - Ajouter ces routes

@@ -210,19 +210,19 @@
                                 <div class="muted">Articles</div>
                                 <div class="item">
                                     <div>Abonnement Pro — 1 mois</div>
-                                    <div>30,00 €</div>
+                                    <div>30,00 FCFA</div>
                                 </div>
                                 <div class="item">
                                     <div>Pack crédits — 500 coins</div>
-                                    <div>12,50 €</div>
+                                    <div>12,50 FCFA</div>
                                 </div>
                                 <div class="item">
                                     <div>Remise</div>
-                                    <div>-3,00 €</div>
+                                    <div>-3,00 FCFA</div>
                                 </div>
                                 <div class="total">
                                     <div>Total payé</div>
-                                    <div>39,50 €</div>
+                                    <div>39,50 FCFA</div>
                                 </div>
                             </div>
 
@@ -268,7 +268,7 @@
             // Petit script d'exemple pour générer un reçu PDF/texte fictif
             document.getElementById('downloadReceipt').addEventListener('click', function() {
                 const receipt =
-                    `Reçu de paiement\n\nClient: Jean Dupont\nRéférence: #TXN-2025-09-0157\nMontant: 39,50 €\nDate: 29/10/2025 13:05\nMoyen: Carte Visa\nID paiement: pay_64f9c2b1f3a2\nAutorisation: AUTH-88211\n\n--- Ceci est un reçu fictif ---`;
+                    `Reçu de paiement\n\nClient: Jean Dupont\nRéférence: #TXN-2025-09-0157\nMontant: 39,50 FCFA\nDate: 29/10/2025 13:05\nMoyen: Carte Visa\nID paiement: pay_64f9c2b1f3a2\nAutorisation: AUTH-88211\n\n--- Ceci est un reçu fictif ---`;
                 const blob = new Blob([receipt], {
                     type: 'text/plain'
                 });

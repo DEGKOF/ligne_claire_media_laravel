@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
-            $table->string('issue_number')->unique(); // Ex: 5475
+            $table->string('issue_number', 6)->unique(); // Ex: 250001 (Année 2025, numéro 0001)
             $table->string('title'); // Ex: "Mercredi 15 Octobre 2025"
             $table->string('cover_image')->nullable(); // Chemin vers l'image de couverture
             $table->text('description')->nullable(); // Description du contenu
@@ -24,11 +24,12 @@ return new class extends Migration
             $table->integer('stock_quantity')->default(0); // Stock disponible pour version papier
             $table->string('pdf_file')->nullable(); // Fichier PDF pour version numérique
             $table->timestamps();
-            $table->softDeletes();
+            $table->softDeletes(); // ← Cette ligne est IMPORTANTE pour le soft delete
 
             // Index pour améliorer les performances
             $table->index('published_at');
             $table->index('status');
+            $table->index('issue_number');
         });
     }
 

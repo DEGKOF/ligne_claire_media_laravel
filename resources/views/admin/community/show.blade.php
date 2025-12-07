@@ -1,4 +1,3 @@
-{{-- @extends('admin.layouts.app') --}}
 @extends('layouts.admin')
 
 @section('title', 'Détails de la soumission')

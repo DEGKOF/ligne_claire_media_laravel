@@ -134,7 +134,7 @@ Nous croyons qu’un média moderne doit être libre, interactif et durable — 
                                    id="issue_number"
                                    name="issue_number"
                                    value="{{ request('issue_number') }}"
-                                   placeholder="Ex: 5475"
+                                   placeholder="Ex: {{ now()->format('y') . '0001' }}"
                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         </div>
 
