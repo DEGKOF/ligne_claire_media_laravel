@@ -136,13 +136,13 @@
                                 <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Presse Papier</div>
                                 <a href="{{ route('admin.issues.index') }}"
                                     class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.issues.*') ? 'bg-white/20' : '' }}">
-                                    <i class="fas fa-folder w-5"></i>
+                                    <i class="fas fa-newspaper w-5"></i>
                                     <span class="font-medium">Journaux</span>
                                 </a>
                                 {{-- Edito  --}}
                                 <a href="{{ route('admin.editos.index') }}"
                                     class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.editos.*') ? 'bg-white/20' : '' }}">
-                                    <i class="fas fa-folder w-5"></i>
+                                    <i class="fas fa-feather-alt w-5"></i>
                                     <span class="font-medium">Editos</span>
                                 </a>
                             </div>
@@ -306,6 +306,23 @@
                                     class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.rubriques.*') ? 'bg-white/20' : '' }}">
                                     <i class="fas fa-folder w-5"></i>
                                     <span class="font-medium">Rubriques</span>
+                                </a>
+                            </div>
+                        @endif
+
+                        @if (auth()->user()->canManageIssues())
+                            <div class="mt-6">
+                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Presse Papier</div>
+                                <a href="{{ route('admin.issues.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.issues.*') ? 'bg-white/20' : '' }}">
+                                    <i class="fas fa-newspaper w-5"></i>
+                                    <span class="font-medium">Journaux</span>
+                                </a>
+                                {{-- Edito  --}}
+                                <a href="{{ route('admin.editos.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.editos.*') ? 'bg-white/20' : '' }}">
+                                    <i class="fas fa-feather-alt w-5"></i>
+                                    <span class="font-medium">Editos</span>
                                 </a>
                             </div>
                         @endif
