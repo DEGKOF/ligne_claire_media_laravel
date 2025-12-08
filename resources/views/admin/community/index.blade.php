@@ -113,107 +113,109 @@
 
 <!-- Liste des soumissions -->
 <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-            <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    #
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Titre & Auteur
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Section
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Statut
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
-                </th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                </th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-            @php
-                $i = 1;
-            @endphp
-            @forelse($submissions as $submission)
-            <tr class="hover:bg-gray-50">
-                <td class="px-6 py-4">
-                    {{ $i++ }}
-                </td>
-                <td class="px-6 py-4">
-                    <div>
-                        <div class="text-sm font-medium text-gray-900">
-                            {{ Str::limit($submission->title, 60) }}
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        #
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Titre & Auteur
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Section
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Statut
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Date
+                    </th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @php
+                    $i = 1;
+                @endphp
+                @forelse($submissions as $submission)
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                        {{ $i++ }}
+                    </td>
+                    <td class="px-6 py-4">
+                        <div>
+                            <div class="text-sm font-medium text-gray-900">
+                                {{ Str::limit($submission->title, 60) }}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                Par {{ $submission->user->nom }} {{ $submission->user->prenom }}
+                            </div>
                         </div>
-                        <div class="text-sm text-gray-500">
-                            Par {{ $submission->user->nom }} {{ $submission->user->prenom }}
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                            {{ $submission->section }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full
+                            {{ $submission->status === 'pending' ? 'bg-yellow-100 text-yellow-800' : '' }}
+                            {{ $submission->status === 'validated' ? 'bg-blue-100 text-blue-800' : '' }}
+                            {{ $submission->status === 'rejected' ? 'bg-red-100 text-red-800' : '' }}
+                            {{ $submission->status === 'published' ? 'bg-green-100 text-green-800' : '' }}">
+                            @switch($submission->status)
+                                @case('pending') En attente @break
+                                @case('validated') Validé @break
+                                @case('rejected') Rejeté @break
+                                @case('published') Publié @break
+                            @endswitch
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-500">
+                        {{ $submission->created_at->format('d/m/Y H:i') }}
+                    </td>
+                    <td class="px-6 py-4 text-right text-sm font-medium">
+                        <div class="flex justify-end gap-2">
+                            <button onclick="viewSubmission({{ $submission->id }})"
+                                    class="text-blue-600 hover:text-blue-900">
+                                Voir
+                            </button>
+
+                            @if($submission->status === 'pending')
+                            <button onclick="quickValidate({{ $submission->id }})"
+                                    class="text-green-600 hover:text-green-900">
+                                Valider
+                            </button>
+                            @endif
+
+                            @if($submission->status === 'validated' && !$submission->published_at)
+                            <button onclick="quickPublish({{ $submission->id }})"
+                                    class="text-green-600 hover:text-green-900">
+                                Publier
+                            </button>
+                            @endif
+
+                            <button onclick="deleteSubmission({{ $submission->id }})"
+                                    class="text-red-600 hover:text-red-900">
+                                Supprimer
+                            </button>
                         </div>
-                    </div>
-                </td>
-                <td class="px-6 py-4">
-                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
-                        {{ $submission->section }}
-                    </span>
-                </td>
-                <td class="px-6 py-4">
-                    <span class="px-2 py-1 text-xs font-semibold rounded-full
-                        {{ $submission->status === 'pending' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                        {{ $submission->status === 'validated' ? 'bg-blue-100 text-blue-800' : '' }}
-                        {{ $submission->status === 'rejected' ? 'bg-red-100 text-red-800' : '' }}
-                        {{ $submission->status === 'published' ? 'bg-green-100 text-green-800' : '' }}">
-                        @switch($submission->status)
-                            @case('pending') En attente @break
-                            @case('validated') Validé @break
-                            @case('rejected') Rejeté @break
-                            @case('published') Publié @break
-                        @endswitch
-                    </span>
-                </td>
-                <td class="px-6 py-4 text-sm text-gray-500">
-                    {{ $submission->created_at->format('d/m/Y H:i') }}
-                </td>
-                <td class="px-6 py-4 text-right text-sm font-medium">
-                    <div class="flex justify-end gap-2">
-                        <button onclick="viewSubmission({{ $submission->id }})"
-                                class="text-blue-600 hover:text-blue-900">
-                            Voir
-                        </button>
-
-                        @if($submission->status === 'pending')
-                        <button onclick="quickValidate({{ $submission->id }})"
-                                class="text-green-600 hover:text-green-900">
-                            Valider
-                        </button>
-                        @endif
-
-                        @if($submission->status === 'validated' && !$submission->published_at)
-                        <button onclick="quickPublish({{ $submission->id }})"
-                                class="text-green-600 hover:text-green-900">
-                            Publier
-                        </button>
-                        @endif
-
-                        <button onclick="deleteSubmission({{ $submission->id }})"
-                                class="text-red-600 hover:text-red-900">
-                            Supprimer
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-                    Aucune soumission trouvée
-                </td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                        Aucune soumission trouvée
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Pagination -->

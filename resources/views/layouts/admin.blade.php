@@ -662,7 +662,7 @@
         }
     </script> --}}
 
-    // CKEditor 5 avec Upload d'Images ET de Vidéos (Solution simplifiée)
+    {{-- // CKEditor 5 avec Upload d'Images ET de Vidéos (Solution simplifiée) --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/translations/fr.js"></script>
 

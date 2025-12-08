@@ -113,167 +113,174 @@
 
     <!-- Publications Table -->
     <div class="bg-white rounded-lg shadow overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Publication
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Rubrique
-                    </th>
-                    @if (in_array(auth()->user()->role, ['admin', 'master_admin']))
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Auteur
+                            Publication
                         </th>
-                    @endif
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Type
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Statut
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Vues
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Date
-                    </th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @forelse($publications as $publication)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 h-12 w-12 relative">
-                                    @if ($publication->featured_image)
-                                        @php
-                                            $extension = pathinfo($publication->featured_image, PATHINFO_EXTENSION);
-                                            $isVideo = in_array(strtolower($extension), ['mp4', 'mov', 'avi', 'webm']);
-
-                                            // Préparer les données pour le modal
-                                            $mediaData = [
-                                                'title' => $publication->title,
-                                                'mediaUrl' => asset('storage/' . $publication->featured_image),
-                                                'isVideo' => $isVideo,
-                                                'extension' => $extension,
-                                                'rubrique' => $publication->rubrique->name,
-                                                'date' => $publication->published_at?->format('d/m/Y') ?? 'N/A',
-                                                'views' => number_format($publication->views_count),
-                                            ];
-                                        @endphp
-
-                                        @if ($isVideo)
-                                            <!-- Miniature vidéo cliquable -->
-                                            <button onclick="openMediaModal({{ json_encode($mediaData) }})"
-                                                class="relative h-12 w-12 rounded overflow-hidden bg-black cursor-pointer hover:ring-2 hover:ring-blue-500 transition group"
-                                                title="Cliquer pour prévisualiser la vidéo">
-                                                <video class="h-full w-full object-cover" muted>
-                                                    <source src="{{ asset('storage/' . $publication->featured_image) }}"
-                                                        type="video/{{ $extension }}">
-                                                </video>
-                                                <!-- Overlay play mini -->
-                                                <div
-                                                    class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition">
-                                                    <svg class="w-6 h-6 text-white group-hover:scale-110 transition"
-                                                        fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                                                    </svg>
-                                                </div>
-                                                <!-- Badge VIDEO mini -->
-                                                <span
-                                                    class="absolute top-0 right-0 bg-red-600 text-white text-[8px] font-bold px-1 rounded-bl">
-                                                    📹
-                                                </span>
-                                            </button>
-                                        @else
-                                            <!-- Image cliquable -->
-                                            <button onclick="openMediaModal({{ json_encode($mediaData) }})"
-                                                class="h-12 w-12 rounded overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-500 transition"
-                                                title="Cliquer pour prévisualiser l'image">
-                                                <img class="h-full w-full object-cover"
-                                                    src="{{ asset('storage/' . $publication->featured_image) }}"
-                                                    alt="">
-                                            </button>
-                                        @endif
-                                    @else
-                                        <!-- Pas de média - non cliquable -->
-                                        <div
-                                            class="h-12 w-12 rounded bg-gray-200 flex items-center justify-center text-gray-500">
-                                            📰
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-900 max-w-md truncate">
-                                        {{ $publication->title }}
-                                    </div>
-                                    @if ($publication->is_new)
-                                        <span class="text-xs font-semibold text-red-600">NEW</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="text-sm text-gray-900">
-                                {{ $publication->rubrique->icon }} {{ $publication->rubrique->name }}
-                            </span>
-                        </td>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Rubrique
+                        </th>
                         @if (in_array(auth()->user()->role, ['admin', 'master_admin']))
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ $publication->user->public_name }}</div>
-                                <div class="text-xs text-gray-500">
-                                    {{ $publication->user->nom . ' ' . $publication->user->prenom ?? '' }}</div>
-                            </td>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Auteur
+                            </th>
                         @endif
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="text-xs font-semibold">
-                                @switch($publication->type)
-                                    @case('article')
-                                        Article
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Type
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Statut
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Vues
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Date
+                        </th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @forelse($publications as $publication)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-12 w-12 relative">
+                                        @if ($publication->featured_image)
+                                            @php
+                                                $extension = pathinfo($publication->featured_image, PATHINFO_EXTENSION);
+                                                $isVideo = in_array(strtolower($extension), [
+                                                    'mp4',
+                                                    'mov',
+                                                    'avi',
+                                                    'webm',
+                                                ]);
+
+                                                // Préparer les données pour le modal
+                                                $mediaData = [
+                                                    'title' => $publication->title,
+                                                    'mediaUrl' => asset('storage/' . $publication->featured_image),
+                                                    'isVideo' => $isVideo,
+                                                    'extension' => $extension,
+                                                    'rubrique' => $publication->rubrique->name,
+                                                    'date' => $publication->published_at?->format('d/m/Y') ?? 'N/A',
+                                                    'views' => number_format($publication->views_count),
+                                                ];
+                                            @endphp
+
+                                            @if ($isVideo)
+                                                <!-- Miniature vidéo cliquable -->
+                                                <button onclick="openMediaModal({{ json_encode($mediaData) }})"
+                                                    class="relative h-12 w-12 rounded overflow-hidden bg-black cursor-pointer hover:ring-2 hover:ring-blue-500 transition group"
+                                                    title="Cliquer pour prévisualiser la vidéo">
+                                                    <video class="h-full w-full object-cover" muted>
+                                                        <source
+                                                            src="{{ asset('storage/' . $publication->featured_image) }}"
+                                                            type="video/{{ $extension }}">
+                                                    </video>
+                                                    <!-- Overlay play mini -->
+                                                    <div
+                                                        class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition">
+                                                        <svg class="w-6 h-6 text-white group-hover:scale-110 transition"
+                                                            fill="currentColor" viewBox="0 0 20 20">
+                                                            <path
+                                                                d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                                        </svg>
+                                                    </div>
+                                                    <!-- Badge VIDEO mini -->
+                                                    <span
+                                                        class="absolute top-0 right-0 bg-red-600 text-white text-[8px] font-bold px-1 rounded-bl">
+                                                        📹
+                                                    </span>
+                                                </button>
+                                            @else
+                                                <!-- Image cliquable -->
+                                                <button onclick="openMediaModal({{ json_encode($mediaData) }})"
+                                                    class="h-12 w-12 rounded overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-500 transition"
+                                                    title="Cliquer pour prévisualiser l'image">
+                                                    <img class="h-full w-full object-cover"
+                                                        src="{{ asset('storage/' . $publication->featured_image) }}"
+                                                        alt="">
+                                                </button>
+                                            @endif
+                                        @else
+                                            <!-- Pas de média - non cliquable -->
+                                            <div
+                                                class="h-12 w-12 rounded bg-gray-200 flex items-center justify-center text-gray-500">
+                                                📰
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900 max-w-md truncate">
+                                            {{ $publication->title }}
+                                        </div>
+                                        @if ($publication->is_new)
+                                            <span class="text-xs font-semibold text-red-600">NEW</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm text-gray-900">
+                                    {{ $publication->rubrique->icon }} {{ $publication->rubrique->name }}
+                                </span>
+                            </td>
+                            @if (in_array(auth()->user()->role, ['admin', 'master_admin']))
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $publication->user->public_name }}</div>
+                                    <div class="text-xs text-gray-500">
+                                        {{ $publication->user->nom . ' ' . $publication->user->prenom ?? '' }}</div>
+                                </td>
+                            @endif
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-xs font-semibold">
+                                    @switch($publication->type)
+                                        @case('article')
+                                            Article
+                                        @break
+
+                                        @case('direct')
+                                            Direct
+                                        @break
+
+                                        @case('rediffusion')
+                                            Rediffusion
+                                        @break
+
+                                        @case('video_courte')
+                                            Short
+                                        @break
+
+                                        @case('lien_externe')
+                                            Externe
+                                        @break
+                                    @endswitch
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @switch($publication->status)
+                                    @case('published')
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Publié
+                                        </span>
                                     @break
 
-                                    @case('direct')
-                                        Direct
+                                    @case('draft')
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Brouillon
+                                        </span>
                                     @break
 
-                                    @case('rediffusion')
-                                        Rediffusion
-                                    @break
-
-                                    @case('video_courte')
-                                        Short
-                                    @break
-
-                                    @case('lien_externe')
-                                        Externe
-                                    @break
-                                @endswitch
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            @switch($publication->status)
-                                @case('published')
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Publié
-                                    </span>
-                                @break
-
-                                @case('draft')
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                        Brouillon
-                                    </span>
-                                @break
-
-                                {{-- @case('hidden')
+                                    {{-- @case('hidden')
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
                                         Masqué
@@ -286,78 +293,79 @@
                                         Archivé
                                     </span>
                                 @break --}}
-                            @endswitch
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ number_format($publication->views_count) }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $publication->published_at?->format('d/m/Y') ?? '-' }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div class="flex justify-end gap-2">
-                                @if ($publication->status === 'published')
-                                    <a href="{{ route('publication.show', $publication->slug) }}" target="_blank"
-                                        style="text-decoration: underline" class="text-gray-600 hover:text-gray-900"
-                                        title="Voir">
-                                        Voir
-                                    </a>
-                                @else
-                                    <button
-                                        onclick="showPendingModal('{{ addslashes($publication->title) }}', '{{ $publication->status }}')"
-                                        style="text-decoration: underline" class="text-gray-600 hover:text-gray-900"
-                                        title="Article non publié">
-                                        Voir
-                                    </button>
-                                @endif
-
-                                @php
-                                    $isAdmin = in_array(auth()->user()->role, ['admin', 'master_admin']);
-                                    $isOwner = $publication->user_id === auth()->id();
-                                    $isPublished = $publication->status === 'published';
-
-                                    // Admin peut toujours modifier, utilisateur normal seulement si non publié
-                                    $canEdit = $isAdmin || ($isOwner && !$isPublished);
-                                @endphp
-
-                                @if ($canEdit)
-                                    <a href="{{ route('admin.publications.edit', $publication) }}"
-                                        style="text-decoration: underline" class="text-blue-600 hover:text-blue-900"
-                                        title="Modifier">
-                                        Modifier
-                                    </a>
-
-                                    @if ($isAdmin)
-                                        <form action="{{ route('admin.publications.destroy', $publication) }}"
-                                            method="POST" class="inline"
-                                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" style="text-decoration: underline"
-                                                class="text-red-600 hover:text-red-900" title="Supprimer">
-                                                Supp
-                                            </button>
-                                        </form>
-                                    @elseif($isOwner && !$isPublished)
-                                        <button style="text-decoration: underline" class="text-red-600 hover:text-red-900"
-                                            title="Supprimer">
-                                            Supp (🔒)
+                                @endswitch
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ number_format($publication->views_count) }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $publication->published_at?->format('d/m/Y') ?? '-' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <div class="flex justify-end gap-2">
+                                    @if ($publication->status === 'published')
+                                        <a href="{{ route('publication.show', $publication->slug) }}" target="_blank"
+                                            style="text-decoration: underline" class="text-gray-600 hover:text-gray-900"
+                                            title="Voir">
+                                            Voir
+                                        </a>
+                                    @else
+                                        <button
+                                            onclick="showPendingModal('{{ addslashes($publication->title) }}', '{{ $publication->status }}')"
+                                            style="text-decoration: underline" class="text-gray-600 hover:text-gray-900"
+                                            title="Article non publié">
+                                            Voir
                                         </button>
                                     @endif
-                                @endif
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                        <tr>
-                            <td colspan="9" class="px-6 py-12 text-center text-gray-500">
-                                <div class="text-4xl mb-4">📭</div>
-                                <p class="text-lg">Aucune publication trouvée</p>
+
+                                    @php
+                                        $isAdmin = in_array(auth()->user()->role, ['admin', 'master_admin']);
+                                        $isOwner = $publication->user_id === auth()->id();
+                                        $isPublished = $publication->status === 'published';
+
+                                        // Admin peut toujours modifier, utilisateur normal seulement si non publié
+                                        $canEdit = $isAdmin || ($isOwner && !$isPublished);
+                                    @endphp
+
+                                    @if ($canEdit)
+                                        <a href="{{ route('admin.publications.edit', $publication) }}"
+                                            style="text-decoration: underline" class="text-blue-600 hover:text-blue-900"
+                                            title="Modifier">
+                                            Modifier
+                                        </a>
+
+                                        @if ($isAdmin)
+                                            <form action="{{ route('admin.publications.destroy', $publication) }}"
+                                                method="POST" class="inline"
+                                                onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" style="text-decoration: underline"
+                                                    class="text-red-600 hover:text-red-900" title="Supprimer">
+                                                    Supp
+                                                </button>
+                                            </form>
+                                        @elseif($isOwner && !$isPublished)
+                                            <button style="text-decoration: underline"
+                                                class="text-red-600 hover:text-red-900" title="Supprimer">
+                                                Supp (🔒)
+                                            </button>
+                                        @endif
+                                    @endif
+                                </div>
                             </td>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        @empty
+                            <tr>
+                                <td colspan="9" class="px-6 py-12 text-center text-gray-500">
+                                    <div class="text-4xl mb-4">📭</div>
+                                    <p class="text-lg">Aucune publication trouvée</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Pagination -->
