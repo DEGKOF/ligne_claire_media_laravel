@@ -477,7 +477,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 
 // Routes Admin pour la gestion des journaux
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
 
     // Routes CRUD pour les journaux
     Route::resource('issues', IssueController::class);
@@ -497,7 +497,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 // ========================================
 // ROUTES ADMIN - Gestion des éditos
 // ========================================
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
 
     // Routes CRUD pour les éditos
     Route::resource('editos', AdminEditoController::class);
@@ -529,5 +529,15 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', UserController::class);
 });
+
+Route::get('/test-404', function () {
+    abort(404);
+});
+
+Route::get('/test-403', function () {
+    abort(403);
+});
+
+
 
 require __DIR__.'/auth.php';
