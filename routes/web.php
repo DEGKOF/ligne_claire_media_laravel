@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Publication;
+use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\IssueController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\Admin\UserController;
@@ -149,6 +150,21 @@ Route::get('/buy-news-paper', [FrontendController::class, 'buyNewsPaper'])->name
 Route::post('/donation', [DonationController::class, 'process'])->name('donation.process');
 // Route::get('/publicite/contact', [AdvertisementController::class, 'contact'])->name('advertising.contact');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
+// Newsletter
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
+
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    // Newsletter
+    Route::get('/newsletter', [NewsletterAdminController::class, 'index'])->name('newsletter.index');
+    Route::delete('/newsletter/{subscription}', [NewsletterAdminController::class, 'destroy'])->name('newsletter.destroy');
+    Route::post('/newsletter/export', [NewsletterAdminController::class, 'export'])->name('newsletter.export');
+    Route::get('/newsletter/send', [NewsletterAdminController::class, 'sendForm'])->name('newsletter.send.form');
+    Route::post('/newsletter/send', [NewsletterAdminController::class, 'sendNewsletter'])->name('newsletter.send');
+    Route::post('/newsletter/{subscription}/toggle', [NewsletterAdminController::class, 'toggleStatus'])->name('newsletter.toggle');
+});
 
 /*
 |--------------------------------------------------------------------------

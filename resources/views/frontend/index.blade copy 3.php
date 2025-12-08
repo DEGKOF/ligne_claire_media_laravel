@@ -5,7 +5,6 @@
 @section('content')
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         /* Hero Section avec Swiper */
@@ -251,50 +250,31 @@
             margin: 0 auto;
         }
     </style>
-@if (session('newsletter_success') || session('newsletter_error') || session('newsletter_info') || $errors->has('email'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @if(session('newsletter_success'))
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Succès !',
-                    text: '{{ session('newsletter_success') }}',
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 4000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                });
-            @elseif(session('newsletter_error') || $errors->has('email'))
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erreur',
-                    text: '{{ session('newsletter_error') ?? $errors->first('email') }}',
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 4000,
-                    timerProgressBar: true,
-                });
-            @elseif(session('newsletter_info'))
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Information',
-                    text: '{{ session('newsletter_info') }}',
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 4000,
-                    timerProgressBar: true,
-                });
-            @endif
-        });
-    </script>
-@endif
+
+    <!-- Messages Newsletter -->
+    @if (session('newsletter_success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            {{ session('newsletter_success') }}
+        </div>
+    @endif
+
+    @if (session('newsletter_error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {{ session('newsletter_error') }}
+        </div>
+    @endif
+
+    @if (session('newsletter_info'))
+        <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
+            {{ session('newsletter_info') }}
+        </div>
+    @endif
+
+    @if ($errors->has('email'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {{ $errors->first('email') }}
+        </div>
+    @endif
 
     <section class="hero-section">
         <div class="swiper heroSwiper">

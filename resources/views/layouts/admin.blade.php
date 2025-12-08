@@ -150,6 +150,17 @@
 
                         @if (auth()->user()->isMasterAdmin())
                             <div class="mt-6">
+                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Communication</div>
+                                <a href="{{ route('admin.newsletter.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.newsletter.*') ? 'bg-white/20' : '' }}">
+                                    <i class="fas fa-envelope w-5"></i>
+                                    <span class="font-medium">Newsletter</span>
+                                </a>
+                            </div>
+                        @endif
+
+                        @if (auth()->user()->isMasterAdmin())
+                            <div class="mt-6">
                                 <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Pôles</div>
                                 <a href="{{ route('admin.community.index') }}"
                                     class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.community.*') ? 'bg-white/20' : '' }}">
@@ -211,9 +222,9 @@
                             </a>
                         @endif
 
+                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
                         @if (auth()->user()->isMasterAdmin())
                             <div class="mt-6">
-                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
                                 <a href="{{ route('admin.users.index') }}"
                                     class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.users.*') ? 'bg-white/20' : '' }}">
                                     <i class="fas fa-users-cog w-5"></i>
@@ -329,6 +340,17 @@
 
                         @if (auth()->user()->isMasterAdmin())
                             <div class="mt-6">
+                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Communication</div>
+                                <a href="{{ route('admin.newsletter.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.newsletter.*') ? 'bg-white/20' : '' }}">
+                                    <i class="fas fa-envelope w-5"></i>
+                                    <span class="font-medium">Newsletter</span>
+                                </a>
+                            </div>
+                        @endif
+
+                        @if (auth()->user()->isMasterAdmin())
+                            <div class="mt-6">
                                 <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Pôles</div>
                                 <a href="{{ route('admin.community.index') }}"
                                     class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.community.*') ? 'bg-white/20' : '' }}">
@@ -371,9 +393,9 @@
                         @endif
 
 
+                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
                         @if (auth()->user()->isMasterAdmin())
                             <div class="mt-6">
-                                <div class="px-4 text-xs uppercase text-blue-300 font-bold mb-2">Système</div>
                                 <a href="{{ route('admin.users.index') }}"
                                     class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.users.*') ? 'bg-white/20' : '' }}">
                                     <i class="fas fa-users-cog w-5"></i>

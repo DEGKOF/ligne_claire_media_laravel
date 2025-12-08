@@ -41,7 +41,7 @@
                     <div>
                         <div class="text-sm text-gray-500">Écrit par</div>
                         <div class="font-semibold text-gray-900">
-                            {{ $edito->user->prenom ?? $edito->user->username ?? 'La Rédaction' }}
+                            {{ $edito->user->nom . " " . $edito->user->prenom ?? 'La Rédaction' }}
                         </div>
                     </div>
                 </div>
