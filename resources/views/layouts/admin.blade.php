@@ -156,6 +156,17 @@
                                     <i class="fas fa-envelope w-5"></i>
                                     <span class="font-medium">Newsletter</span>
                                 </a>
+
+                                <a href="{{ route('admin.contacts.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.contacts.*') ? 'bg-white/20' : '' }}">
+                                    <i class="fas fa-envelope w-5"></i>
+                                    <span class="font-medium">Messages</span>
+                                    @if(\App\Models\Contact::where('status', 'nouveau')->count() > 0)
+                                        <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                            {{ \App\Models\Contact::where('status', 'nouveau')->count() }}
+                                        </span>
+                                    @endif
+                                </a>
                             </div>
                         @endif
 
@@ -229,6 +240,13 @@
                                     class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.users.*') ? 'bg-white/20' : '' }}">
                                     <i class="fas fa-users-cog w-5"></i>
                                     <span class="font-medium">Utilisateurs</span>
+                                </a>
+                            </div>
+                            <div class="mt-6">
+                                <a href="{{ route('admin.team.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.team.*') ? 'bg-white/20' : '' }}">
+                                    <i class="fas fa-users w-5"></i>
+                                    <span class="font-medium">Notre équipe</span>
                                 </a>
                             </div>
                         @endif
@@ -346,6 +364,16 @@
                                     <i class="fas fa-envelope w-5"></i>
                                     <span class="font-medium">Newsletter</span>
                                 </a>
+                                <a href="{{ route('admin.contacts.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.contacts.*') ? 'bg-white/20' : '' }}">
+                                    <i class="fas fa-envelope w-5"></i>
+                                    <span class="font-medium">Messages</span>
+                                    @if(\App\Models\Contact::where('status', 'nouveau')->count() > 0)
+                                        <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                            {{ \App\Models\Contact::where('status', 'nouveau')->count() }}
+                                        </span>
+                                    @endif
+                                </a>
                             </div>
                         @endif
 
@@ -400,6 +428,13 @@
                                     class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.users.*') ? 'bg-white/20' : '' }}">
                                     <i class="fas fa-users-cog w-5"></i>
                                     <span class="font-medium">Utilisateurs</span>
+                                </a>
+                            </div>
+                            <div class="mt-6">
+                                <a href="{{ route('admin.team.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.team.*') ? 'bg-white/20' : '' }}">
+                                    <i class="fas fa-users w-5"></i>
+                                    <span class="font-medium">Notre équipe</span>
                                 </a>
                             </div>
                         @endif

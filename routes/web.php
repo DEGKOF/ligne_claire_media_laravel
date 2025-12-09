@@ -1,6 +1,10 @@
 <?php
 
 use App\Models\Publication;
+use App\Http\Controllers\Admin\ContactAdminController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\TeamMemberController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\Admin\NewsletterAdminController;
 use App\Http\Controllers\Admin\IssueController;
 use App\Http\Controllers\MembershipController;
@@ -554,6 +558,33 @@ Route::get('/test-403', function () {
     abort(403);
 });
 
+// use App\Http\Controllers\TeamController;
+// use App\Http\Controllers\Admin\TeamMemberController;
 
+// Frontend
+Route::get('/notre-equipe', [TeamController::class, 'index'])->name('team.index');
+
+// Admin
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('team', TeamMemberController::class)->parameters(['team' => 'teamMember']);
+    Route::post('team/{teamMember}/toggle', [TeamMemberController::class, 'toggleVisibility'])->name('team.toggle');
+    Route::delete('team/{teamMember}/photo', [TeamMemberController::class, 'deletePhoto'])->name('team.delete-photo');
+});
+
+// use App\Http\Controllers\ContactController;
+// use App\Http\Controllers\Admin\ContactAdminController;
+
+// Frontend
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+// Admin
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/contacts', [ContactAdminController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{contact}', [ContactAdminController::class, 'show'])->name('contacts.show');
+    Route::post('/contacts/{contact}/status', [ContactAdminController::class, 'updateStatus'])->name('contacts.status');
+    Route::delete('/contacts/{contact}', [ContactAdminController::class, 'destroy'])->name('contacts.destroy');
+    Route::post('/contacts/bulk-delete', [ContactAdminController::class, 'bulkDelete'])->name('contacts.bulk-delete');
+});
 
 require __DIR__.'/auth.php';

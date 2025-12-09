@@ -15,6 +15,7 @@ class PublicationController extends Controller
      */
     public function index(Request $request)
     {
+
         $query = Publication::with(['user', 'rubrique']);
 
         // Si l'utilisateur n'est pas admin ou master_admin,

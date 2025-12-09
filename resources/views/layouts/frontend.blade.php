@@ -723,6 +723,8 @@
                         <li><a href="#" class="hover:text-blue-400 transition">Qui sommes-nous ?</a></li>
                         <li><a href="#" class="hover:text-blue-400 transition">La rédaction</a></li>
                         <li><a href="#" class="hover:text-blue-400 transition">Contact</a></li>
+                        <li><a href="{{ route('team.index') }}" class="hover:text-blue-400 transition">Notre Equipe</a></li>
+
                     </ul>
                 </div>
                 <div>

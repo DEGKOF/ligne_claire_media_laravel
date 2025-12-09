@@ -84,7 +84,7 @@
             <!-- Extrait si présent -->
             @if($edito->excerpt)
             <div class="text-xl text-gray-700 font-medium mb-8 pb-8 border-b border-gray-200 italic">
-                {{ $edito->excerpt }}
+                {!! $edito->excerpt !!}
             </div>
             @endif
 

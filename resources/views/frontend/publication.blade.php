@@ -59,7 +59,7 @@
                         <p
                             class="text-xl text-gray-700 leading-relaxed font-medium border-l-4 border-blue-600 pl-6 pr-4 py-4 bg-blue-50 rounded text-justify">
                             <strong>
-                                {{ $publication->excerpt }}
+                                {!! $publication->excerpt !!}
                             </strong>
                         </p>
                     </div>

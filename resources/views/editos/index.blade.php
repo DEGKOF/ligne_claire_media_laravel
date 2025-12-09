@@ -23,7 +23,10 @@
                              alt="{{ $latestEdito->title }}"
                              class="w-full h-full object-cover">
                     @else
-                        <div class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                        {{-- <div class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                            <i class="fas fa-pen-fancy text-white text-6xl opacity-50"></i>
+                        </div> --}}
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
                             <i class="fas fa-pen-fancy text-white text-6xl opacity-50"></i>
                         </div>
                     @endif
@@ -47,7 +50,7 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <i class="fas fa-user text-blue-600"></i>
-                            <span>Par <strong>{{ $latestEdito->user->prenom ?? $latestEdito->user->username }}</strong></span>
+                            <span>Par <strong>{{ $latestEdito->user->nom ." ". $latestEdito->user->prenom }}</strong></span>
                         </div>
                     </div>
 
@@ -60,7 +63,7 @@
 
                     <!-- Extrait -->
                     <p class="text-gray-700 text-lg mb-6 line-clamp-4">
-                        {{ $latestEdito->excerpt_or_content }}
+                        {!! strip_tags(preg_replace('/\s+/', ' ', $latestEdito->excerpt_or_content)) !!}
                     </p>
 
                     <!-- Bouton -->
@@ -120,7 +123,7 @@
 
                     <!-- Extrait -->
                     <p class="text-gray-600 text-sm mb-4 line-clamp-3">
-                        {{ $edito->excerpt_or_content }}
+                        {!! strip_tags(preg_replace('/\s+/', ' ', $edito->excerpt_or_content)) !!}
                     </p>
 
                     <!-- Lire la suite -->
