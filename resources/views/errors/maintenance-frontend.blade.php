@@ -157,7 +157,8 @@
         <h1 class="mb-3" style="color: #2a5298;">Nous revenons bientôt !</h1>
 
         <p class="lead text-muted mb-4">
-            {{ $exception->getMessage() ?: 'Notre site est actuellement en maintenance pour vous offrir une meilleure expérience.' }}
+            {{-- {{ $exception->getMessage() ?: 'Notre site est actuellement en maintenance pour vous offrir une meilleure expérience.' }} --}}
+            {{ isset($exception) ? $exception->getMessage() : 'Notre site est actuellement en maintenance pour vous offrir une meilleure expérience.' }}
         </p>
 
         <div class="countdown" id="countdown">
@@ -198,7 +199,7 @@
         </p>
     </div>
 
-    <script>
+    {{-- <script>
         // Countdown timer
         @if(isset($exception) && method_exists($exception, 'retryAfter'))
             let retryAfter = {{ $exception->retryAfter() }};
@@ -224,6 +225,29 @@
         }
 
         updateCountdown();
-    </script>
+    </script> --}}
+    <script>
+    // Countdown timer
+    let retryAfter = 3600; // 1 heure par défaut
+
+    function updateCountdown() {
+        const hours = Math.floor(retryAfter / 3600);
+        const minutes = Math.floor((retryAfter % 3600) / 60);
+        const seconds = retryAfter % 60;
+
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+        if (retryAfter > 0) {
+            retryAfter--;
+            setTimeout(updateCountdown, 1000);
+        } else {
+            location.reload();
+        }
+    }
+
+    updateCountdown();
+</script>
 </body>
 </html>
