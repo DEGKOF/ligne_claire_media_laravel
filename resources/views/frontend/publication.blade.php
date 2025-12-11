@@ -43,11 +43,15 @@
                         class="inline-block bg-blue-600 text-white px-4 py-2 rounded-full text-xs font-bold uppercase hover:bg-blue-700 transition">
                         {{ $publication->rubrique->name }}
                     </a>
-                    @if ($publication->is_new)
+                    {{-- @if ($publication->is_new)
                         <span
                             class="ml-2 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase animate-pulse">
                             NEW
                         </span>
+                    @endif --}}
+
+                    @if ($publication->published_at && $publication->published_at->gt(now()->subHours(12)))
+                        <span class="ml-2 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase animate-pulse">NEW</span>
                     @endif
                 </div>
 

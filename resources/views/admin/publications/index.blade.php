@@ -220,7 +220,10 @@
                                         <div class="text-sm font-medium text-gray-900 max-w-md truncate">
                                             {{ $publication->title }}
                                         </div>
-                                        @if ($publication->is_new)
+                                        {{-- @if ($publication->is_new)
+                                            <span class="text-xs font-semibold text-red-600">NEW</span>
+                                        @endif --}}
+                                        @if ($publication->published_at && $publication->published_at->gt(now()->subHours(12)))
                                             <span class="text-xs font-semibold text-red-600">NEW</span>
                                         @endif
                                     </div>

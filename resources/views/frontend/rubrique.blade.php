@@ -140,12 +140,17 @@
                         @else
                             <span class="text-white text-9xl">{{ $rubrique->icon }}</span>
                         @endif
-                        @if ($featured->is_new)
+                        {{-- @if ($featured->is_new)
                             <span
                                 class="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold animate-pulse">
                                 NEW
                             </span>
+                        @endif --}}
+
+                        @if ($featured->published_at && $featured->published_at->gt(now()->subHours(12)))
+                            <span class="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold animate-pulse">NEW</span>
                         @endif
+
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-8">
                             <h2 class="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
@@ -224,11 +229,15 @@
                                 @else
                                     <span class="text-white text-5xl">{{ $rubrique->icon }}</span>
                                 @endif
-                                @if ($publication->is_new)
+                                {{-- @if ($publication->is_new)
                                     <span
                                         class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold">
                                         NEW
                                     </span>
+                                @endif --}}
+
+                                @if ($publication->published_at && $publication->published_at->gt(now()->subHours(12)))
+                                    <span class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold">NEW</span>
                                 @endif
                             </div>
                             <div class="p-6">

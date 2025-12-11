@@ -388,11 +388,14 @@
                         @else
                         <span class="text-white text-5xl">📰</span>
                         @endif
-                        @if ($article->is_new)
-                        <span
-                           class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold">
-                        NEW
-                        </span>
+                        {{-- @if ($article->is_new)
+                            <span
+                            class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold">
+                            NEW
+                            </span>
+                        @endif --}}
+                        @if ($article->published_at && $article->published_at->gt(now()->subHours(12)))
+                            <span class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold">NEW</span>
                         @endif
                      </div>
                      <div class="p-5">
