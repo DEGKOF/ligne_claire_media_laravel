@@ -1,3 +1,5 @@
+cat > .gitignore << 'EOF'
+# Dépendances et builds
 /.phpunit.cache
 /node_modules
 /public/build
@@ -41,3 +43,8 @@ Homestead.yaml
 auth.json
 npm-debug.log
 yarn-error.log
+
+# Uploads utilisateurs - NE JAMAIS VERSIONNER
+/storage/app/public/*
+!/storage/app/public/.gitignore
+EOF
