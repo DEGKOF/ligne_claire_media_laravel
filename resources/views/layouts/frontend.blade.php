@@ -60,6 +60,12 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/advertisements.css') }}"> --}}
     <script src="{{ asset('js/ad-manager.js') }}"></script>
     @stack('styles')
+    <style>
+        img {
+            object-fit: cover !important;
+        }
+
+    </style>
 </head>
 
 <body class="font-sans antialiased bg-gradient-to-br from-blue-50 to-blue-100">

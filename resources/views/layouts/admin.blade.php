@@ -16,6 +16,9 @@
 
     @stack('styles')
     <style>
+        img {
+            object-fit: cover !important;
+        }
         .cke_notification_message,
         .cke_notification {
             display: none !important;
