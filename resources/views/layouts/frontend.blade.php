@@ -720,9 +720,8 @@
                 <div>
                     <h3 class="text-blue-500 font-bold mb-4 uppercase">À Propos</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-blue-400 transition">Qui sommes-nous ?</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition">La rédaction</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition">Contact</a></li>
+                        <li><a href="{{ route('who-are-we') }}" class="hover:text-blue-400 transition">Qui sommes-nous ?</a></li>
+                        <li><a href="{{ route('contact') }}" class="hover:text-blue-400 transition">Contact</a></li>
                         <li><a href="{{ route('team.index') }}" class="hover:text-blue-400 transition">Notre Equipe</a></li>
 
                     </ul>
@@ -733,7 +732,7 @@
                         <li><a href="{{ route('direct') }}" class="hover:text-blue-400 transition">LCM+ en direct</a>
                         </li>
                         <li><a href="{{ route('replay') }}" class="hover:text-blue-400 transition">Replays</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition">Newsletters</a></li>
+                        <li><a href="{{ route('home') }}#newsletter" class="hover:text-blue-400 transition">Newsletters</a></li>
                     </ul>
                 </div>
                 <div>
@@ -748,9 +747,9 @@
                 <div>
                     <h3 class="text-blue-500 font-bold mb-4 uppercase">Informations</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-blue-400 transition">Mentions légales</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition">CGU</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition">Confidentialité</a></li>
+                        <li><a href="{{ route('legals-mentions') }}" class="hover:text-blue-400 transition">Mentions légales</a></li>
+                        <li><a href="{{ route('cgu') }}" class="hover:text-blue-400 transition">CGU</a></li>
+                        <li><a href="{{ route('policy-privacy') }}" class="hover:text-blue-400 transition">Confidentialité</a></li>
                     </ul>
                 </div>
             </div>

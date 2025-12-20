@@ -52,10 +52,44 @@ use App\Http\Controllers\EditoController as FrontendEditoController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Ajoutez cette nouvelle route
-// Route::post('/admin/publications/upload-video', [AdminPublicationController::class, 'uploadVideo'])
-//     ->name('admin.publications.upload-video')
-//     ->middleware(['auth']);
+
+
+Route::get('/legals-mentions', function () {
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+    return view('frontend.legals-mentions', compact('breakingNews'));
+})->name('legals-mentions');
+
+Route::get('/cgu', function () {
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+    return view('frontend.cgu', compact('breakingNews'));
+})->name('cgu');
+
+Route::get('/policy-privacy', function () {
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+    return view('frontend.policy-privacy', compact('breakingNews'));
+})->name('policy-privacy');
+
+
+Route::get('/who-are-we', function () {
+        $breakingNews = Publication::published()
+            ->breaking()
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+    return view('frontend.who-are-we', compact('breakingNews'));
+})->name('who-are-we');
 
 Route::post('/admin/publications/upload-image', [AdminPublicationController::class, 'uploadImage'])
     ->name('admin.publications.upload-image')

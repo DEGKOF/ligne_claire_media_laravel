@@ -57,6 +57,7 @@ class FrontendController extends Controller
             ->latest('published_at')
             ->take(6)
             ->get();
+            // dd($metaKeywords);
 
         // dd($featuredArticles);
 
