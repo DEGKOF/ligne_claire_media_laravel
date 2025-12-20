@@ -337,6 +337,18 @@
    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
       <!-- Main Content -->
       <div class="lg:col-span-2">
+            <!-- Filtres / Boutons de navigation -->
+            <div class="mb-6 overflow-x-auto pb-2 filter-buttons">
+                <div class="flex gap-2 min-w-max">
+                    @foreach ($metaKeywords as $item)
+                        <a href="{{ route('publication.show', $item->meta_title ?? '#') }}"
+                            class="inline-block border border-gray-300 text-gray-800 bg-gray-100 hover:bg-blue-600 hover:text-white hover:border-blue-600 px-6 py-2 rounded-full font-bold transition whitespace-nowrap text-sm">
+                            {{ $item->meta_title }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+            
          <!-- Actualités du jour -->
          <section class="mb-12">
             <h2 class="text-2xl sm:text-3xl font-bold mb-6 pl-4 border-l-4 border-blue-600">

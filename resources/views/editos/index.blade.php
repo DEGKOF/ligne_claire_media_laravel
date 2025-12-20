@@ -50,7 +50,7 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <i class="fas fa-user text-blue-600"></i>
-                            <span>Par <strong>{{ $latestEdito->user->nom ." ". $latestEdito->user->prenom }}</strong></span>
+                            <span>Par <strong>{{ config('app.name') }}</strong></span>
                         </div>
                     </div>
 
