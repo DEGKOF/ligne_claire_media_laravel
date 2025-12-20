@@ -3,6 +3,20 @@
 @section('title', $publication->meta_title ?? $publication->title)
 @section('meta_description', $publication->meta_description ?? $publication->excerpt)
 
+@section('title', $publication->meta_title ?? $publication->title . ' - LIGNE CLAIRE MÉDIA+')
+@section('meta_description', $publication->meta_description ?? Str::limit(strip_tags($publication->excerpt), 160))
+@section('meta_keywords', $publication->meta_keywords ?? $publication->rubrique->name)
+
+@section('og_title', $publication->title)
+@section('og_description', Str::limit(strip_tags($publication->excerpt), 200))
+@section('og_image', $publication->featured_image ? asset('storage/' . $publication->featured_image) : asset('images/default-og.png'))
+@section('og_type', 'article')
+
+@section('twitter_title', $publication->title)
+@section('twitter_description', Str::limit(strip_tags($publication->excerpt), 200))
+@section('twitter_image', $publication->featured_image ? asset('storage/' . $publication->featured_image) : asset('images/default-twitter.png'))
+
+
 @section('content')
 
     <style>
@@ -450,6 +464,35 @@
         </div>
     </div>
 
+<script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": "{{ $publication->title }}",
+    "image": [
+        "{{ $publication->featured_image ? asset('storage/' . $publication->featured_image) : '' }}"
+    ],
+    "datePublished": "{{ $publication->published_at->toIso8601String() }}",
+    "dateModified": "{{ $publication->updated_at->toIso8601String() }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ $publication->user->name }}"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "LIGNE CLAIRE MÉDIA+",
+        "logo": {
+        "@type": "ImageObject",
+        "url": "{{ asset('images/logo.png') }}"
+        }
+    },
+    "description": "{{ Str::limit(strip_tags($publication->excerpt), 200) }}",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ route('publication.show', $publication->slug) }}"
+    }
+    }
+</script>
     @push('scripts')
         <script src="{{ asset('js/comments.js') }}"></script>
     @endpush

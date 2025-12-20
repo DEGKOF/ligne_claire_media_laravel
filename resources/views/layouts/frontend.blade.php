@@ -27,6 +27,36 @@
     <link rel="stylesheet" href="{{ asset('css/frontend.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    {{-- Meta keywords --}}
+    <meta name="keywords" content="@yield('meta_keywords', 'actualité, bénin, afrique, news, politique, économie, santé, code promo, culture, économie, éducation, international, météo, newsletters, people, police-justice, politique, présidentielle 2026, santé, société, sondage, sport, technologies')">
+
+    {{-- Open Graph (Facebook, WhatsApp) --}}
+    <meta property="og:title" content="@yield('og_title', config('app.name'))">
+    <meta property="og:description" content="@yield('og_description', 'L\'actualité en continu')">
+    <meta property="og:image" content="@yield('og_image', asset('images/logo-og.png'))">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="LIGNE CLAIRE MÉDIA+">
+
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('twitter_title', config('app.name'))">
+    <meta name="twitter:description" content="@yield('twitter_description', 'L\'actualité en continu')">
+    <meta name="twitter:image" content="@yield('twitter_image', asset('images/logo-twitter.png'))">
+
+    {{-- Canonical URL --}}
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    {{-- Robots --}}
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+    {{-- Author --}}
+    <meta name="author" content="LIGNE CLAIRE MÉDIA+">
+
+    {{-- JSON-LD Schema.org --}}
+    @stack('structured-data')
+
     {{-- <link rel="stylesheet" href="{{ asset('css/advertisements.css') }}"> --}}
     <script src="{{ asset('js/ad-manager.js') }}"></script>
     @stack('styles')

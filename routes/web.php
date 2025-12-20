@@ -53,6 +53,7 @@ use App\Http\Controllers\EditoController as FrontendEditoController;
 |
 */
 
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/legals-mentions', function () {
         $breakingNews = Publication::published()
