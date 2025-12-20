@@ -14,25 +14,93 @@ class FrontendController extends Controller
     /**
      * Page d'accueil
      */
+    // public function index(YahooFinanceService $marketService, BRVMService $brvmService )
+    // {
+    //     // Récupération des données initiales
+    //     // $marketData = $marketService->getMarketData();
+
+    //     // Récupération des données initiales (Yahoo + BRVM)
+    //     $marketData = array_merge(
+    //         $marketService->getMarketData(),
+    //         $brvmService->getMarketData()
+    //     );
+
+    //     $featuredArticles = Publication::published()
+    //         ->featured()
+    //         ->with(['user', 'rubrique'])
+    //         ->latest('published_at')->take(5)->get();
+    //         // ->first();
+
+    //     $recentArticles = Publication::published()
+    //         ->with(['user', 'rubrique'])
+    //         ->latest('published_at')
+    //         ->take(21)
+    //         ->get();
+
+    //     $breakingNews = Publication::published()
+    //         ->breaking()
+    //         ->latest('published_at')
+    //         ->take(5)
+    //         ->get();
+
+    //     $popularArticles = Publication::published()
+    //         ->popular(5)
+    //         ->with(['user', 'rubrique'])
+    //         ->get();
+
+    //     $rubriques = Rubrique::active()->ordered()->get();
+
+    //     // meta_keywords
+    //     $metaKeywords = Publication::where('type', 'article')
+    //         ->whereNotNull('meta_title')
+    //         ->published()
+    //         ->latest('published_at')
+    //         ->take(6)
+    //         ->get();
+    //         // dd($metaKeywords);
+
+    //     // dd($featuredArticles);
+
+    //     return view('frontend.index', compact(
+    //         'marketData',
+    //         'featuredArticles',
+    //         'recentArticles',
+    //         'breakingNews',
+    //         'popularArticles',
+    //         'rubriques',
+    //         'metaKeywords'
+    //     ));
+    // }
+
     public function index(YahooFinanceService $marketService, BRVMService $brvmService )
     {
-        // Récupération des données initiales
-        // $marketData = $marketService->getMarketData();
-
         // Récupération des données initiales (Yahoo + BRVM)
         $marketData = array_merge(
             $marketService->getMarketData(),
             $brvmService->getMarketData()
         );
 
+        // Dernière publication à la une
+        $latestFeatured = Publication::published()
+            ->featured()
+            ->with(['user', 'rubrique'])
+            ->latest('published_at')
+            ->first();
+
+        // Les autres publications à la une
         $featuredArticles = Publication::published()
             ->featured()
             ->with(['user', 'rubrique'])
-            ->latest('published_at')->take(5)->get();
-            // ->first();
+            ->latest('published_at')
+            ->take(5)
+            ->get();
 
+        // Articles récents SANS la dernière publication à la une
         $recentArticles = Publication::published()
             ->with(['user', 'rubrique'])
+            ->when($latestFeatured, function($query) use ($latestFeatured) {
+                $query->where('id', '!=', $latestFeatured->id);
+            })
             ->latest('published_at')
             ->take(21)
             ->get();
@@ -50,19 +118,18 @@ class FrontendController extends Controller
 
         $rubriques = Rubrique::active()->ordered()->get();
 
-        // meta_keywords
         $metaKeywords = Publication::where('type', 'article')
             ->whereNotNull('meta_title')
             ->published()
             ->latest('published_at')
             ->take(6)
             ->get();
-            // dd($metaKeywords);
-
-        // dd($featuredArticles);
+            
+        // dd($latestFeatured, $recentArticles);
 
         return view('frontend.index', compact(
             'marketData',
+            'latestFeatured',
             'featuredArticles',
             'recentArticles',
             'breakingNews',

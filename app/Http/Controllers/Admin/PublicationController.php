@@ -121,6 +121,12 @@ class PublicationController extends Controller
         // Vérifier les permissions
         $this->authorizeEdit($publication);
 
+        // CORRECTION : Forcer is_featured et is_breaking à false si non cochés
+        $request->merge([
+            'is_featured' => $request->has('is_featured'),
+            'is_breaking' => $request->has('is_breaking'),
+        ]);
+
         $validated = $request->validate([
             'rubrique_id' => 'required|exists:rubriques,id',
             'title' => 'required|string|max:255',
@@ -155,6 +161,7 @@ class PublicationController extends Controller
             $validated['published_at'] = now();
         }
 
+        // dd($validated);
         $publication->update($validated);
 
         return redirect()->route('admin.publications.edit', $publication)
