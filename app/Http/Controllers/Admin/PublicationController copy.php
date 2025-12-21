@@ -83,26 +83,26 @@ class PublicationController extends Controller
         $validated['user_id'] = auth()->id();
 
         // Upload de l'image
-        if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')
-                ->store('publications', 'public');
-        }
-
         // if ($request->hasFile('featured_image')) {
-        //     $image = $request->file('featured_image');
-        //     $filename = time() . '_' . $image->getClientOriginalName();
-
-        //     // Redimensionner et optimiser
-        //     $img = Image::make($image)
-        //         ->resize(1200, null, function ($constraint) {
-        //             $constraint->aspectRatio();
-        //             $constraint->upsize();
-        //         })
-        //         ->encode('jpg', 80);
-
-        //     Storage::disk('public')->put('publications/' . $filename, $img);
-        //     $validated['featured_image'] = 'publications/' . $filename;
+        //     $validated['featured_image'] = $request->file('featured_image')
+        //         ->store('publications', 'public');
         // }
+
+        if ($request->hasFile('featured_image')) {
+            $image = $request->file('featured_image');
+            $filename = time() . '_' . $image->getClientOriginalName();
+
+            // Redimensionner et optimiser
+            $img = Image::make($image)
+                ->resize(1200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->encode('jpg', 80);
+
+            Storage::disk('public')->put('publications/' . $filename, $img);
+            $validated['featured_image'] = 'publications/' . $filename;
+        }
 
         // Si publié, ajouter la date de publication
         if ($validated['status'] === 'published') {
@@ -163,30 +163,30 @@ class PublicationController extends Controller
         ]);
 
         // Upload de l'image
-        if ($request->hasFile('featured_image')) {
-            // Supprimer l'ancienne image
-            if ($publication->featured_image) {
-                Storage::disk('public')->delete($publication->featured_image);
-            }
-            $validated['featured_image'] = $request->file('featured_image')
-                ->store('publications', 'public');
-        }
-
         // if ($request->hasFile('featured_image')) {
-        //     $image = $request->file('featured_image');
-        //     $filename = time() . '_' . $image->getClientOriginalName();
-
-        //     // Redimensionner et optimiser
-        //     $img = Image::make($image)
-        //         ->resize(1200, null, function ($constraint) {
-        //             $constraint->aspectRatio();
-        //             $constraint->upsize();
-        //         })
-        //         ->encode('jpg', 80);
-
-        //     Storage::disk('public')->put('publications/' . $filename, $img);
-        //     $validated['featured_image'] = 'publications/' . $filename;
+        //     // Supprimer l'ancienne image
+        //     if ($publication->featured_image) {
+        //         Storage::disk('public')->delete($publication->featured_image);
+        //     }
+        //     $validated['featured_image'] = $request->file('featured_image')
+        //         ->store('publications', 'public');
         // }
+        
+        if ($request->hasFile('featured_image')) {
+            $image = $request->file('featured_image');
+            $filename = time() . '_' . $image->getClientOriginalName();
+
+            // Redimensionner et optimiser
+            $img = Image::make($image)
+                ->resize(1200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->encode('jpg', 80);
+
+            Storage::disk('public')->put('publications/' . $filename, $img);
+            $validated['featured_image'] = 'publications/' . $filename;
+        }
 
         // Si passage de draft à published
         if ($validated['status'] === 'published' && $publication->status !== 'published') {
